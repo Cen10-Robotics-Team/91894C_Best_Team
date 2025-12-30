@@ -1,6 +1,7 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "lemlib/chassis/chassis.hpp"
+#include "liblvgl/widgets/lv_img.h"
 // Changed the left motors to be all the same direction and right motors in the same direction as well. Be happy. -normalperson543
 pros::MotorGroup left_motors({-1, -2, -3}, pros::MotorGearset::blue); // left motors on ports 1, 2, 3 
 pros::MotorGroup right_motors({4, 5, 6}, pros::MotorGearset::blue); // right motors on ports 4, 5, 6
@@ -80,38 +81,147 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
+LV_IMG_DECLARE(Huskytech);
+rd::Image team_image(&Huskytech, "Team Image");
+
 rd::Console console;
 
 void red_right_awp() {
     console.println("This is red right awp");
+    chassis.moveToPoint(-42, 26, 2000, {.maxSpeed = 96});
+    chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-30, 37, 750, {.forwards = false, .maxSpeed = 96}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(-32, 35, 500);
+    chassis.moveToPoint(7, 28, 1500, {.maxSpeed = 112});
+    chassis.turnToHeading(-45, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-3, 36, 750, {}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(28, 0, 1500, {.forwards = false, .maxSpeed = 96});
+    chassis.turnToHeading(180, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(28, -10, 500, {}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(31, 12, 750, {.forwards = false, .maxSpeed = 100}, false);
 }
 
 void red_right() {
     console.println("This is red right");
+    chassis.moveToPoint(6.5, 30, 750);
+    chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-3, 38, 1000, {}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(32, 0, 1250, {.forwards = false, .maxSpeed = 112});
+    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(32, -7, 1000, {}, false);
+    pros::delay(1000);
+    chassis.moveToPose(33, 15, 180, 750, {.forwards = false, .maxSpeed = 100}, false);
+    pros::delay(1000);
+    chassis.swingToHeading(0, DriveSide::RIGHT, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .maxSpeed = 64, .minSpeed = 64, .earlyExitRange = 5});
+    chassis.moveToPoint(17.5, 32, 750);
 }
 
 void red_left_awp() {
     console.println("This is red left awp");
+    chassis.moveToPoint(42, 26, 2000, {.maxSpeed = 96});
+    chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(30, 37, 750, {.maxSpeed = 96}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(45, 22, 500, {.forwards = false});
+    chassis.moveToPoint(-10, 25, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(-135, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(3, 36, 750, {.forwards = false}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(-34, 0, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(180, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-34, -10, 500, {}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(-33, 12, 750, {.forwards = false, .maxSpeed = 100}, false);
+    pros::delay(1000);
 }
 
 void red_left() {
     console.println("This is red left");
+    chassis.moveToPoint(-6.5, 30, 750);
+    chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(3, 38, 1000, {.forwards = false}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(-32, 0, 1250, {.maxSpeed = 112});
+    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-32, -7, 1000, {}, false);
+    pros::delay(1000);
+    chassis.moveToPose(-33, 15, 180, 750, {.forwards = false, .maxSpeed = 100}, false);
+    pros::delay(1000);
+    chassis.swingToHeading(0, DriveSide::LEFT, 1500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE, .maxSpeed = 64, .minSpeed = 64, .earlyExitRange = 5});
+    chassis.moveToPoint(-17.5, 32, 750); 
 }
 
 void blue_right_awp() {
     console.println("This is blue right awp");
+    chassis.moveToPoint(-42, 26, 2000, {.maxSpeed = 96});
+    chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-30, 37, 750, {.forwards = false, .maxSpeed = 96}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(-32, 35, 500);
+    chassis.moveToPoint(7, 28, 1500, {.maxSpeed = 112});
+    chassis.turnToHeading(-45, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-3, 36, 750, {}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(28, 0, 1500, {.forwards = false, .maxSpeed = 96});
+    chassis.turnToHeading(180, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(28, -10, 500, {}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(31, 12, 750, {.forwards = false, .maxSpeed = 100}, false);
 }
 
 void blue_right() {
     console.println("This is blue right ");
+    chassis.moveToPoint(6.5, 30, 750);
+    chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-3, 38, 1000, {}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(32, 0, 1250, {.forwards = false, .maxSpeed = 112});
+    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(32, -7, 1000, {}, false);
+    pros::delay(1000);
+    chassis.moveToPose(33, 15, 180, 750, {.forwards = false, .maxSpeed = 100}, false);
+    pros::delay(1000);
+    chassis.swingToHeading(0, DriveSide::RIGHT, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .maxSpeed = 64, .minSpeed = 64, .earlyExitRange = 5});
+    chassis.moveToPoint(17.5, 32, 750);
 }
 
 void blue_left_awp() {
     console.println("This is blue left awp");
+    chassis.moveToPoint(42, 26, 2000, {.maxSpeed = 96});
+    chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(30, 37, 750, {.maxSpeed = 96}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(45, 22, 500, {.forwards = false});
+    chassis.moveToPoint(-10, 25, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(-135, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(3, 36, 750, {.forwards = false}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(-34, 0, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(180, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-34, -10, 500, {}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(-33, 12, 750, {.forwards = false, .maxSpeed = 100}, false);
+    pros::delay(1000);
 }
 
 void blue_left() {
     console.println("This is blue left");
+    chassis.moveToPoint(-6.5, 30, 750);
+    chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(3, 38, 1000, {.forwards = false}, false);
+    pros::delay(1000);
+    chassis.moveToPoint(-32, 0, 1250, {.maxSpeed = 112});
+    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-32, -7, 1000, {}, false);
+    pros::delay(1000);
+    chassis.moveToPose(-33, 15, 180, 750, {.forwards = false, .maxSpeed = 100}, false);
+    pros::delay(1000);
+    chassis.swingToHeading(0, DriveSide::LEFT, 1500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE, .maxSpeed = 64, .minSpeed = 64, .earlyExitRange = 5});
+    chassis.moveToPoint(-17.5, 32, 750); 
 }
 
 rd::Selector selector({
@@ -201,6 +311,7 @@ void measureSteadyStateError() {
 
 void initialize() {
     chassis.calibrate();
+    team_image.focus();
 
     /*pros::Task coordinateTask([&]()-> void {
         while(true) {
@@ -249,78 +360,7 @@ void competition_initialize() {}
 void autonomous() {
     // set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
-
-    //right plan (non awp)
-    /*
-    chassis.moveToPoint(6.5, 30, 750);
-    chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-3, 38, 1000, {}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(32, 0, 1250, {.forwards = false, .maxSpeed = 112});
-    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(32, -7, 1000, {}, false);
-    pros::delay(1000);
-    chassis.moveToPose(33, 15, 180, 750, {.forwards = false, .maxSpeed = 100}, false);
-    pros::delay(1000);
-    chassis.swingToHeading(0, DriveSide::RIGHT, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .maxSpeed = 64, .minSpeed = 64, .earlyExitRange = 5});
-    chassis.moveToPoint(17.5, 32, 750);
-    */
-
-    //left plan (non awp)
-    
-    /*
-    chassis.moveToPoint(-6.5, 30, 750);
-    chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(3, 38, 1000, {.forwards = false}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(-32, 0, 1250, {.maxSpeed = 112});
-    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-32, -7, 1000, {}, false);
-    pros::delay(1000);
-    chassis.moveToPose(-33, 15, 180, 750, {.forwards = false, .maxSpeed = 100}, false);
-    pros::delay(1000);
-    chassis.swingToHeading(0, DriveSide::LEFT, 1500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE, .maxSpeed = 64, .minSpeed = 64, .earlyExitRange = 5});
-    chassis.moveToPoint(-17.5, 32, 750); 
-    */
-
-    //right awp plan
-    
-    chassis.moveToPoint(-42, 26, 2000, {.maxSpeed = 96});
-    chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-30, 37, 750, {.forwards = false, .maxSpeed = 96}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(-32, 35, 250);
-    chassis.turnToHeading(90, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(7, 28, 1500, {.maxSpeed = 112});
-    chassis.turnToHeading(-45, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-3, 36, 750, {}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 96});
-    chassis.turnToHeading(180, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(31, -10, 500, {}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(33, 15, 750, {.forwards = false, .maxSpeed = 100}, false);
-    
-    
-
-    //left awp plan
-    /*
-    chassis.moveToPoint(42, 26, 2000, {.maxSpeed = 96});
-    chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(32, 35, 750, {.maxSpeed = 96}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(42, 26, 500, {.forwards = false});
-    chassis.moveToPoint(-8, 25, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(-135, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(4, 35, 750, {.forwards = false}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(-32, 0, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(180, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-32, -10, 500, {}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(-32, 15, 750, {.forwards = false, .maxSpeed = 100}, false);
-    pros::delay(1000);
-    */
+    selector.run_auton();
 
     //auton skills
     void autonomous() {
