@@ -323,7 +323,65 @@ void autonomous() {
     */
 
     //auton skills
-    
+    void autonomous() {
+
+chassis.setPose(x:-46.5, y:-15.3, theta:180);
+chassis.moveToPoint(x:-47.1, y:-47.4, timeout:750);
+chassis.turnToHeading(theta:90, timeout:500);
+chassis.moveToPoint(x:-60.1, y:-46.9, timeout:750);
+chassis.turnToHeading(theta:180, timeout:500);
+chassis.moveToPoint(x:-53.9, y:-46.9, timeout:750);
+chassis.turnToHeading(theta:90, timeout:500);
+chassis.moveToPoint(x:-53.3, y:-55.9, timeout:750);
+chassis.turnToHeading(theta:-90. timeout:500);
+chassis.moveToPoint(x:34.1, y:-55.6);
+chassis.turnToHeading(theta:-90, timeout:500);
+chassis.moveToPoint(x:30.4, y:-47.2, timeout:750);
+chassis.turnToHeading(theta:90, timeout:500);
+chassis.moveToPoint(x:58.5, y:-47.7, timeout:750);
+chassis.turnToHeading(theta:180, timeout:500);
+chassis.moveToPoint(x:30.4, y:-47.2, timeout:750);
+//small shifting
+chassis.turnToHeading(theta:45, timeout:500);
+chassis.moveToPoint(x:23.8, y:-24.0, timeout:750);
+chassis.turnToHeading(theta:-90, timeout:500);
+chassis.moveToPoint(x:-0.1, y:-37.7, timeout:750);
+//small shifting
+chassis.turnToHeading(theta:45, timeout:500);
+chassis.moveToPoint(x:-23.4, y:-24.2, timeout:750);
+chassis.turnToHeading(theta:45, timeout:500);
+chassis.moveToPoint(x:-23.6, y:23.6, timeout:750);
+chassis.turnToHeading(theta:135, timeout:500);
+chassis.moveToPoint(x:-12.3, y:11.4, timeout:750);
+chassis.turnToHeading(theta:180, timeout:500);
+chassis.moveToPoint(x:-23.6, y:23.6, timeout:750);
+chassis.turnToHeading(theta:-45, timeout:500);
+chassis.moveToPoint(x:-55.1, y:46.1, timeout:750);
+chassis.turnToHeading(theta:-45, timeout:500);
+chassis.moveToPoint(x:-60.5, y:46.1, timeout:750);
+chassis.turnToHeading(theta:180, timeout:500);
+chassis.moveToPoint(x:-55.1, y:46.1, timeout:750);
+chassis.turnToHeading(theta:-90, timeout:500);
+chassis.moveToPoint(x:-56.9, y:57.2, timeout:750);
+chassis.turnToHeading(theta:90, timeout:500);
+chassis.moveToPoint(x:34.3, y:57.2, timeout:750);
+chassis.turnToHeading(theta:90, timeout:500);
+chassis.moveToPoint(x:33.8, y:57.2, timeout:750);
+chassis.turnToHeading(theta:-90, timeout:500);
+chassis.moveToPoint(x:59.1, y:46.6, timeout:750);
+chassis.turnToHeading(theta:180, timeout:500);
+chassis.moveToPoint(x:33.8, y:57.2, timeout:750);
+//small shifting
+chassis.turnToHeading(theta:-45, timeout:500);
+chassis.moveToPoint(x:23.8, y:24.2, timeout:750);
+chassis.turnToHeading(theta:90, timeout:500);
+chassis.moveToPoint(x:0.1, y:33.0, timeout:750);
+chassis.turnToHeading(theta:45, timeout:500);
+chassis.moveToPoint(x:0.1, y:40.5, timeout:750);
+chassis.turnToHeading(theta:135, timeout:500);
+chassis.moveToPoint(x:19.4, y:18.1, timeout:750);
+chassis.turnToHeading(theta:90, timeout:500);
+chassis.moveToPoint(x:8.4, y:7.4, timeout:750);
 }
 
 /**
