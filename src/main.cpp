@@ -315,9 +315,9 @@ void initialize() {
 
     /*pros::Task coordinateTask([&]()-> void {
         while(true) {
-            pros::lcd::print(0, "X: %f", chassis.getPose().x);
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y);
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta);
+            pros::lcd::print(0, " %f", chassis.getPose().x);
+            pros::lcd::print(1, " %f", chassis.getPose().y);
+            pros::lcd::print(2, " %f", chassis.getPose().theta);
 
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             pros::delay(50);
@@ -358,70 +358,82 @@ void competition_initialize() {}
 
 
 void autonomous() {
-    // set position to x:0, y:0, heading:0
-    chassis.setPose(0, 0, 0);
-    selector.run_auton();
+    // set position to 0, 0, heading:0
+    //chassis.setPose(0, 0, 0);
+    //selector.run_auton();
 
     //auton skills
-    void autonomous() {
+    
 
-chassis.setPose(x:-46.5, y:-15.3, theta:180);
-chassis.moveToPoint(x:-47.1, y:-47.4, timeout:750);
-chassis.turnToHeading(theta:90, timeout:500);
-chassis.moveToPoint(x:-60.1, y:-46.9, timeout:750);
-chassis.turnToHeading(theta:180, timeout:500);
-chassis.moveToPoint(x:-53.9, y:-46.9, timeout:750);
-chassis.turnToHeading(theta:90, timeout:500);
-chassis.moveToPoint(x:-53.3, y:-55.9, timeout:750);
-chassis.turnToHeading(theta:-90. timeout:500);
-chassis.moveToPoint(x:34.1, y:-55.6);
-chassis.turnToHeading(theta:-90, timeout:500);
-chassis.moveToPoint(x:30.4, y:-47.2, timeout:750);
-chassis.turnToHeading(theta:90, timeout:500);
-chassis.moveToPoint(x:58.5, y:-47.7, timeout:750);
-chassis.turnToHeading(theta:180, timeout:500);
-chassis.moveToPoint(x:30.4, y:-47.2, timeout:750);
-//small shifting
-chassis.turnToHeading(theta:45, timeout:500);
-chassis.moveToPoint(x:23.8, y:-24.0, timeout:750);
-chassis.turnToHeading(theta:-90, timeout:500);
-chassis.moveToPoint(x:-0.1, y:-37.7, timeout:750);
-//small shifting
-chassis.turnToHeading(theta:45, timeout:500);
-chassis.moveToPoint(x:-23.4, y:-24.2, timeout:750);
-chassis.turnToHeading(theta:45, timeout:500);
-chassis.moveToPoint(x:-23.6, y:23.6, timeout:750);
-chassis.turnToHeading(theta:135, timeout:500);
-chassis.moveToPoint(x:-12.3, y:11.4, timeout:750);
-chassis.turnToHeading(theta:180, timeout:500);
-chassis.moveToPoint(x:-23.6, y:23.6, timeout:750);
-chassis.turnToHeading(theta:-45, timeout:500);
-chassis.moveToPoint(x:-55.1, y:46.1, timeout:750);
-chassis.turnToHeading(theta:-45, timeout:500);
-chassis.moveToPoint(x:-60.5, y:46.1, timeout:750);
-chassis.turnToHeading(theta:180, timeout:500);
-chassis.moveToPoint(x:-55.1, y:46.1, timeout:750);
-chassis.turnToHeading(theta:-90, timeout:500);
-chassis.moveToPoint(x:-56.9, y:57.2, timeout:750);
-chassis.turnToHeading(theta:90, timeout:500);
-chassis.moveToPoint(x:34.3, y:57.2, timeout:750);
-chassis.turnToHeading(theta:90, timeout:500);
-chassis.moveToPoint(x:33.8, y:57.2, timeout:750);
-chassis.turnToHeading(theta:-90, timeout:500);
-chassis.moveToPoint(x:59.1, y:46.6, timeout:750);
-chassis.turnToHeading(theta:180, timeout:500);
-chassis.moveToPoint(x:33.8, y:57.2, timeout:750);
-//small shifting
-chassis.turnToHeading(theta:-45, timeout:500);
-chassis.moveToPoint(x:23.8, y:24.2, timeout:750);
-chassis.turnToHeading(theta:90, timeout:500);
-chassis.moveToPoint(x:0.1, y:33.0, timeout:750);
-chassis.turnToHeading(theta:45, timeout:500);
-chassis.moveToPoint(x:0.1, y:40.5, timeout:750);
-chassis.turnToHeading(theta:135, timeout:500);
-chassis.moveToPoint(x:19.4, y:18.1, timeout:750);
-chassis.turnToHeading(theta:90, timeout:500);
-chassis.moveToPoint(x:8.4, y:7.4, timeout:750);
+    chassis.setPose(-46.5, -15.3, 180);
+    chassis.moveToPoint(-46.5, -50.5, 1500, {.maxSpeed = 80});
+    chassis.turnToHeading(270, 750);
+    chassis.moveToPoint(-60.1, -51.5, 1000, {}, false);
+    pros::delay(2000);
+    chassis.moveToPoint(-53.9, -50.5, 1000, {.forwards = false});
+    chassis.turnToHeading(0, 750);
+    chassis.moveToPoint(-55, -32, 1000, {.maxSpeed = 80});
+    chassis.turnToHeading(90, 750);
+    
+    chassis.moveToPoint(40, -29, 2500, {.maxSpeed = 112});
+    
+    chassis.turnToHeading(180, 750);
+    chassis.moveToPoint(41.5, -49, 1000, {.maxSpeed = 80});
+    chassis.turnToHeading(90, 750);
+    
+    chassis.moveToPoint(36, -49, 1000, {.forwards = false, .maxSpeed = 96}, false);
+    pros::delay(2000);
+    chassis.moveToPoint(62, -48, 1500, {.maxSpeed = 96}, false);
+    pros::delay(2000);
+    chassis.moveToPoint(37, -49, 1500, {.forwards = false, .maxSpeed = 96}, false);
+    pros::delay(2000);
+    chassis.moveToPoint(52, -49, 1000, {.maxSpeed = 96});
+    
+    chassis.turnToPoint(25.5, -22.5, 750);
+    chassis.moveToPoint(25.5, -22.5, 1500, {.maxSpeed = 96});
+    
+    chassis.turnToPoint(0, -20, 750);
+    chassis.moveToPoint(0, -20, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(180, 750);
+    chassis.moveToPoint(0, -40, 1500);
+    chassis.moveToPoint(0, -20, 1500, {.forwards = false});
+
+    chassis.turnToPoint(-23.4, -24.2, 750);
+    chassis.moveToPoint(-23.4, -24.2, 1500, {.maxSpeed = 96});
+    chassis.turnToPoint(-23.4, 23.6, 750);
+    chassis.moveToPoint(-23.4, 23.6, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(-45, 500);
+    chassis.moveToPoint(-12.3, 11.4, 1500, {.forwards = false}, false);
+    pros::delay(2000);
+
+    chassis.moveToPoint(-55.1, 47.5, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(270, 750);
+    chassis.moveToPoint(-60.5, 47.5, 1500, {.maxSpeed = 96});
+    pros::delay(2000);
+    chassis.moveToPoint(-55.1, 47.5, 1500, {.forwards = false, .maxSpeed = 96});
+    chassis.turnToHeading(0, 750);
+
+    /*
+    chassis.moveToPoint(-55.1, 57.2, 750);
+    chassis.turnToHeading(90, 500);
+    chassis.moveToPoint(34.3, 57.2, 750);
+    chassis.turnToHeading(180, 500);
+    chassis.moveToPoint(34.3, 47.7, 750);
+    chassis.turnToHeading(90, 500);
+    chassis.moveToPoint(32, 47.7, 750, {.forwards = false});
+    chassis.moveToPoint(59.1, 47.7, 750);
+    chassis.moveToPoint(32, 57.2, 750, {.forwards = false});
+    chassis.moveToPoint(35, 57.2, 750);
+    //small shifting
+    chassis.turnToPoint(24, 24, 750);
+    chassis.moveToPoint(24, 24, 750);
+    chassis.moveToPoint(0, 33.0, 750);
+    chassis.turnToHeading(0, 500);
+    chassis.moveToPoint(0, 43, 750);
+    chassis.moveToPoint(19.4, 18.1, 750, {.forwards = false});
+    chassis.turnToHeading(225, 500);
+    chassis.moveToPoint(8.4, 7.4, 750);
+    */
 }
 
 /**
