@@ -89,6 +89,9 @@ pros::Motor intake_motor_3(18, pros::MotorGearset::green);
 
 pros::Motor scoring_motor(17, pros::MotorGearset::green);
 pros::adi::Pneumatics scoring_piston('a', false);
+pros::adi::Pneumatics intake_piston('b', false);
+pros::adi::Pneumatics descore_piston_left('c', false);
+pros::adi::Pneumatics descore_piston_right('d', false);
 
 pros::Optical color_sensor(10);
 pros::Distance distance_sensor(9);
@@ -135,12 +138,18 @@ void score_intake(std::string goal) {
     }
 }
 
+void reject_intake() {
+    score_intake("mid");
+}
+
 std::string detect_color() {
     int rgb_value = color_sensor.get_hue();
     if(rgb_value >= 190 && rgb_value <= 230) {
         return "blue";
     } else if (rgb_value >= 350 || rgb_value <= 10) {
         return "red";
+    } else {
+        return "";
     }
 }
 
@@ -148,8 +157,15 @@ void auto_reject() {
     while(true) {
         while (enable_auto_reject) {
             std::string block_color = detect_color();
+            if(block_color != alliance_color && distance_sensor.get() < 30) {
+                reject_intake();
+            }
         }
     }
+}
+
+void toggle_auto_reject() {
+    enable_auto_reject = !enable_auto_reject;
 }
 
 void red_right_awp() {
@@ -341,6 +357,7 @@ void on_center_button() {
 void initialize() {
     chassis.calibrate();
     team_image.focus();
+    pros::Task run_auto_rejector(auto_reject);
 
     /*pros::Task coordinateTask([&]()-> void {
         while(true) {
@@ -580,7 +597,22 @@ void opcontrol() {
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
             stop_intake();
         }
-        
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+            score_intake("high");
+        }
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+            score_intake("mid");
+        }
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            score_intake("low");
+        }
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+            toggle_auto_reject();
+        }
 
         // delay to save resources
         pros::delay(20); 
