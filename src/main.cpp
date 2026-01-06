@@ -2,6 +2,10 @@
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "lemlib/chassis/chassis.hpp"
 #include "liblvgl/widgets/lv_img.h"
+#include "pros/adi.hpp"
+#include "pros/misc.h"
+#include "pros/motors.hpp"
+#include <string>
 // Changed the left motors to be all the same direction and right motors in the same direction as well. Be happy. -normalperson543
 pros::MotorGroup left_motors({-1, -2, -3}, pros::MotorGearset::blue); // left motors on ports 1, 2, 3 
 pros::MotorGroup right_motors({4, 5, 6}, pros::MotorGearset::blue); // right motors on ports 4, 5, 6
@@ -79,6 +83,16 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
                         &steer_curve // odometry sensors
 );
 
+pros::Motor intake_motor_1(20, pros::MotorGearset::green);
+pros::Motor intake_motor_2(19, pros::MotorGearset::green);
+pros::Motor intake_motor_3(18, pros::MotorGearset::green);
+
+pros::Motor scoring_motor(17, pros::MotorGearset::green);
+pros::adi::Pneumatics scoring_piston('a', false);
+
+pros::Optical color_sensor(10);
+pros::Distance distance_sensor(9);
+
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 LV_IMG_DECLARE(Huskytech);
@@ -86,7 +100,60 @@ rd::Image team_image(&Huskytech, "Team Image");
 
 rd::Console console;
 
+bool enable_auto_reject = false;
+std::string alliance_color = "";
+
+void activate_intake(bool direction){
+    if(direction == true) {
+        intake_motor_1.move(127);
+        intake_motor_2.move(127);
+        intake_motor_3.move(127);
+
+    } else {
+        intake_motor_1.move(-127);  
+        intake_motor_2.move(-127);
+        intake_motor_3.move(-127);
+        
+    }
+}
+
+void stop_intake() {
+    intake_motor_1.brake();
+    intake_motor_2.brake();
+    intake_motor_3.brake();
+}
+
+void score_intake(std::string goal) {
+    if(goal == "low") {
+        activate_intake(false);
+    } else if (goal == "mid") {
+        scoring_piston.retract();
+        scoring_motor.move(127);
+    } else if (goal == "high") {
+        scoring_piston.extend();
+        scoring_motor.move(-127);
+    }
+}
+
+std::string detect_color() {
+    int rgb_value = color_sensor.get_hue();
+    if(rgb_value >= 190 && rgb_value <= 230) {
+        return "blue";
+    } else if (rgb_value >= 350 || rgb_value <= 10) {
+        return "red";
+    }
+}
+
+void auto_reject() {
+    while(true) {
+        while (enable_auto_reject) {
+            std::string block_color = detect_color();
+        }
+    }
+}
+
 void red_right_awp() {
+    alliance_color = "red";
     console.println("This is red right awp");
     chassis.moveToPoint(-42, 26, 2000, {.maxSpeed = 96});
     chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
@@ -105,6 +172,7 @@ void red_right_awp() {
 }
 
 void red_right() {
+    alliance_color = "red";
     console.println("This is red right");
     chassis.moveToPoint(6.5, 30, 750);
     chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
@@ -121,6 +189,7 @@ void red_right() {
 }
 
 void red_left_awp() {
+    alliance_color = "red";
     console.println("This is red left awp");
     chassis.moveToPoint(42, 26, 2000, {.maxSpeed = 96});
     chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
@@ -140,6 +209,7 @@ void red_left_awp() {
 }
 
 void red_left() {
+    alliance_color = "red";
     console.println("This is red left");
     chassis.moveToPoint(-6.5, 30, 750);
     chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
@@ -156,6 +226,7 @@ void red_left() {
 }
 
 void blue_right_awp() {
+    alliance_color = "blue";
     console.println("This is blue right awp");
     chassis.moveToPoint(-42, 26, 2000, {.maxSpeed = 96});
     chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
@@ -174,6 +245,7 @@ void blue_right_awp() {
 }
 
 void blue_right() {
+    alliance_color = "blue";
     console.println("This is blue right ");
     chassis.moveToPoint(6.5, 30, 750);
     chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
@@ -190,6 +262,7 @@ void blue_right() {
 }
 
 void blue_left_awp() {
+    alliance_color = "blue";
     console.println("This is blue left awp");
     chassis.moveToPoint(42, 26, 2000, {.maxSpeed = 96});
     chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
@@ -209,6 +282,7 @@ void blue_left_awp() {
 }
 
 void blue_left() {
+    alliance_color = "blue";
     console.println("This is blue left");
     chassis.moveToPoint(-6.5, 30, 750);
     chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
@@ -224,6 +298,10 @@ void blue_left() {
     chassis.moveToPoint(-17.5, 32, 750); 
 }
 
+void auton_skills() {
+
+}
+
 rd::Selector selector({
     {"Red Right AWP", red_right_awp},
     {"Red Left AWP", red_left_awp},
@@ -233,7 +311,7 @@ rd::Selector selector({
     {"Blue Left AWP", blue_left_awp},
     {"Blue Right", blue_right},
     {"Blue Left", blue_left},
-
+    {"Auton Skills", auton_skills}
 });
 
 
@@ -259,55 +337,6 @@ void on_center_button() {
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-void measureSteadyStateError() {
-    std::vector<int> angles;
-    double totalAverageError = 0;
-    for (int a = 10; a <= 180; a += 10) angles.push_back(a);
-
-    for (int angle : angles) {
-        double sumError = 0;
-
-        for (int trial = 1; trial <= 3; trial++) {
-
-            // Command a turn
-            chassis.turnToHeading(angle, 3000); // 3 sec timeout
-
-            // Wait for settle (important!)
-            pros::delay(500);  // Give PID time to finish
-
-            // Read the actual angle
-            double actual = imu.get_rotation();
-
-            // Normalize negative wrap
-            if (actual < 0) actual += 360;
-
-            // Calculate steady-state error
-            double error = actual - angle;
-
-            sumError += fabs(error);
-
-            pros::lcd::print(0, "Angle: %d  Trial: %d", angle, trial);
-            pros::lcd::print(1, "Actual: %.2f  Err: %.2f", actual, error);
-
-            // Wait before next trial
-            pros::delay(600);
-        }
-
-        double avg = sumError / 3.0;
-
-        pros::lcd::print(2, "AVERAGE ERROR for %d deg: %.2f deg", angle, avg);
-
-        // Print to terminal too
-        printf("Angle %d | Avg steady-state error: %.2f deg\n", angle, avg);
-
-        totalAverageError += avg;
-
-        pros::delay(1500);
-    }
-    pros::lcd::print(4, "Average wideup range: %.2f deg", totalAverageError / 18);
-
-    printf("=== DONE MEASURING STEADY-STATE ERROR ===\n");
-}
 
 void initialize() {
     chassis.calibrate();
@@ -363,34 +392,108 @@ void autonomous() {
     //selector.run_auton();
 
     //auton skills
-    
+    /*chassis.setPose(0, 0, 0);
+    chassis.moveToPoint(0, 35, 1500, {.maxSpeed = 80});
+    chassis.turnToHeading(90, 750);
+    chassis.moveToPoint(10, 35, 1500, {});
+    pros::delay(2000);
+    chassis.moveToPoint(7, 35, 1000, {.forwards = false});
+    chassis.turnToHeading(180, 750);
+    chassis.moveToPoint(7, 15, 1500, {.maxSpeed = 80});
+    chassis.turnToHeading(-90, 750);
+    chassis.moveToPoint(-88, 15, 3000, {.maxSpeed = 80});
+    chassis.turnToHeading(0, 750);
+    chassis.moveToPoint(-88, 35, 1500, {.maxSpeed = 80});
+    chassis.turnToHeading(-90, 750);
+    chassis.moveToPoint(-80, 35, 1500, {.forwards = false, .maxSpeed = 96}, false);
+    pros::delay(2000);
 
+    chassis.setPose(0, 0, 0);
+    chassis.moveToPoint(0, 28, 1500, {}, false);
+    pros::delay(2000);
+    chassis.moveToPoint(0, 0, 1500, {.forwards = false}, false);
+    pros::delay(2000);
+    chassis.moveToPoint(0, 18, 1000, {.maxSpeed = 96});
+    chassis.turnToPoint(-26.5, -8.5, 750);
+    chassis.moveToPoint(-26.5, -8.5, 1500, {.maxSpeed = 96});
+    chassis.turnToPoint(-29, -34, 750);
+    chassis.moveToPoint(-29, -34, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(90, 750);
+    chassis.moveToPoint(-9, -34, 1500);
+    chassis.moveToPoint(-29, -34, 1500, {.forwards = false});
+    chassis.turnToPoint(-24.8, -57.4, 750);
+    chassis.moveToPoint(-24.8, -57.4, 1500, {.maxSpeed = 96});
+    chassis.turnToPoint(-72, -57.4, 750);
+    chassis.moveToPoint(-72, -57.4, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(225, 750);
+    chassis.moveToPoint(-93.4, -46.3, 1500, {.forwards = false}, false);
+    pros::delay(2000);
+    chassis.moveToPoint(-129.5, -89.1, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(180, 750);
+    chassis.moveToPoint(-129.5, -94.5, 1500, {.maxSpeed = 96});
+    chassis.moveToPoint(-129.5, -66.5, 1500, {.forwards = false, .maxSpeed = 96});
+    */
+    /*
+    chassis.setPose(0, 0, 0);
+    chassis.moveToPoint(0, 5, 1000, {.maxSpeed = 96});
+    chassis.turnToHeading(-90, 750);
+    chassis.moveToPoint(-20, 5, 1500, {.maxSpeed = 80});
+    chassis.turnToHeading(180, 750);
+    chassis.moveToPoint(-20, -70, 3000, {.maxSpeed = 80});
+    chassis.turnToHeading(90, 750);
+    chassis.moveToPoint(0, -70, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(180, 750);
+    chassis.moveToPoint(0, -62, 1000, {.forwards = false}, false);
+    pros::delay(2000);
+
+    chassis.setPose(0, 0, 0);
+    chassis.moveToPoint(0, 28, 1500, {}, false);
+    pros::delay(2000);
+    chassis.moveToPoint(0, 0, 1500, {.forwards = false}, false);
+    pros::delay(2000);
+    chassis.moveToPoint(0, 18, 1000, {.maxSpeed = 96});
+    chassis.turnToPoint(26.5, -8.5, 750);
+    chassis.moveToPoint(26.5, -8.5, 1500, {.maxSpeed = 96});
+    chassis.turnToPoint(29, -34, 750);
+    chassis.moveToPoint(29, -34, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(-90, 750);
+    chassis.moveToPoint(20, -34, 1500, {.maxSpeed = 96});
+    chassis.moveToPoint(29, -34, 1500, {.forwards = false, .maxSpeed = 96});
+    chassis.turnToPoint(26.5, -8.5, 750);
+    chassis.moveToPoint(26.5, -8.5, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(135, 750);
+    chassis.moveToPoint(38.7, -19.6, 1500);
+    */
+
+    
     chassis.setPose(-46.5, -15.3, 180);
     chassis.moveToPoint(-46.5, -50.5, 1500, {.maxSpeed = 80});
     chassis.turnToHeading(270, 750);
-    chassis.moveToPoint(-60.1, -51.5, 1000, {}, false);
+    chassis.moveToPoint(-57, -51.5, 1000, {}, false);
     pros::delay(2000);
     chassis.moveToPoint(-53.9, -50.5, 1000, {.forwards = false});
-    chassis.turnToHeading(0, 750);
-    chassis.moveToPoint(-55, -32, 1000, {.maxSpeed = 80});
+    chassis.turnToHeading(180, 750);
+    chassis.moveToPoint(-55, -63, 1000, {.maxSpeed = 80});
     chassis.turnToHeading(90, 750);
     
-    chassis.moveToPoint(40, -29, 2500, {.maxSpeed = 112});
+    chassis.moveToPoint(40, -63, 3000, {.maxSpeed = 80});
     
-    chassis.turnToHeading(180, 750);
+    chassis.turnToHeading(0, 750);
     chassis.moveToPoint(41.5, -49, 1000, {.maxSpeed = 80});
     chassis.turnToHeading(90, 750);
     
-    chassis.moveToPoint(36, -49, 1000, {.forwards = false, .maxSpeed = 96}, false);
+    chassis.moveToPoint(34, -49, 1000, {.forwards = false, .maxSpeed = 96}, false);
     pros::delay(2000);
     chassis.moveToPoint(62, -48, 1500, {.maxSpeed = 96}, false);
     pros::delay(2000);
-    chassis.moveToPoint(37, -49, 1500, {.forwards = false, .maxSpeed = 96}, false);
+    chassis.moveToPoint(34, -49, 1500, {.forwards = false, .maxSpeed = 96}, false);
     pros::delay(2000);
+
+    chassis.setPose(34, -49, 90);
     chassis.moveToPoint(52, -49, 1000, {.maxSpeed = 96});
     
-    chassis.turnToPoint(25.5, -22.5, 750);
-    chassis.moveToPoint(25.5, -22.5, 1500, {.maxSpeed = 96});
+    chassis.turnToPoint(26.5, -21.5, 750);
+    chassis.moveToPoint(26.5, -21.5, 1500, {.maxSpeed = 96});
     
     chassis.turnToPoint(0, -20, 750);
     chassis.moveToPoint(0, -20, 1500, {.maxSpeed = 96});
@@ -412,7 +515,7 @@ void autonomous() {
     pros::delay(2000);
     chassis.moveToPoint(-55.1, 47.5, 1500, {.forwards = false, .maxSpeed = 96});
     chassis.turnToHeading(0, 750);
-
+    
     /*
     chassis.moveToPoint(-55.1, 57.2, 750);
     chassis.turnToHeading(90, 500);
@@ -466,6 +569,17 @@ void opcontrol() {
         // move the robot
         chassis.arcade(leftY, rightX);
 
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+            activate_intake(true);
+        }
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+            activate_intake(false);
+        }
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+            stop_intake();
+        }
         
 
         // delay to save resources
