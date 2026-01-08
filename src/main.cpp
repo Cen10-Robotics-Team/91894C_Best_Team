@@ -89,11 +89,12 @@ pros::Motor intake_motor_3(18, pros::MotorGearset::green);
 
 pros::Motor scoring_motor(17, pros::MotorGearset::green);
 pros::adi::Pneumatics scoring_piston('a', false);
-pros::adi::Pneumatics intake_piston('b', false);
-pros::adi::Pneumatics descore_piston('c', false);
+pros::adi::Pneumatics left_descore_piston('b', false);
+pros::adi::Pneumatics right_descore_piston('c', false);
+pros::adi::Pneumatics wall_load_piston('d', false);
 
-pros::Optical color_sensor(10);
-pros::Distance distance_sensor(9);
+pros::Optical color_sensor(9);
+pros::Distance distance_sensor(10);
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -105,21 +106,48 @@ rd::Console console;
 bool enable_auto_reject = false;
 std::string alliance_color = "";
 bool scoring = false;
+bool intaking = false;
+
+void activate_upper_scoring() {
+    scoring_piston.retract();
+}
+
+void activate_mid_scoring() {
+    scoring_piston.extend();
+}
 
 void activate_wall_loading() {
-    intake_piston.extend();
+    wall_load_piston.extend();
 }
 
 void deactivate_wall_loading() {
-    intake_piston.retract();
+    wall_load_piston.retract();
 }
 
-void activate_descore() {
-    descore_piston.extend();
+void activate_left_descore() {
+    left_descore_piston.extend();
 }
 
-void deactivate_descore() {
-    descore_piston.retract();
+void activate_right_descore() {
+    right_descore_piston.extend();
+}
+
+void activate_descorers() {
+    activate_left_descore();
+    activate_right_descore();
+}
+
+void deactivate_left_descore() {
+    left_descore_piston.retract();
+}
+
+void deactivate_right_descore() {
+    right_descore_piston.retract();
+}
+
+void deactivate_descorers() {
+    deactivate_left_descore();
+    deactivate_right_descore();
 }
 
 void activate_intake(bool direction){
@@ -134,21 +162,28 @@ void activate_intake(bool direction){
         intake_motor_3.move(-127);
         
     }
+    intaking = true;
 }
 
 void intake_balls() {
     intake_motor_1.move(127);
     intake_motor_2.move(127);
+
+    intaking = true;
 }
 
 void stop_intake() {
     intake_motor_1.brake();
     intake_motor_2.brake();
     intake_motor_3.brake();
+
+    intaking = false;
 }
 
 void stop_scoring() {
     scoring_motor.brake();
+
+    scoring = false;
 }
 
 void stop_all_intake_motors() {
@@ -158,10 +193,12 @@ void stop_all_intake_motors() {
 
 void score_intake(std::string goal) {
     if(goal == "low") {
-        stop_scoring();
+        activate_upper_scoring();
+        scoring_motor.move(127);
         activate_intake(false);
         scoring = true;
     } else if (goal == "mid") {
+        activate_mid_scoring();
         scoring_piston.retract();
         scoring_motor.move(127);
         pros::delay(200);
@@ -171,8 +208,9 @@ void score_intake(std::string goal) {
         pros::delay(200);
         intake_motor_1.move(127);
         scoring = true;
+        intaking = true;
     } else if (goal == "high") {
-        scoring_piston.extend();
+        activate_upper_scoring();
         scoring_motor.move(-127);
         pros::delay(200);
         intake_motor_3.move(127);
@@ -181,20 +219,21 @@ void score_intake(std::string goal) {
         pros::delay(200);
         intake_motor_1.move(127);
         scoring = true;
+        intaking = true;
     }
 }
 
 void reject_intake() {
     score_intake("mid");
-    pros::delay(200);
+    pros::delay(150);
     stop_intake();
 }
 
 std::string detect_color() {
     int rgb_value = color_sensor.get_hue();
-    if(rgb_value >= 160 && rgb_value <= 230) {
+    if(rgb_value >= 210 && rgb_value <= 250) {
         return "blue";
-    } else if (rgb_value >= 350 || rgb_value <= 20) {
+    } else if (rgb_value >= 350 || rgb_value <= 15) {
         return "red";
     } else {
         return "";
@@ -212,11 +251,48 @@ void auto_reject() {
     }
 }
 
+void stop_intake_stalling() {
+    while (true) {
+        if(intaking) {
+            if(intake_motor_1.get_current_draw() > 2.0 && intake_motor_1.get_actual_velocity() < 10) {
+                int target_velocity = intake_motor_1.get_target_velocity();
+                intake_motor_1.move(-1 * target_velocity);
+                pros::delay(50);
+                intake_motor_1.move(target_velocity);
+            }
+
+            if(intake_motor_2.get_current_draw() > 2.0 && intake_motor_2.get_actual_velocity() < 10) {
+                int target_velocity = intake_motor_2.get_target_velocity();
+                intake_motor_2.move(-1 * target_velocity);
+                pros::delay(50);
+                intake_motor_2.move(target_velocity);
+            }
+
+            if(intake_motor_3.get_current_draw() > 2.0 && intake_motor_3.get_actual_velocity() < 10) {
+                int target_velocity = intake_motor_3.get_target_velocity();
+                intake_motor_3.move(-1 * target_velocity);
+                pros::delay(50);
+                intake_motor_3.move(target_velocity);
+            }
+        }
+
+        if(scoring) {
+            if(scoring_motor.get_current_draw() > 2.0 && scoring_motor.get_actual_velocity() < 5) {
+                int target_velocity = scoring_motor.get_target_velocity();
+                scoring_motor.move(-1 * target_velocity);
+                pros::delay(50);
+                scoring_motor.move(target_velocity);
+            }
+        }
+    }
+}
+
 void toggle_auto_reject() {
     enable_auto_reject = !enable_auto_reject;
 }
 
 void red_right_awp() {
+    chassis.setPose(0, 0, 0);
     alliance_color = "red";
     console.println("This is red right awp");
     chassis.moveToPoint(-42, 26, 2000, {.maxSpeed = 96});
@@ -236,6 +312,7 @@ void red_right_awp() {
 }
 
 void red_right() {
+    chassis.setPose(0, 0, 0);
     alliance_color = "red";
     console.println("This is red right");
     chassis.moveToPoint(6.5, 30, 750);
@@ -253,6 +330,7 @@ void red_right() {
 }
 
 void red_left_awp() {
+    chassis.setPose(0, 0, 0);
     alliance_color = "red";
     console.println("This is red left awp");
     chassis.moveToPoint(42, 26, 2000, {.maxSpeed = 96});
@@ -273,6 +351,7 @@ void red_left_awp() {
 }
 
 void red_left() {
+    chassis.setPose(0, 0, 0);
     alliance_color = "red";
     console.println("This is red left");
     chassis.moveToPoint(-6.5, 30, 750);
@@ -290,6 +369,7 @@ void red_left() {
 }
 
 void blue_right_awp() {
+    chassis.setPose(0, 0, 0);
     alliance_color = "blue";
     console.println("This is blue right awp");
     intake_balls();
@@ -323,24 +403,25 @@ void blue_right_awp() {
 }
 
 void blue_right() {
+    chassis.setPose(0, 0, 0);
     alliance_color = "blue";
     console.println("This is blue right ");
     intake_balls();
     chassis.moveToPoint(2.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
-    chassis.moveToPoint(6.5, 30, 3500, {.maxSpeed = 24});
+    chassis.moveToPoint(7, 32.25, 4000, {.maxSpeed = 24});
     chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     chassis.moveToPoint(-3, 38, 1000, {}, false);
     score_intake("low");
     pros::delay(1000);
     stop_intake();
-    chassis.moveToPoint(33, 0, 1250, {.forwards = false, .maxSpeed = 112});
+    chassis.moveToPoint(32, 0, 1250, {.forwards = false, .maxSpeed = 112});
     chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE}, false);
     activate_wall_loading();
-    chassis.moveToPoint(33, -7, 1000, {});
+    chassis.moveToPoint(32, -7, 1000, {});
     activate_intake(true);
     pros::delay(1000);
     stop_intake();
-    chassis.moveToPoint(34, 20, 750, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.moveToPoint(34, 22, 750, {.forwards = false, .maxSpeed = 100}, false);
     score_intake("high");
     pros::delay(1000);
     stop_all_intake_motors();
@@ -349,11 +430,12 @@ void blue_right() {
     chassis.turnToHeading(-90, 500);
     chassis.moveToPoint(21, chassis.getPose().y, 750);
     chassis.turnToHeading(0, 500, {}, false);
-    activate_descore();
+    activate_right_descore();
     chassis.moveToPoint(21, 30, 750);
 }
 
 void blue_left_awp() {
+    chassis.setPose(0, 0, 0);
     alliance_color = "blue";
     console.println("This is blue left awp");
     chassis.moveToPoint(42, 26, 2000, {.maxSpeed = 96});
@@ -374,20 +456,35 @@ void blue_left_awp() {
 }
 
 void blue_left() {
+    chassis.setPose(0, 0, 0);
     alliance_color = "blue";
     console.println("This is blue left");
-    chassis.moveToPoint(-6.5, 30, 750);
-    chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(3, 38, 1000, {.forwards = false}, false);
+    intake_balls();
+    chassis.moveToPoint(-2.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
+    chassis.moveToPoint(-7, 32.25, 4000, {.maxSpeed = 24});
+    chassis.turnToHeading(225, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(3, 38, 1000, {}, false);
+    score_intake("mid");
     pros::delay(1000);
-    chassis.moveToPoint(-32, 0, 1250, {.maxSpeed = 112});
-    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-32, -7, 1000, {}, false);
+    stop_intake();
+    chassis.moveToPoint(-32, 0, 1250, {.forwards = false, .maxSpeed = 112});
+    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE}, false);
+    activate_wall_loading();
+    chassis.moveToPoint(-32, -7, 1000, {});
+    activate_intake(true);
     pros::delay(1000);
-    chassis.moveToPose(-33, 15, 180, 750, {.forwards = false, .maxSpeed = 100}, false);
+    stop_intake();
+    chassis.moveToPoint(-34, 22, 750, {.forwards = false, .maxSpeed = 100}, false);
+    score_intake("high");
     pros::delay(1000);
-    chassis.swingToHeading(0, DriveSide::LEFT, 1500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE, .maxSpeed = 64, .minSpeed = 64, .earlyExitRange = 5});
-    chassis.moveToPoint(-17.5, 32, 750); 
+    stop_all_intake_motors();
+    chassis.moveToPoint(-33, 16, 500);
+    
+    chassis.turnToHeading(90, 500);
+    chassis.moveToPoint(-21, chassis.getPose().y, 750);
+    chassis.turnToHeading(0, 500, {}, false);
+    activate_left_descore();
+    chassis.moveToPoint(-21, 30, 750);
 }
 
 void auton_skills() {
@@ -406,23 +503,6 @@ rd::Selector selector({
     {"Auton Skills", auton_skills}
 });
 
-
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
-
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -432,19 +512,19 @@ void on_center_button() {
 
 void initialize() {
     chassis.calibrate();
-    selector.focus();
-    pros::Task run_auto_rejector(auto_reject);
+    team_image.focus();
+    //pros::Task run_auto_rejector(auto_reject);
+    //pros::Task run_stop_intake_stalling(stop_intake_stalling);
 
-    /*pros::Task coordinateTask([&]()-> void {
+    pros::Task coordinateTask([&]()-> void {
         while(true) {
-            pros::lcd::print(0, " %f", chassis.getPose().x);
-            pros::lcd::print(1, " %f", chassis.getPose().y);
-            pros::lcd::print(2, " %f", chassis.getPose().theta);
-
-            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            console.printf("x: %f\n", chassis.getPose().x);
+            console.printf("y: %f\n", chassis.getPose().y);
+            console.printf("theta: %f", chassis.getPose().x);
             pros::delay(50);
+            console.clear();
         }
-    }); */
+    }); 
 }
 
 /**
@@ -481,11 +561,11 @@ void competition_initialize() {}
 
 void autonomous() {
     // set position to 0, 0, heading:0
-    chassis.setPose(0, 0, 0);
+    
     blue_right_awp();
     //selector.run_auton();
 
-    //auton skills
+    
     /*chassis.setPose(0, 0, 0);
     chassis.moveToPoint(0, 35, 1500, {.maxSpeed = 80});
     chassis.turnToHeading(90, 750);
@@ -559,6 +639,7 @@ void autonomous() {
     chassis.moveToPoint(38.7, -19.6, 1500);
     */
 
+    //auton skill code
     /*
     chassis.setPose(-46.5, -15.3, 180);
     chassis.moveToPoint(-46.5, -50.5, 1500, {.maxSpeed = 80});
@@ -690,6 +771,22 @@ void opcontrol() {
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
             toggle_auto_reject();
+        }
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+            left_descore_piston.toggle();
+        }
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+            scoring_piston.toggle();
+        }
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+            right_descore_piston.toggle();
+        }
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+            wall_load_piston.toggle();
         }
 
         // delay to save resources
