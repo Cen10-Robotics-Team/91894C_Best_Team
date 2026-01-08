@@ -132,22 +132,12 @@ void activate_right_descore() {
     right_descore_piston.extend();
 }
 
-void activate_descorers() {
-    activate_left_descore();
-    activate_right_descore();
-}
-
 void deactivate_left_descore() {
     left_descore_piston.retract();
 }
 
 void deactivate_right_descore() {
     right_descore_piston.retract();
-}
-
-void deactivate_descorers() {
-    deactivate_left_descore();
-    deactivate_right_descore();
 }
 
 void activate_intake(bool direction){
