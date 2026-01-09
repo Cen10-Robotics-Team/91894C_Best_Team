@@ -12,12 +12,12 @@ pros::MotorGroup right_motors({4, 5, 6}, pros::MotorGearset::blue); // right mot
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_motors, // left motor group
                               &right_motors, // right motor group
-                              12.8011811, // 10 inch track width
+                              12.8011811, // 12.8 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
                               360, // drivetrain rpm is 360
                               2 // horizontal drift is 2 (for now)
 );
-// create an imu on port 10
+
 // input curve for throttle input during driver control
 lemlib::ExpoDriveCurve throttle_curve(15, // joystick deadband out of 127
                                      10, // minimum output where drivetrain will move out of 127
@@ -93,13 +93,15 @@ pros::adi::Pneumatics left_descore_piston('b', false);
 pros::adi::Pneumatics right_descore_piston('c', false);
 pros::adi::Pneumatics wall_load_piston('d', false);
 
-pros::Optical color_sensor(9);
-pros::Distance distance_sensor(10);
+pros::Optical color_sensor(10);
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 LV_IMG_DECLARE(Huskytech);
+LV_IMG_DECLARE(SecretPhoto);
+
 rd::Image team_image(&Huskytech, "Team Image");
+rd::Image secret_image(&SecretPhoto, "Secret Image");
 
 rd::Console console;
 
@@ -190,7 +192,7 @@ void score_intake(std::string goal) {
     } else if (goal == "mid") {
         activate_mid_scoring();
         scoring_piston.retract();
-        scoring_motor.move(127);
+        scoring_motor.move(-127);
         pros::delay(200);
         intake_motor_3.move(127);
         pros::delay(200);
@@ -215,15 +217,15 @@ void score_intake(std::string goal) {
 
 void reject_intake() {
     score_intake("mid");
-    pros::delay(150);
-    stop_intake();
+    pros::delay(100);
+    stop_scoring();
 }
 
 std::string detect_color() {
     int rgb_value = color_sensor.get_hue();
-    if(rgb_value >= 210 && rgb_value <= 250) {
+    if(rgb_value >= 180 && rgb_value <= 215) {
         return "blue";
-    } else if (rgb_value >= 350 || rgb_value <= 15) {
+    } else if (rgb_value <= 15) {
         return "red";
     } else {
         return "";
@@ -234,10 +236,14 @@ void auto_reject() {
     while(true) {
         while (enable_auto_reject) {
             std::string block_color = detect_color();
-            if(block_color != alliance_color && distance_sensor.get() < 50) {
+            if(alliance_color == "red" && block_color == "blue" && color_sensor.get_proximity() > 200) {
+                reject_intake();
+            } else if (alliance_color == "blue" && block_color == "red" && color_sensor.get_proximity() > 200) {
                 reject_intake();
             }
         }
+
+        pros::delay(20);
     }
 }
 
@@ -404,24 +410,24 @@ void blue_right() {
     score_intake("low");
     pros::delay(1000);
     stop_intake();
-    chassis.moveToPoint(32, 0, 1250, {.forwards = false, .maxSpeed = 112});
+    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 112});
     chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE}, false);
     activate_wall_loading();
-    chassis.moveToPoint(32, -7, 1000, {});
+    chassis.moveToPoint(31, -7, 1000, {});
     activate_intake(true);
     pros::delay(1000);
     stop_intake();
-    chassis.moveToPoint(34, 22, 750, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.moveToPoint(33, 21, 750, {.forwards = false, .maxSpeed = 100}, false);
     score_intake("high");
     pros::delay(1000);
     stop_all_intake_motors();
-    chassis.moveToPoint(33, 16, 500);
+    chassis.moveToPoint(33, 14, 750);
     
     chassis.turnToHeading(-90, 500);
-    chassis.moveToPoint(21, chassis.getPose().y, 750);
+    chassis.moveToPoint(20.5, chassis.getPose().y, 750);
     chassis.turnToHeading(0, 500, {}, false);
     activate_right_descore();
-    chassis.moveToPoint(21, 30, 750);
+    chassis.moveToPoint(20.5, 30, 750);
 }
 
 void blue_left_awp() {
@@ -448,33 +454,33 @@ void blue_left_awp() {
 void blue_left() {
     chassis.setPose(0, 0, 0);
     alliance_color = "blue";
-    console.println("This is blue left");
+    console.println("This is blue left ");
     intake_balls();
     chassis.moveToPoint(-2.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
-    chassis.moveToPoint(-7, 32.25, 4000, {.maxSpeed = 24});
+    chassis.moveToPoint(-6, 30.25, 4000, {.maxSpeed = 24});
     chassis.turnToHeading(225, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(3, 38, 1000, {}, false);
+    chassis.moveToPoint(4, 37, 1000, {.forwards = false}, false);
     score_intake("mid");
     pros::delay(1000);
     stop_intake();
-    chassis.moveToPoint(-32, 0, 1250, {.forwards = false, .maxSpeed = 112});
+    chassis.moveToPoint(-29, 0, 1500, {.maxSpeed = 100});
     chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE}, false);
     activate_wall_loading();
-    chassis.moveToPoint(-32, -7, 1000, {});
+    chassis.moveToPoint(-29, -7, 1000, {});
     activate_intake(true);
     pros::delay(1000);
     stop_intake();
-    chassis.moveToPoint(-34, 22, 750, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.moveToPoint(-31, 21, 750, {.forwards = false, .maxSpeed = 100}, false);
     score_intake("high");
     pros::delay(1000);
     stop_all_intake_motors();
-    chassis.moveToPoint(-33, 16, 500);
+    chassis.moveToPoint(-31, 14, 750);
     
     chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(-21, chassis.getPose().y, 750);
+    chassis.moveToPoint(-20.5, chassis.getPose().y, 750);
     chassis.turnToHeading(0, 500, {}, false);
-    activate_left_descore();
-    chassis.moveToPoint(-21, 30, 750);
+    activate_right_descore();
+    chassis.moveToPoint(-20.5, 30, 750);
 }
 
 void auton_skills() {
@@ -493,6 +499,11 @@ rd::Selector selector({
     {"Auton Skills", auton_skills}
 });
 
+
+
+
+
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -503,16 +514,18 @@ rd::Selector selector({
 void initialize() {
     chassis.calibrate();
     team_image.focus();
-    //pros::Task run_auto_rejector(auto_reject);
+    pros::Task run_auto_rejector(auto_reject);
     //pros::Task run_stop_intake_stalling(stop_intake_stalling);
 
     pros::Task coordinateTask([&]()-> void {
         while(true) {
-            console.printf("x: %f\n", chassis.getPose().x);
-            console.printf("y: %f\n", chassis.getPose().y);
-            console.printf("theta: %f", chassis.getPose().x);
+            console.println("color: " + detect_color());
+            console.println("distance: " + std::to_string(color_sensor.get_proximity()));
+            console.println("alliance color: " + alliance_color);
+            console.println(std::to_string(detect_color() != alliance_color));
             pros::delay(50);
             console.clear();
+
         }
     }); 
 }
@@ -533,7 +546,8 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -552,7 +566,7 @@ void competition_initialize() {}
 void autonomous() {
     // set position to 0, 0, heading:0
     
-    blue_right_awp();
+    blue_left();
     //selector.run_auton();
 
     
@@ -727,6 +741,8 @@ void opcontrol() {
     // loop forever
     
     while (true) {
+        
+
         // get left y and right x positions
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
