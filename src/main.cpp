@@ -288,6 +288,7 @@ void toggle_auto_reject() {
 }
 
 void red_right_awp() {
+    //not tuned
     chassis.setPose(0, 0, 0);
     alliance_color = "red";
     console.println("This is red right awp");
@@ -310,22 +311,36 @@ void red_right_awp() {
 void red_right() {
     chassis.setPose(0, 0, 0);
     alliance_color = "red";
-    console.println("This is red right");
-    chassis.moveToPoint(6.5, 30, 750);
-    chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-3, 38, 1000, {}, false);
+    console.println("This is red right ");
+    intake_balls();
+    chassis.moveToPoint(2.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
+    chassis.moveToPoint(6.5, 31.5, 4000, {.maxSpeed = 24});
+    chassis.turnToPoint(-2.5, 37, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-2.5, 37, 1000, {}, false);
+    score_intake("low");
     pros::delay(1000);
-    chassis.moveToPoint(32, 0, 1250, {.forwards = false, .maxSpeed = 112});
+    stop_all_intake_motors();
+    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 112});
+    activate_wall_loading();
     chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(32, -7, 1000, {}, false);
-    pros::delay(1000);
-    chassis.moveToPose(33, 15, 180, 750, {.forwards = false, .maxSpeed = 100}, false);
-    pros::delay(1000);
-    chassis.swingToHeading(0, DriveSide::RIGHT, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .maxSpeed = 64, .minSpeed = 64, .earlyExitRange = 5});
-    chassis.moveToPoint(17.5, 32, 750);
+    chassis.moveToPoint(31, -8, 1500, {.maxSpeed = 64}, false);
+    activate_intake(true);
+    pros::delay(650);
+    chassis.moveToPoint(32, 22, 750, {.forwards = false, .maxSpeed = 100}, false);
+    deactivate_wall_loading();
+    score_intake("high");
+    pros::delay(2000);
+    stop_all_intake_motors();
+    chassis.moveToPoint(33, 12, 1000, {.maxSpeed = 112});
+    
+    chassis.turnToHeading(-90, 500);
+    chassis.moveToPoint(20.5, chassis.getPose().y, 1000);
+    chassis.turnToHeading(0, 500, {});
+    activate_right_descore();
 }
 
 void red_left_awp() {
+    //not tuned
     chassis.setPose(0, 0, 0);
     alliance_color = "red";
     console.println("This is red left awp");
@@ -349,22 +364,37 @@ void red_left_awp() {
 void red_left() {
     chassis.setPose(0, 0, 0);
     alliance_color = "red";
-    console.println("This is red left");
-    chassis.moveToPoint(-6.5, 30, 750);
-    chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(3, 38, 1000, {.forwards = false}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(-32, 0, 1250, {.maxSpeed = 112});
+    console.println("This is red left ");
+    intake_balls();
+    chassis.moveToPoint(-3.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
+    chassis.moveToPoint(-7, 30.25, 4000, {.maxSpeed = 24});
+    chassis.turnToHeading(225, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(4, 37, 1000, {.forwards = false}, false);
+    score_intake("mid");
+    activate_wall_loading();
+    pros::delay(2000);
+    stop_all_intake_motors();
+    chassis.moveToPoint(-31, 5, 1500, {.maxSpeed = 100});
     chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-32, -7, 1000, {}, false);
-    pros::delay(1000);
-    chassis.moveToPose(-33, 15, 180, 750, {.forwards = false, .maxSpeed = 100}, false);
-    pros::delay(1000);
-    chassis.swingToHeading(0, DriveSide::LEFT, 1500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE, .maxSpeed = 64, .minSpeed = 64, .earlyExitRange = 5});
-    chassis.moveToPoint(-17.5, 32, 750); 
+    activate_intake(true);
+    chassis.moveToPoint(-31, -8, 1000, {.maxSpeed = 64}, false);
+    pros::delay(650);
+    stop_intake();
+    chassis.moveToPoint(-31, 21, 750, {.forwards = false, .maxSpeed = 112}, false);
+    deactivate_wall_loading();
+    score_intake("high");
+    pros::delay(2000);
+    stop_all_intake_motors();
+    chassis.moveToPoint(-31, 11, 1000);
+    
+    chassis.turnToHeading(-90, 500);
+    activate_right_descore();
+    chassis.moveToPoint(-39, chassis.getPose().y, 1000);
+    chassis.turnToHeading(0, 500, {}); 
 }
 
 void blue_right_awp() {
+    //not tuned
     chassis.setPose(0, 0, 0);
     alliance_color = "blue";
     console.println("This is blue right awp");
@@ -404,33 +434,33 @@ void blue_right() {
     console.println("This is blue right ");
     intake_balls();
     chassis.moveToPoint(2.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
-    chassis.moveToPoint(7, 32.25, 4000, {.maxSpeed = 24});
-    chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-3, 38, 1000, {}, false);
+    chassis.moveToPoint(6.5, 31.5, 4000, {.maxSpeed = 24});
+    chassis.turnToPoint(-2.5, 37, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-2.5, 37, 1000, {}, false);
     score_intake("low");
     pros::delay(1000);
-    stop_intake();
-    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 112});
-    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE}, false);
-    activate_wall_loading();
-    chassis.moveToPoint(31, -7, 1000, {});
-    activate_intake(true);
-    pros::delay(1000);
-    stop_intake();
-    chassis.moveToPoint(33, 21, 750, {.forwards = false, .maxSpeed = 100}, false);
-    score_intake("high");
-    pros::delay(1000);
     stop_all_intake_motors();
-    chassis.moveToPoint(33, 14, 750);
+    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 112});
+    activate_wall_loading();
+    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(31, -8, 1500, {.maxSpeed = 64}, false);
+    activate_intake(true);
+    pros::delay(650);
+    chassis.moveToPoint(32, 22, 750, {.forwards = false, .maxSpeed = 100}, false);
+    deactivate_wall_loading();
+    score_intake("high");
+    pros::delay(2000);
+    stop_all_intake_motors();
+    chassis.moveToPoint(33, 12, 1000, {.maxSpeed = 112});
     
     chassis.turnToHeading(-90, 500);
-    chassis.moveToPoint(20.5, chassis.getPose().y, 750);
-    chassis.turnToHeading(0, 500, {}, false);
+    chassis.moveToPoint(20.5, chassis.getPose().y, 1000);
+    chassis.turnToHeading(0, 500, {});
     activate_right_descore();
-    chassis.moveToPoint(20.5, 30, 750);
 }
 
 void blue_left_awp() {
+    //not tuned
     chassis.setPose(0, 0, 0);
     alliance_color = "blue";
     console.println("This is blue left awp");
@@ -456,35 +486,117 @@ void blue_left() {
     alliance_color = "blue";
     console.println("This is blue left ");
     intake_balls();
-    chassis.moveToPoint(-2.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
-    chassis.moveToPoint(-6, 30.25, 4000, {.maxSpeed = 24});
+    chassis.moveToPoint(-3.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
+    chassis.moveToPoint(-7, 30.25, 4000, {.maxSpeed = 24});
     chassis.turnToHeading(225, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     chassis.moveToPoint(4, 37, 1000, {.forwards = false}, false);
     score_intake("mid");
-    pros::delay(1000);
-    stop_intake();
-    chassis.moveToPoint(-29, 0, 1500, {.maxSpeed = 100});
-    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE}, false);
     activate_wall_loading();
-    chassis.moveToPoint(-29, -7, 1000, {});
-    activate_intake(true);
-    pros::delay(1000);
-    stop_intake();
-    chassis.moveToPoint(-31, 21, 750, {.forwards = false, .maxSpeed = 100}, false);
-    score_intake("high");
-    pros::delay(1000);
+    pros::delay(2000);
     stop_all_intake_motors();
-    chassis.moveToPoint(-31, 14, 750);
+    chassis.moveToPoint(-31, 5, 1500, {.maxSpeed = 100});
+    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    activate_intake(true);
+    chassis.moveToPoint(-31, -8, 1000, {.maxSpeed = 64}, false);
+    pros::delay(650);
+    stop_intake();
+    chassis.moveToPoint(-31, 21, 750, {.forwards = false, .maxSpeed = 112}, false);
+    deactivate_wall_loading();
+    score_intake("high");
+    pros::delay(2000);
+    stop_all_intake_motors();
+    chassis.moveToPoint(-31, 11, 1000);
     
-    chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(-20.5, chassis.getPose().y, 750);
-    chassis.turnToHeading(0, 500, {}, false);
+    chassis.turnToHeading(-90, 500);
     activate_right_descore();
-    chassis.moveToPoint(-20.5, 30, 750);
+    chassis.moveToPoint(-39, chassis.getPose().y, 1000);
+    chassis.turnToHeading(0, 500, {});
 }
 
 void auton_skills() {
+    chassis.setPose(-46.5, -15.3, 180);
+    chassis.moveToPoint(-46.5, -48, 1500, {.maxSpeed = 80});
+    chassis.turnToHeading(270, 750);
+    activate_wall_loading();
+    activate_intake(true);
+    chassis.moveToPoint(-58, -49, 1000, {}, false);
+    pros::delay(3000);
+    chassis.moveToPoint(-53.9, -49, 1000, {.forwards = false}, false);
+    deactivate_wall_loading();
+    stop_intake();
+    chassis.turnToHeading(180, 750);
+    chassis.moveToPoint(-55, -63, 1000, {.maxSpeed = 80});
+    chassis.turnToHeading(90, 750);
+    
+    chassis.moveToPoint(40, -63, 3000, {.maxSpeed = 80});
+    
+    chassis.turnToHeading(0, 750);
+    chassis.moveToPoint(41.5, -48, 1000, {.maxSpeed = 80});
+    chassis.turnToHeading(90, 750);
+    
+    chassis.moveToPoint(26, -48, 1000, {.forwards = false, .maxSpeed = 96}, false);
+    score_intake("high");
+    activate_wall_loading();
+    pros::delay(4000);
+    chassis.moveToPoint(65, -49, 1500, {.maxSpeed = 96}, false);
+    pros::delay(3000);
+    chassis.moveToPoint(26, -49, 1500, {.forwards = false, .maxSpeed = 96}, false);
+    score_intake("high");
+    deactivate_wall_loading();
+    pros::delay(4000);
 
+    //not really tuned
+    /*
+    chassis.setPose(34, -49, 90);
+    chassis.moveToPoint(52, -49, 1000, {.maxSpeed = 96});
+    
+    chassis.turnToPoint(26.5, -21.5, 750);
+    chassis.moveToPoint(26.5, -21.5, 1500, {.maxSpeed = 96});
+    
+    chassis.turnToPoint(0, -20, 750);
+    chassis.moveToPoint(0, -20, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(180, 750);
+    chassis.moveToPoint(0, -40, 1500);
+    chassis.moveToPoint(0, -20, 1500, {.forwards = false});
+
+    chassis.turnToPoint(-23.4, -24.2, 750);
+    chassis.moveToPoint(-23.4, -24.2, 1500, {.maxSpeed = 96});
+    chassis.turnToPoint(-23.4, 23.6, 750);
+    chassis.moveToPoint(-23.4, 23.6, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(-45, 500);
+    chassis.moveToPoint(-12.3, 11.4, 1500, {.forwards = false}, false);
+    pros::delay(2000);
+
+    chassis.moveToPoint(-55.1, 47.5, 1500, {.maxSpeed = 96});
+    chassis.turnToHeading(270, 750);
+    chassis.moveToPoint(-60.5, 47.5, 1500, {.maxSpeed = 96});
+    pros::delay(2000);
+    chassis.moveToPoint(-55.1, 47.5, 1500, {.forwards = false, .maxSpeed = 96});
+    chassis.turnToHeading(0, 750);
+    */
+
+    //not tuned at all
+    /*
+    chassis.moveToPoint(-55.1, 57.2, 750);
+    chassis.turnToHeading(90, 500);
+    chassis.moveToPoint(34.3, 57.2, 750);
+    chassis.turnToHeading(180, 500);
+    chassis.moveToPoint(34.3, 47.7, 750);
+    chassis.turnToHeading(90, 500);
+    chassis.moveToPoint(32, 47.7, 750, {.forwards = false});
+    chassis.moveToPoint(59.1, 47.7, 750);
+    chassis.moveToPoint(32, 57.2, 750, {.forwards = false});
+    chassis.moveToPoint(35, 57.2, 750);
+    //small shifting
+    chassis.turnToPoint(24, 24, 750);
+    chassis.moveToPoint(24, 24, 750);
+    chassis.moveToPoint(0, 33.0, 750);
+    chassis.turnToHeading(0, 500);
+    chassis.moveToPoint(0, 43, 750);
+    chassis.moveToPoint(19.4, 18.1, 750, {.forwards = false});
+    chassis.turnToHeading(225, 500);
+    chassis.moveToPoint(8.4, 7.4, 750);
+    */
 }
 
 rd::Selector selector({
@@ -514,10 +626,10 @@ rd::Selector selector({
 void initialize() {
     chassis.calibrate();
     team_image.focus();
-    pros::Task run_auto_rejector(auto_reject);
+    //pros::Task run_auto_rejector(auto_reject);
     //pros::Task run_stop_intake_stalling(stop_intake_stalling);
 
-    pros::Task coordinateTask([&]()-> void {
+    /*pros::Task coordinateTask([&]()-> void {
         while(true) {
             console.println("color: " + detect_color());
             console.println("distance: " + std::to_string(color_sensor.get_proximity()));
@@ -527,7 +639,7 @@ void initialize() {
             console.clear();
 
         }
-    }); 
+    }); */
 }
 
 /**
@@ -564,158 +676,7 @@ void competition_initialize() {
 
 
 void autonomous() {
-    // set position to 0, 0, heading:0
-    
-    blue_left();
-    //selector.run_auton();
-
-    
-    /*chassis.setPose(0, 0, 0);
-    chassis.moveToPoint(0, 35, 1500, {.maxSpeed = 80});
-    chassis.turnToHeading(90, 750);
-    chassis.moveToPoint(10, 35, 1500, {});
-    pros::delay(2000);
-    chassis.moveToPoint(7, 35, 1000, {.forwards = false});
-    chassis.turnToHeading(180, 750);
-    chassis.moveToPoint(7, 15, 1500, {.maxSpeed = 80});
-    chassis.turnToHeading(-90, 750);
-    chassis.moveToPoint(-88, 15, 3000, {.maxSpeed = 80});
-    chassis.turnToHeading(0, 750);
-    chassis.moveToPoint(-88, 35, 1500, {.maxSpeed = 80});
-    chassis.turnToHeading(-90, 750);
-    chassis.moveToPoint(-80, 35, 1500, {.forwards = false, .maxSpeed = 96}, false);
-    pros::delay(2000);
-
-    chassis.setPose(0, 0, 0);
-    chassis.moveToPoint(0, 28, 1500, {}, false);
-    pros::delay(2000);
-    chassis.moveToPoint(0, 0, 1500, {.forwards = false}, false);
-    pros::delay(2000);
-    chassis.moveToPoint(0, 18, 1000, {.maxSpeed = 96});
-    chassis.turnToPoint(-26.5, -8.5, 750);
-    chassis.moveToPoint(-26.5, -8.5, 1500, {.maxSpeed = 96});
-    chassis.turnToPoint(-29, -34, 750);
-    chassis.moveToPoint(-29, -34, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(90, 750);
-    chassis.moveToPoint(-9, -34, 1500);
-    chassis.moveToPoint(-29, -34, 1500, {.forwards = false});
-    chassis.turnToPoint(-24.8, -57.4, 750);
-    chassis.moveToPoint(-24.8, -57.4, 1500, {.maxSpeed = 96});
-    chassis.turnToPoint(-72, -57.4, 750);
-    chassis.moveToPoint(-72, -57.4, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(225, 750);
-    chassis.moveToPoint(-93.4, -46.3, 1500, {.forwards = false}, false);
-    pros::delay(2000);
-    chassis.moveToPoint(-129.5, -89.1, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(180, 750);
-    chassis.moveToPoint(-129.5, -94.5, 1500, {.maxSpeed = 96});
-    chassis.moveToPoint(-129.5, -66.5, 1500, {.forwards = false, .maxSpeed = 96});
-    */
-    /*
-    chassis.setPose(0, 0, 0);
-    chassis.moveToPoint(0, 5, 1000, {.maxSpeed = 96});
-    chassis.turnToHeading(-90, 750);
-    chassis.moveToPoint(-20, 5, 1500, {.maxSpeed = 80});
-    chassis.turnToHeading(180, 750);
-    chassis.moveToPoint(-20, -70, 3000, {.maxSpeed = 80});
-    chassis.turnToHeading(90, 750);
-    chassis.moveToPoint(0, -70, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(180, 750);
-    chassis.moveToPoint(0, -62, 1000, {.forwards = false}, false);
-    pros::delay(2000);
-
-    chassis.setPose(0, 0, 0);
-    chassis.moveToPoint(0, 28, 1500, {}, false);
-    pros::delay(2000);
-    chassis.moveToPoint(0, 0, 1500, {.forwards = false}, false);
-    pros::delay(2000);
-    chassis.moveToPoint(0, 18, 1000, {.maxSpeed = 96});
-    chassis.turnToPoint(26.5, -8.5, 750);
-    chassis.moveToPoint(26.5, -8.5, 1500, {.maxSpeed = 96});
-    chassis.turnToPoint(29, -34, 750);
-    chassis.moveToPoint(29, -34, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(-90, 750);
-    chassis.moveToPoint(20, -34, 1500, {.maxSpeed = 96});
-    chassis.moveToPoint(29, -34, 1500, {.forwards = false, .maxSpeed = 96});
-    chassis.turnToPoint(26.5, -8.5, 750);
-    chassis.moveToPoint(26.5, -8.5, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(135, 750);
-    chassis.moveToPoint(38.7, -19.6, 1500);
-    */
-
-    //auton skill code
-    /*
-    chassis.setPose(-46.5, -15.3, 180);
-    chassis.moveToPoint(-46.5, -50.5, 1500, {.maxSpeed = 80});
-    chassis.turnToHeading(270, 750);
-    chassis.moveToPoint(-57, -51.5, 1000, {}, false);
-    pros::delay(2000);
-    chassis.moveToPoint(-53.9, -50.5, 1000, {.forwards = false});
-    chassis.turnToHeading(180, 750);
-    chassis.moveToPoint(-55, -63, 1000, {.maxSpeed = 80});
-    chassis.turnToHeading(90, 750);
-    
-    chassis.moveToPoint(40, -63, 3000, {.maxSpeed = 80});
-    
-    chassis.turnToHeading(0, 750);
-    chassis.moveToPoint(41.5, -49, 1000, {.maxSpeed = 80});
-    chassis.turnToHeading(90, 750);
-    
-    chassis.moveToPoint(34, -49, 1000, {.forwards = false, .maxSpeed = 96}, false);
-    pros::delay(2000);
-    chassis.moveToPoint(62, -48, 1500, {.maxSpeed = 96}, false);
-    pros::delay(2000);
-    chassis.moveToPoint(34, -49, 1500, {.forwards = false, .maxSpeed = 96}, false);
-    pros::delay(2000);
-
-    chassis.setPose(34, -49, 90);
-    chassis.moveToPoint(52, -49, 1000, {.maxSpeed = 96});
-    
-    chassis.turnToPoint(26.5, -21.5, 750);
-    chassis.moveToPoint(26.5, -21.5, 1500, {.maxSpeed = 96});
-    
-    chassis.turnToPoint(0, -20, 750);
-    chassis.moveToPoint(0, -20, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(180, 750);
-    chassis.moveToPoint(0, -40, 1500);
-    chassis.moveToPoint(0, -20, 1500, {.forwards = false});
-
-    chassis.turnToPoint(-23.4, -24.2, 750);
-    chassis.moveToPoint(-23.4, -24.2, 1500, {.maxSpeed = 96});
-    chassis.turnToPoint(-23.4, 23.6, 750);
-    chassis.moveToPoint(-23.4, 23.6, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(-45, 500);
-    chassis.moveToPoint(-12.3, 11.4, 1500, {.forwards = false}, false);
-    pros::delay(2000);
-
-    chassis.moveToPoint(-55.1, 47.5, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(270, 750);
-    chassis.moveToPoint(-60.5, 47.5, 1500, {.maxSpeed = 96});
-    pros::delay(2000);
-    chassis.moveToPoint(-55.1, 47.5, 1500, {.forwards = false, .maxSpeed = 96});
-    chassis.turnToHeading(0, 750);
-    */
-    /*
-    chassis.moveToPoint(-55.1, 57.2, 750);
-    chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(34.3, 57.2, 750);
-    chassis.turnToHeading(180, 500);
-    chassis.moveToPoint(34.3, 47.7, 750);
-    chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(32, 47.7, 750, {.forwards = false});
-    chassis.moveToPoint(59.1, 47.7, 750);
-    chassis.moveToPoint(32, 57.2, 750, {.forwards = false});
-    chassis.moveToPoint(35, 57.2, 750);
-    //small shifting
-    chassis.turnToPoint(24, 24, 750);
-    chassis.moveToPoint(24, 24, 750);
-    chassis.moveToPoint(0, 33.0, 750);
-    chassis.turnToHeading(0, 500);
-    chassis.moveToPoint(0, 43, 750);
-    chassis.moveToPoint(19.4, 18.1, 750, {.forwards = false});
-    chassis.turnToHeading(225, 500);
-    chassis.moveToPoint(8.4, 7.4, 750);
-    */
+    selector.run_auton();
 }
 
 /**
@@ -775,9 +736,9 @@ void opcontrol() {
             score_intake("low");
         }
 
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+        /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
             toggle_auto_reject();
-        }
+        }*/
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
             left_descore_piston.toggle();
