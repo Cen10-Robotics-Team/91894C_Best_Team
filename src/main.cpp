@@ -312,26 +312,26 @@ void red_right() {
     chassis.setPose(0, 0, 0);
     alliance_color = "red";
     console.println("This is red right ");
-    intake_balls();
+    activate_intake(true);
     chassis.moveToPoint(2.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
     chassis.moveToPoint(6.5, 31.5, 4000, {.maxSpeed = 24});
-    chassis.turnToPoint(-2.5, 37, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-2.5, 37, 1000, {}, false);
+    chassis.turnToPoint(-1.5, 37, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-1.5, 37, 1000, {}, false);
     score_intake("low");
-    pros::delay(1000);
+    pros::delay(2000);
     stop_all_intake_motors();
-    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 112});
+    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 112}, false);
     activate_wall_loading();
     chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(31, -8, 1500, {.maxSpeed = 64}, false);
     activate_intake(true);
-    pros::delay(650);
-    chassis.moveToPoint(32, 22, 750, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.moveToPoint(31, -10, 1000, {.maxSpeed = 64}, false);
+    pros::delay(500);
+    chassis.moveToPoint(31, 22, 1500, {.forwards = false, .maxSpeed = 100}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(2000);
     stop_all_intake_motors();
-    chassis.moveToPoint(33, 12, 1000, {.maxSpeed = 112});
+    chassis.moveToPoint(31, 12, 1000, {.maxSpeed = 112});
     
     chassis.turnToHeading(-90, 500);
     chassis.moveToPoint(20.5, chassis.getPose().y, 1000);
@@ -364,8 +364,8 @@ void red_left_awp() {
 void red_left() {
     chassis.setPose(0, 0, 0);
     alliance_color = "red";
-    console.println("This is red left ");
-    intake_balls();
+    console.println("This is red left");
+    activate_intake(true);
     chassis.moveToPoint(-3.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
     chassis.moveToPoint(-7, 30.25, 4000, {.maxSpeed = 24});
     chassis.turnToHeading(225, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
@@ -374,18 +374,18 @@ void red_left() {
     activate_wall_loading();
     pros::delay(2000);
     stop_all_intake_motors();
-    chassis.moveToPoint(-31, 5, 1500, {.maxSpeed = 100});
+    chassis.moveToPoint(-32.5, 5, 1500, {.maxSpeed = 100});
     chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     activate_intake(true);
-    chassis.moveToPoint(-31, -8, 1000, {.maxSpeed = 64}, false);
+    chassis.moveToPoint(-32.5, -10, 1000, {.maxSpeed = 64}, false);
     pros::delay(650);
     stop_intake();
-    chassis.moveToPoint(-31, 21, 750, {.forwards = false, .maxSpeed = 112}, false);
+    chassis.moveToPoint(-32.5, 21, 750, {.forwards = false, .maxSpeed = 112}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(2000);
     stop_all_intake_motors();
-    chassis.moveToPoint(-31, 11, 1000);
+    chassis.moveToPoint(-32.5, 11, 1000);
     
     chassis.turnToHeading(-90, 500);
     activate_right_descore();
@@ -432,26 +432,26 @@ void blue_right() {
     chassis.setPose(0, 0, 0);
     alliance_color = "blue";
     console.println("This is blue right ");
-    intake_balls();
+    activate_intake(true);
     chassis.moveToPoint(2.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
     chassis.moveToPoint(6.5, 31.5, 4000, {.maxSpeed = 24});
-    chassis.turnToPoint(-2.5, 37, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-2.5, 37, 1000, {}, false);
+    chassis.turnToPoint(-1.5, 37, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-1.5, 37, 1000, {}, false);
     score_intake("low");
-    pros::delay(1000);
+    pros::delay(2000);
     stop_all_intake_motors();
-    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 112});
+    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 112}, false);
     activate_wall_loading();
     chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(31, -8, 1500, {.maxSpeed = 64}, false);
     activate_intake(true);
-    pros::delay(650);
-    chassis.moveToPoint(32, 22, 750, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.moveToPoint(31, -10, 1500, {.maxSpeed = 64}, false);
+    pros::delay(500);
+    chassis.moveToPoint(31, 22, 1500, {.forwards = false, .maxSpeed = 100}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(2000);
     stop_all_intake_motors();
-    chassis.moveToPoint(33, 12, 1000, {.maxSpeed = 112});
+    chassis.moveToPoint(31, 12, 1000, {.maxSpeed = 112});
     
     chassis.turnToHeading(-90, 500);
     chassis.moveToPoint(20.5, chassis.getPose().y, 1000);
@@ -519,31 +519,34 @@ void auton_skills() {
     chassis.turnToHeading(270, 750);
     activate_wall_loading();
     activate_intake(true);
-    chassis.moveToPoint(-58, -49, 1000, {}, false);
-    pros::delay(3000);
-    chassis.moveToPoint(-53.9, -49, 1000, {.forwards = false}, false);
+    chassis.moveToPoint(-60, -49, 1500, {}, false);
+    pros::delay(10000);
+    chassis.moveToPoint(-53.9, -49, 1500, {.forwards = false}, false);
     deactivate_wall_loading();
     stop_intake();
     chassis.turnToHeading(180, 750);
-    chassis.moveToPoint(-55, -63, 1000, {.maxSpeed = 80});
+    chassis.moveToPoint(-55, -63, 1500, {.maxSpeed = 80});
     chassis.turnToHeading(90, 750);
     
-    chassis.moveToPoint(40, -63, 3000, {.maxSpeed = 80});
+    chassis.moveToPoint(40, -63, 4000, {.maxSpeed = 80});
     
     chassis.turnToHeading(0, 750);
-    chassis.moveToPoint(41.5, -48, 1000, {.maxSpeed = 80});
+    chassis.moveToPoint(41.5, -48, 1500, {.maxSpeed = 80});
     chassis.turnToHeading(90, 750);
     
-    chassis.moveToPoint(26, -48, 1000, {.forwards = false, .maxSpeed = 96}, false);
+    chassis.moveToPoint(26, -48, 1500, {.forwards = false, .maxSpeed = 96}, false);
     score_intake("high");
     activate_wall_loading();
-    pros::delay(4000);
-    chassis.moveToPoint(65, -49, 1500, {.maxSpeed = 96}, false);
-    pros::delay(3000);
+    pros::delay(10000);
+    stop_scoring();
+    chassis.moveToPoint(65, -48, 1500, {.maxSpeed = 96}, false);
+    pros::delay(10000);
     chassis.moveToPoint(26, -49, 1500, {.forwards = false, .maxSpeed = 96}, false);
     score_intake("high");
     deactivate_wall_loading();
-    pros::delay(4000);
+    pros::delay(10000);
+    stop_all_intake_motors();
+
 
     //not really tuned
     /*
@@ -677,6 +680,7 @@ void competition_initialize() {
 
 void autonomous() {
     selector.run_auton();
+    //red_right();
 }
 
 /**
