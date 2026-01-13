@@ -143,7 +143,7 @@ void deactivate_right_descore() {
 }
 
 void activate_intake(bool direction){
-    if(direction == true) {
+    if(direction) {
         intake_motor_1.move(127);
         intake_motor_2.move(127);
         intake_motor_3.move(127);
@@ -313,25 +313,25 @@ void red_right() {
     alliance_color = "red";
     console.println("This is red right ");
     activate_intake(true);
-    chassis.moveToPoint(2.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
-    chassis.moveToPoint(6.5, 31.5, 4000, {.maxSpeed = 24});
-    chassis.turnToPoint(-1.5, 37, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-1.5, 37, 1000, {}, false);
+    chassis.moveToPoint(2.5, 27, 1000, {.minSpeed = 24, .earlyExitRange = 1});
+    chassis.moveToPoint(6.5, 46.5, 3000, {.maxSpeed = 24});
+    chassis.turnToPoint(-1.5, 52, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.moveToPoint(-1.5, 52, 1000, {}, false);
     score_intake("low");
     pros::delay(2000);
     stop_all_intake_motors();
-    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 112}, false);
+    chassis.moveToPoint(31, 15, 1750, {.forwards = false, .maxSpeed = 112}, false);
     activate_wall_loading();
     chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     activate_intake(true);
-    chassis.moveToPoint(31, -10, 1000, {.maxSpeed = 64}, false);
+    chassis.moveToPoint(31, 5, 1000, {.maxSpeed = 64}, false);
     pros::delay(500);
-    chassis.moveToPoint(31, 22, 1500, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.moveToPoint(31, 37, 1500, {.forwards = false, .maxSpeed = 100}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(2000);
     stop_all_intake_motors();
-    chassis.moveToPoint(31, 12, 1000, {.maxSpeed = 112});
+    chassis.moveToPoint(31, 27, 1000, {.maxSpeed = 112});
     
     chassis.turnToHeading(-90, 500);
     chassis.moveToPoint(20.5, chassis.getPose().y, 1000);
@@ -429,34 +429,35 @@ void blue_right_awp() {
 }
 
 void blue_right() {
-    chassis.setPose(0, 0, 0);
+    chassis.setPose(-62.125, -16.935, 90);
     alliance_color = "blue";
     console.println("This is blue right ");
     activate_intake(true);
-    chassis.moveToPoint(2.5, 12, 750, {.minSpeed = 24, .earlyExitRange = 1});
-    chassis.moveToPoint(6.5, 31.5, 4000, {.maxSpeed = 24});
-    chassis.turnToPoint(-1.5, 37, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-1.5, 37, 1000, {}, false);
+    chassis.moveToPoint(-34.377, -21.024, 750, {.minSpeed = 24, .earlyExitRange = 1});
+    chassis.moveToPoint(-23.392, -22.729, 3000, {.maxSpeed = 24});
+    chassis.turnToPoint(-12.785, -12.501, 500);
+    chassis.moveToPoint(-12.785, -12.501, 750, {}, false);
     score_intake("low");
-    pros::delay(2000);
+    pros::delay(1500);
     stop_all_intake_motors();
-    chassis.moveToPoint(31, 0, 1500, {.forwards = false, .maxSpeed = 112}, false);
+    chassis.moveToPoint(-47.125, -46.935, 1500, {.forwards = false, .maxSpeed = 112}, false);
     activate_wall_loading();
-    chassis.turnToHeading(180, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.turnToHeading(270, 500);
     activate_intake(true);
-    chassis.moveToPoint(31, -10, 1500, {.maxSpeed = 64}, false);
+    chassis.moveToPoint(-60.125, -46.935, 1000, {.maxSpeed = 64}, false);
     pros::delay(500);
-    chassis.moveToPoint(31, 22, 1500, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.moveToPoint(-30.125, -46.935, 1000, {.forwards = false, .maxSpeed = 100}, false);
     deactivate_wall_loading();
     score_intake("high");
-    pros::delay(2000);
+    pros::delay(1500);
     stop_all_intake_motors();
-    chassis.moveToPoint(31, 12, 1000, {.maxSpeed = 112});
+    chassis.moveToPoint(-35.125, -46.935, 500, {.maxSpeed = 112});
     
-    chassis.turnToHeading(-90, 500);
-    chassis.moveToPoint(20.5, chassis.getPose().y, 1000);
-    chassis.turnToHeading(0, 500, {});
+    chassis.turnToHeading(0, 500);
+    chassis.moveToPoint(-35.125, -35.935, 500);
+    chassis.turnToHeading(90, 500, {});
     activate_right_descore();
+    chassis.moveToPoint(-22.125, -35.935, 500);
 }
 
 void blue_left_awp() {
@@ -650,7 +651,9 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+    secret_image.focus();
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -662,6 +665,7 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
+    selector.focus();
 }
 
 /**
@@ -679,8 +683,8 @@ void competition_initialize() {
 
 
 void autonomous() {
-    selector.run_auton();
-    //red_right();
+    //selector.run_auton();
+    red_right();
 }
 
 /**
