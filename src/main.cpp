@@ -399,31 +399,33 @@ void blue_right() {
     alliance_color = "blue";
     console.println("This is blue right long + mid ");
     activate_intake(true);
-    chassis.moveToPoint(-34.377, -21.024, 750, {.minSpeed = 24, .earlyExitRange = 1});
-    chassis.moveToPoint(-23.392, -22.729, 3000, {.maxSpeed = 24});
-    chassis.turnToPoint(-12.785, -12.501, 500);
-    chassis.moveToPoint(-12.785, -12.501, 750, {}, false);
+    chassis.moveToPoint(-34.377, -21.024, 1500, {.maxSpeed = 96, .minSpeed = 24, .earlyExitRange = 1}, false);
+    chassis.moveToPoint(-21.387, -22.092, 3000, {.maxSpeed = 24});
+    chassis.turnToPoint(-11.694, -11.404, 750);
+    chassis.moveToPoint(-11.694, -11.404, 1000, {}, false);
     score_intake("low");
     pros::delay(1500);
     stop_all_intake_motors();
-    chassis.moveToPoint(-47.125, -46.935, 1500, {.forwards = false, .maxSpeed = 112}, false);
+    chassis.moveToPoint(-47.125, -49.935, 1500, {.forwards = false, .maxSpeed = 112}, false);
     activate_wall_loading();
-    chassis.turnToHeading(270, 500);
+    chassis.turnToHeading(270, 750);
     activate_intake(true);
-    chassis.moveToPoint(-60.125, -46.935, 1000, {.maxSpeed = 64}, false);
-    pros::delay(500);
-    chassis.moveToPoint(-30.125, -46.935, 1000, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.moveToPoint(-59.5, -48.935, 1000, {.maxSpeed = 64}, false);
+    pros::delay(750);
+    chassis.moveToPoint(-29.125, -49.935, 1000, {.forwards = false, .maxSpeed = 100}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(1500);
+
+    chassis.setPose(-29.125, -46.935, 270);
     stop_all_intake_motors();
     //chassis.moveToPoint(-35.125, -46.935, 500, {.maxSpeed = 112});
     
     //chassis.turnToHeading(0, 500);
-    chassis.moveToPoint(-35.125, -35.935, 500);
-    chassis.turnToHeading(90, 500, {});
+    chassis.moveToPoint(-40.392, -35.935, 750);
+    chassis.turnToHeading(90, 750, {});
     activate_right_descore();
-    chassis.moveToPoint(-13.349, -35.935, 3000);
+    chassis.moveToPoint(-13.349, -35.935, 2000);
 }
 
 void blue_right_long_goal() {
@@ -789,7 +791,7 @@ void competition_initialize() {
 
 void autonomous() {
     //selector.run_auton();
-    red_right();
+    blue_right();
 }
 
 /**
