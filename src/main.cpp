@@ -399,33 +399,34 @@ void blue_right() {
     alliance_color = "blue";
     console.println("This is blue right long + mid ");
     activate_intake(true);
-    chassis.moveToPoint(-34.377, -21.024, 1500, {.maxSpeed = 96, .minSpeed = 24, .earlyExitRange = 1}, false);
-    chassis.moveToPoint(-21.387, -22.092, 2500, {.maxSpeed = 24});
-    chassis.turnToPoint(-11.694, -11.404, 750);
-    chassis.moveToPoint(-11.694, -11.404, 750, {.maxSpeed = 80}, false);
+    chassis.moveToPoint(-34, -16.935, 1500, {.maxSpeed = 96}, false);
+    chassis.turnToPoint(-22, -23, 500);
+    chassis.moveToPoint(-22, -23, 2500, {.maxSpeed = 24});
+    chassis.turnToPoint(-9, -11, 750);
+    chassis.moveToPoint(-9, -11, 750, {.maxSpeed = 80}, false);
     score_intake("low");
     pros::delay(1500);
     stop_all_intake_motors();
-    chassis.moveToPoint(-47.125, -49.935, 1500, {.forwards = false, .maxSpeed = 112}, false);
+    chassis.moveToPoint(-47, -49, 1500, {.forwards = false, .maxSpeed = 112}, false);
     activate_wall_loading();
-    chassis.turnToHeading(270, 750);
+    chassis.turnToHeading(270, 600);
     activate_intake(true);
-    chassis.moveToPoint(-59.5, -48.935, 750, {.maxSpeed = 64}, false);
-    pros::delay(500);
-    chassis.moveToPoint(-29.125, -49.935, 1000, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.moveToPoint(-60, -49, 750, {.maxSpeed = 64}, false);
+    pros::delay(750);
+    chassis.moveToPoint(-26, -49, 1000, {.forwards = false, .maxSpeed = 90}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(1500);
 
-    chassis.setPose(-29.125, -46.935, 270);
+    chassis.setPose(-28, -49, 270);
     stop_all_intake_motors();
     //chassis.moveToPoint(-35.125, -46.935, 500, {.maxSpeed = 112});
     
     //chassis.turnToHeading(0, 500);
-    chassis.moveToPoint(-40.392, -35.935, 750);
+    chassis.moveToPoint(-42.5, -36, 1000, {.maxSpeed = 96});
     chassis.turnToHeading(90, 750, {});
     activate_right_descore();
-    chassis.moveToPoint(-13.349, -35.935, 3000);
+    chassis.moveToPoint(-13, -36, 3000);
 }
 
 void blue_right_long_goal() {
