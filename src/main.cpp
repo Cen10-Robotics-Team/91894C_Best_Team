@@ -524,12 +524,12 @@ void blue_right() {
 
     //move to balls and intake
     chassis.moveToPoint(-34, -16.935, 1000, {.maxSpeed = 96}, false);
-    chassis.turnToPoint(-20, -25, 500);
-    chassis.moveToPoint(-20, -25, 2500, {.maxSpeed = 24});
+    chassis.turnToPoint(-20, -24, 500);
+    chassis.moveToPoint(-20, -24, 2500, {.maxSpeed = 24});
 
     //go to low goal
-    chassis.turnToPoint(-13, -18, 750);
-    chassis.moveToPoint(-13, -18, 750, {.maxSpeed = 80}, false);
+    chassis.turnToPoint(-11, -17, 750);
+    chassis.moveToPoint(-11, -17, 750, {.maxSpeed = 80}, false);
     score_intake("low");
     pros::delay(1500);
     stop_all_intake_motors();
@@ -539,17 +539,26 @@ void blue_right() {
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
     activate_intake(true);
-    chassis.moveToPoint(-60, -50, 500, {.maxSpeed = 80}, false);
-    chassis.turnToHeading(275, 100);
+    chassis.moveToPoint(-56, -50, 500, {.maxSpeed = 70}, false);
+
+    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -50, 150);
+    
+    
+    /*chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
-    chassis.turnToHeading(270, 100);
+    chassis.turnToHeading(270, 100);*/
     //pros::delay(600);
 
     //move to high goal and score
-    chassis.moveToPoint(-24, -51, 1500, {.forwards = false, .maxSpeed = 90}, false);
+    chassis.moveToPoint(-23, -51, 1500, {.forwards = false, .maxSpeed = 90}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(1500);
@@ -557,11 +566,11 @@ void blue_right() {
     //reset position and move to descore
     chassis.setPose(-28, -46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, -35, 1100, {.maxSpeed = 96});
+    chassis.moveToPoint(-42, -34, 1100, {.maxSpeed = 96});
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
-    chassis.moveToPoint(-13, -34, 3000);
-    pros::delay(300);
+    chassis.moveToPoint(-13, -33, 3000);
+    pros::delay(250);
     deactivate_right_descore();
 
 }
@@ -574,8 +583,8 @@ void blue_right_long() {
 
     //move to balls and intake
     chassis.moveToPoint(-34, -16.935, 1000, {.maxSpeed = 96}, false);
-    chassis.turnToPoint(-20, -25, 500);
-    chassis.moveToPoint(-20, -25, 2500, {.maxSpeed = 24});
+    chassis.turnToPoint(-20, -24, 500);
+    chassis.moveToPoint(-20, -24, 2500, {.maxSpeed = 24});
 
     //move to wall loader and intake
     chassis.turnToPoint(-45, -50, 500);
@@ -583,22 +592,21 @@ void blue_right_long() {
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
     activate_intake(true);
-    chassis.moveToPoint(-60, -50, 500, {.maxSpeed = 80}, false);
-    chassis.turnToHeading(265, 100);
-    chassis.turnToHeading(275, 100);
-    chassis.turnToHeading(265, 100);
-    chassis.turnToHeading(275, 100);
-    chassis.turnToHeading(265, 100);
-    chassis.turnToHeading(275, 100);
-    chassis.turnToHeading(265, 100);
-    chassis.turnToHeading(275, 100);
-    chassis.turnToHeading(265, 100);
-    chassis.turnToHeading(275, 100);
-    chassis.turnToHeading(270, 100);
-    //pros::delay(600);
+    chassis.moveToPoint(-56, -50, 500, {.maxSpeed = 70}, false);
+
+    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -50, 150);
 
     //move to high goal and score
-    chassis.moveToPoint(-24, -51, 1500, {.forwards = false, .maxSpeed = 90}, false);
+    chassis.moveToPoint(-23, -51, 1500, {.forwards = false, .maxSpeed = 90}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(2500);
@@ -606,12 +614,13 @@ void blue_right_long() {
     //reset position and move to descore
     chassis.setPose(-28, -46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, -35, 1500, {.maxSpeed = 96});
+    chassis.moveToPoint(-42, -34, 1100, {.maxSpeed = 96});
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
-    chassis.moveToPoint(-13, -34, 10000);
-    pros::delay(300);
+    chassis.moveToPoint(-13, -33, 3000);
+    pros::delay(250);
     deactivate_right_descore();
+    scoring_piston.retract();
 }
 
 void blue_left() {
@@ -627,7 +636,7 @@ void blue_left() {
 
     //go to mid goal
     chassis.turnToHeading(-45, 500);
-    chassis.moveToPoint(-10, 13, 750, {.forwards = false, .maxSpeed = 80}, false);
+    chassis.moveToPoint(-10, 14, 750, {.forwards = false, .maxSpeed = 80}, false);
     score_intake("mid");
     pros::delay(1500);
     stop_all_intake_motors();
@@ -637,16 +646,17 @@ void blue_left() {
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
     activate_intake(true);
-    chassis.moveToPoint(-60, 50, 500, {.maxSpeed = 80}, false);
-    chassis.turnToHeading(265, 100);
+    chassis.moveToPoint(-54, 50, 1100, {.maxSpeed = 80}, false);
+    
+    /*chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
-    chassis.turnToHeading(270, 100);
-    //pros::delay(600);
+    chassis.turnToHeading(270, 100);*/
+    pros::delay(600);
 
     //move to high goal and score
     chassis.moveToPoint(-24, 51, 1400, {.forwards = false, .maxSpeed = 90}, false);
@@ -660,8 +670,8 @@ void blue_left() {
     chassis.moveToPoint(-42, 59, 1100, {.maxSpeed = 96});
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
-    chassis.moveToPoint(-13, 59, 3000);
-    pros::delay(300);
+    chassis.moveToPoint(-13, 60, 10000);
+    pros::delay(250);
     deactivate_right_descore();
 }
 
@@ -682,8 +692,8 @@ void blue_left_long() {
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
     activate_intake(true);
-    chassis.moveToPoint(-60, 48, 500, {.maxSpeed = 80}, false);
-    chassis.turnToHeading(265, 100);
+    chassis.moveToPoint(-54, 48, 1100, {.maxSpeed = 80}, false);
+    /*chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
@@ -693,8 +703,8 @@ void blue_left_long() {
     chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
-    chassis.turnToHeading(270, 100);
-    //pros::delay(600);
+    chassis.turnToHeading(270, 100);*/
+    pros::delay(600);
 
     //move to high goal and score
     chassis.moveToPoint(-24, 49, 1500, {.forwards = false, .maxSpeed = 90}, false);
@@ -709,46 +719,79 @@ void blue_left_long() {
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
     chassis.moveToPoint(-13, 59, 10000);
-    pros::delay(300);
+    pros::delay(250);
     deactivate_right_descore();
 }
 
 void auton_skills() {
-    //without rejection
     chassis.setPose(-62.125, -16.935, 90);
     chassis.moveToPoint(-46.379, -16.935, 750);
     chassis.turnToHeading(180, 500);
-    chassis.moveToPoint(-46.379, -46.935, 1000, {.maxSpeed = 96});
+    chassis.moveToPoint(-46.379, -50, 1000, {.maxSpeed = 96});
     chassis.turnToHeading(270, 500);
     activate_wall_loading();
     activate_intake(true);
-    chassis.moveToPoint(-60.125, -46.935, 500, {}, false);
-    pros::delay(2000);
-    chassis.moveToPoint(-53.487, -46.935, 500, {.forwards = false}, false);
+    chassis.moveToPoint(-56, -50, 500, {}, false);
+
+    chassis.moveToPoint(-54, -50, 150);
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-54, -50, 150);
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-54, -50, 150);
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-54, -50, 150);
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-54, -50, 150);
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-54, -50, 150);
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-54, -50, 150);
+    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-54, -50, 150);
+
+    chassis.moveToPoint(-40, -50, 1000, {.forwards = false}, false);
     deactivate_wall_loading();
     stop_intake();
     chassis.turnToHeading(180, 500);
-    chassis.moveToPoint(-53.487, -61.162, 500, {.maxSpeed = 96});
+    chassis.moveToPoint(-53, -61, 500, {.maxSpeed = 96});
     chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(34.247, -61.162, 3000, {.maxSpeed = 96});
+    chassis.moveToPoint(50, -61, 3000, {.maxSpeed = 96});
     chassis.turnToHeading(0, 500);
-    chassis.moveToPoint(34.247, -46.935, 500, {.maxSpeed = 96});
+    chassis.moveToPoint(50, -50, 500, {.maxSpeed = 96});
     chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(30.125, -46.935, 500, {.forwards = false, .maxSpeed = 96}, false);
+    chassis.moveToPoint(40, -50, 1000, {.forwards = false, .maxSpeed = 96}, false);
     score_intake("high");
     activate_wall_loading();
-    pros::delay(3000);
+    pros::delay(4000);
     stop_scoring();
 
-    chassis.setPose(30.125, -46.935, 90);
-    chassis.moveToPoint(60.125, -46.935, 1000, {.maxSpeed = 96}, false);
-    pros::delay(2000);
-    chassis.moveToPoint(30.125, -46.935,1000, {.forwards = false, .maxSpeed = 96}, false);
+    chassis.setPose(30, -50, 90);
+    chassis.moveToPoint(54, -50, 1000, {.maxSpeed = 96}, false);
+
+    chassis.moveToPoint(52, -50, 150);
+    chassis.moveToPoint(54, -50, 150);
+    chassis.moveToPoint(52, -50, 150);
+    chassis.moveToPoint(54, -50, 150);
+    chassis.moveToPoint(52, -50, 150);
+    chassis.moveToPoint(52, -50, 150);
+    chassis.moveToPoint(54, -50, 150);
+    chassis.moveToPoint(52, -50, 150);
+    chassis.moveToPoint(54, -50, 150);
+    chassis.moveToPoint(52, -50, 150);
+    chassis.moveToPoint(54, -50, 150);
+    chassis.moveToPoint(52, -50, 150);
+    chassis.moveToPoint(54, -50, 150);
+    chassis.moveToPoint(52, -50, 150);
+    chassis.moveToPoint(54, -50, 150);
+
+    chassis.moveToPoint(28, -50,1500, {.forwards = false, .maxSpeed = 96}, false);
     score_intake("high");
     deactivate_wall_loading();
-    pros::delay(3000);
+    pros::delay(4000);
     stop_all_intake_motors();
-    chassis.setPose(30.125, -46.935, 90);
+
+
+    chassis.setPose(30, -46, 90);
     chassis.moveToPoint(34.247, -46.935, 500, {.maxSpeed = 96});
     chassis.turnToPoint(28.43, -34.164, 500);
     chassis.moveToPoint(28.43, -34.164, 750, {.minSpeed = 24, .earlyExitRange = 1});
@@ -812,12 +855,18 @@ void auton_skills() {
     
 }
 
+void do_nothing_auton() {
+    chassis.setPose(0,0,0);
+    chassis.moveToPoint(0, 4, 2000);
+}
+
 rd::Selector selector({
     {"Right", blue_right},
     {"Left", red_left},
     {"Right Long", blue_right_long},
     {"Left Long", blue_left_long},
-    {"Auton Skills", auton_skills}
+    {"Auton Skills", auton_skills},
+    {"Do Nothing", do_nothing_auton}
 });
 
 
@@ -834,7 +883,7 @@ rd::Selector selector({
 
 void initialize() {
     chassis.calibrate();
-    team_image.focus();
+    selector.focus();
     //pros::Task run_auto_rejector(auto_reject);
     //pros::Task run_stop_intake_stalling(stop_intake_stalling);
 
@@ -887,7 +936,8 @@ void competition_initialize() {
 
 
 void autonomous() {
-    selector.run_auton();
+    //selector.run_auton();
+    blue_right_long();
 }
 
 /**
@@ -933,6 +983,7 @@ void opcontrol() {
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
             stop_all_intake_motors();
+            scoring_piston.retract();
         }
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
