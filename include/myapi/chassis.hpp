@@ -1,6 +1,6 @@
 #pragma once
 #include "api.h"
-#include "lemlib/api.hpp"
+#include "lemlib/api.hpp" // IWYU pragma: keep
 
 // Changed the left motors to be all the same direction and right motors in the same direction as well. Be happy. -normalperson543
 inline pros::MotorGroup left_motors({-1, -2, -3}, pros::MotorGearset::blue); // left motors on ports 1, 2, 3 
@@ -8,9 +8,9 @@ inline pros::MotorGroup right_motors({4, 5, 6}, pros::MotorGearset::blue); // ri
 // drivetrain settings
 inline lemlib::Drivetrain drivetrain(&left_motors, // left motor group
                               &right_motors, // right motor group
-                              12.8011811, // 12.8 inch track width
+                              11.25, // 11.3125 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
-                              360, // drivetrain rpm is 360
+                              450, // drivetrain rpm is 360
                               2 // horizontal drift is 2 (for now)
 );
 
@@ -34,10 +34,10 @@ inline pros::Rotation rotation_sensor_horizontal(-13);
 inline pros::Rotation rotation_sensor_vertical(-12);
 
 // horizontal tracking wheel
-inline lemlib::TrackingWheel horizontal_tracking_wheel(&rotation_sensor_horizontal, lemlib::Omniwheel::NEW_2, 1.3122);
+inline lemlib::TrackingWheel horizontal_tracking_wheel(&rotation_sensor_horizontal, lemlib::Omniwheel::NEW_2, -0.51);
 
 // vertical tracking wheel
-inline lemlib::TrackingWheel vertical_tracking_wheel(&rotation_sensor_vertical, ::lemlib::Omniwheel::NEW_2, 0.7677);
+inline lemlib::TrackingWheel vertical_tracking_wheel(&rotation_sensor_vertical, ::lemlib::Omniwheel::NEW_2, 0.06);
 
 // Odom Sensors
 inline lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
@@ -60,15 +60,15 @@ inline lemlib::ControllerSettings lateral_controller(14.1, // proportional gain 
 );
 
 // angular PID controller
-inline lemlib::ControllerSettings angular_controller(2.5, // proportional gain (kP)
+inline lemlib::ControllerSettings angular_controller(1.5, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              15, // derivative gain (kD)
-                                              3, // anti windup
-                                              1, // small error range, in inches
-                                              100, // small error range timeout, in milliseconds
-                                              3, // large error range, in inches
-                                              500, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew) // maximum acceleration (slew)
+                                              10, // derivative gain (kD)
+                                              0, // anti windup
+                                              0, // small error range, in inches
+                                              0, // small error range timeout, in milliseconds
+                                              0, // large error range, in inches
+                                              0, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)
 );
 //chassis definition
 inline lemlib::Chassis chassis(drivetrain, // drivetrain settings

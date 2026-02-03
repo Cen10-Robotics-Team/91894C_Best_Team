@@ -1,6 +1,5 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
-#include <string>
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -10,6 +9,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
 
 void initialize() {
     chassis.calibrate();
@@ -57,7 +57,8 @@ void competition_initialize() {
 
 void autonomous() {
     //selector.run_auton();
-    blue_right_long();
+    pid_auton();
+    activate_intake(false);
 }
 
 /**
