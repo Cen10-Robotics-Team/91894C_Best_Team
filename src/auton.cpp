@@ -469,7 +469,8 @@ void do_nothing_auton() {
 }
 
 void pid_auton() {
-    chassis.turnToHeading(180, 3000);
-    chassis.turnToHeading(270, 3000);
-    chassis.turnToHeading(0, 3000);
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(180, 5000);
+    chassis.turnToHeading(270, 5000);
+    chassis.turnToHeading(0, 5000);
 }

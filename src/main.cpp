@@ -2,6 +2,9 @@
 #include "lemlib/api.hpp" // IWYU pragma: keep
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
+float errorMoves[10] = {5, 10, 15, 20, 25, 30, 35, 40, 45, 48};
+int i = 0;
+
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -14,9 +17,10 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 void initialize() {
     chassis.calibrate();
     selector.focus();
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     //pros::Task run_auto_rejector(auto_reject);
     //pros::Task run_stop_intake_stalling(stop_intake_stalling);
-    //pros::Task run_coordinate_task(coordinate_task);
+    pros::Task run_coordinate_task(coordinate_task);
 }
 
 /**
@@ -106,6 +110,7 @@ void opcontrol() {
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
             stop_all_intake_motors();
             scoring_piston.retract();
+            
         }
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
@@ -121,7 +126,8 @@ void opcontrol() {
         }
 
         /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-            toggle_auto_reject();
+            //toggle_auto_reject();
+            chassis.moveToPoint(chassis.getPose().x, errorMoves[i], 2000);
         }*/
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
