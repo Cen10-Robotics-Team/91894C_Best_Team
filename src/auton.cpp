@@ -1,3 +1,4 @@
+#include "lemlib/chassis/chassis.hpp"
 #include "main.h"
 
 void blue_right_mid() {
@@ -469,8 +470,6 @@ void do_nothing_auton() {
 }
 
 void pid_auton() {
-    chassis.setPose(0, 0, 0);
-    chassis.turnToHeading(180, 5000);
-    chassis.turnToHeading(270, 5000);
-    chassis.turnToHeading(0, 5000);
-}
+    chassis.setPose(0,0,0); 
+    chassis.moveToPoint(0,24,100000);   
+};   
