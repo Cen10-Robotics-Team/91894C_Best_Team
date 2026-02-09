@@ -3,7 +3,6 @@
 
 inline pros::Motor intake_motor_1(20, pros::MotorGearset::green);
 inline pros::Motor intake_motor_2(19, pros::MotorGearset::green);
-inline pros::Motor intake_motor_3(18, pros::MotorGearset::green);
 inline pros::Motor scoring_motor(17, pros::MotorGearset::green);
 inline pros::Optical color_sensor(10);
 

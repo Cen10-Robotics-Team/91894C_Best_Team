@@ -3,13 +3,12 @@
 void activate_intake(bool direction){
     if(direction) {
         intake_motor_1.move(127);
-        intake_motor_2.move(127);
-        intake_motor_3.move(127);
+        intake_motor_2.move(-127);
+        
 
     } else {
         intake_motor_1.move(-127);  
-        intake_motor_2.move(-127);
-        intake_motor_3.move(-127);
+        intake_motor_2.move(127);
         
     }
     intaking = true;
@@ -25,7 +24,7 @@ void intake_balls() {
 void stop_intake() {
     intake_motor_1.brake();
     intake_motor_2.brake();
-    intake_motor_3.brake();
+
 
     intaking = false;
 }
@@ -49,22 +48,14 @@ void score_intake(std::string goal) {
     } else if (goal == "mid") {
         activate_mid_scoring();
         scoring_motor.move(-127);
-        pros::delay(200);
-        intake_motor_3.move(127);
-        pros::delay(200);
         intake_motor_2.move(127);
-        pros::delay(200);
         intake_motor_1.move(127);
         scoring = true;
         intaking = true;
     } else if (goal == "high") {
         activate_upper_scoring();
         scoring_motor.move(-127);
-        pros::delay(200);
-        intake_motor_3.move(127);
-        pros::delay(200);
         intake_motor_2.move(127);
-        pros::delay(200);
         intake_motor_1.move(127);
         scoring = true;
         intaking = true;
@@ -120,12 +111,12 @@ void stop_intake_stalling() {
                 intake_motor_2.move(target_velocity);
             }
 
-            if(intake_motor_3.get_current_draw() > 2.0 && intake_motor_3.get_actual_velocity() < 10) {
-                int target_velocity = intake_motor_3.get_target_velocity();
-                intake_motor_3.move(-1 * target_velocity);
-                pros::delay(50);
-                intake_motor_3.move(target_velocity);
-            }
+            //if(intake_motor_3.get_current_draw() > 2.0 && intake_motor_3.get_actual_velocity() < 10) {
+              //  int target_velocity = intake_motor_3.get_target_velocity();
+                //intake_motor_3.move(-1 * target_velocity);
+                //pros::delay(50);
+                //intake_motor_3.move(target_velocity);
+            //}
         }
 
         if(scoring) {
