@@ -61,7 +61,7 @@ void competition_initialize() {
 
 void autonomous() {
     //selector.run_auton();
-    blue_right();
+    blue_left_long();
     //activate_intake(false);
 }
 

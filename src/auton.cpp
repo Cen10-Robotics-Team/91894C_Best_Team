@@ -63,23 +63,23 @@ void blue_right_all_blocks() {
 
 void blue_right_awp() {
     
-    chassis.setPose(-62.125, -16.935, 90);
+    chassis.setPose(-61.625, -16.185, 90);
     alliance_color = "blue";
     console.println("This is blue right awp");
     activate_intake(true);
-    chassis.moveToPoint(-47.125, -16.935, 500);
+    chassis.moveToPoint(-45, -16.185, 500);
     chassis.turnToPoint(-28.256, 12.119, 500);
-    chassis.moveToPoint(-28, 12.119, 750, {.maxSpeed = 96, .minSpeed = 32, .earlyExitRange = 1});
+    chassis.moveToPoint(-28, 12.119, 750);
     chassis.moveToPoint(-22.103, 21.951, 2500, {.maxSpeed = 32});
-    chassis.turnToHeading(-135, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE}, false);
+    chassis.turnToHeading(-135, 500);
 
-    chassis.moveToPoint(-12.785, 12.501, 500, {.forwards = false, .maxSpeed = 96}, false);
+    chassis.moveToPoint(-12.785, 12.501, 500, {}, false);
     score_intake("mid");
     pros::delay(1000);
     stop_all_intake_motors();
     chassis.moveToPoint(-16.889, 16.468, 500);
     chassis.turnToPoint(-20.526, -11.399, 500);
-    chassis.moveToPoint(-20.526, -11.399, 750, {.minSpeed = 32, .earlyExitRange = 1});
+    chassis.moveToPoint(-20.526, -11.399, 750);
     chassis.moveToPoint(-21.953, -22.094, 2500, {.maxSpeed = 32});
     chassis.turnToPoint(-12.785, -12.501, 500);
     chassis.moveToPoint(-12.785, -12.501, 500, {}, false);
@@ -141,7 +141,7 @@ void blue_right() {
     chassis.turnToPoint(-11, -17, 750);
     chassis.moveToPoint(-11, -17, 750, {}, false);
     score_intake("low");
-    pros::delay(1500);
+    pros::delay(1000);
     stop_all_intake_motors();
 
     //move to wall loader and intake
@@ -172,12 +172,12 @@ void blue_right() {
     chassis.moveToPoint(-23, -50, 1500, {.forwards = false}, false);
     deactivate_wall_loading();
     score_intake("high");
-    pros::delay(1500);
+    pros::delay(1000);
 
     //reset position and move to descore
     chassis.setPose(-28, -46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, -34, 1100);
+    chassis.moveToPoint(-42, -34, 1000);
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
     chassis.moveToPoint(-13, -33, 3000);
@@ -187,37 +187,45 @@ void blue_right() {
 }
 
 void blue_right_long() {
-    chassis.setPose(-62.125, -16.935, 90);
+    chassis.setPose(-61.625, -16.185, 90);
     alliance_color = "blue";
     console.println("This is blue right long");
     activate_intake(true);
 
     //move to balls and intake
-    chassis.moveToPoint(-34, -16.935, 1000, {}, false);
-    chassis.turnToPoint(-20, -24, 500);
-    chassis.moveToPoint(-20, -24, 2500, {.maxSpeed = 24});
+    chassis.moveToPoint(-34, -16.185, 1000, {}, false);
+    chassis.turnToPoint(-18, -26, 500);
+    chassis.moveToPoint(-18, -26, 2000, {.maxSpeed = 36});
+
 
     //move to wall loader and intake
-    chassis.turnToPoint(-45, -50, 500);
-    chassis.moveToPoint(-45, -50, 1500, {}, false);
+    chassis.turnToPoint(-45, -49, 500);
+    chassis.moveToPoint(-45, -49, 1500, {}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
     activate_intake(true);
-    chassis.moveToPoint(-56, -50, 500, {.maxSpeed = 70}, false);
+    chassis.moveToPoint(-56, -49, 500, {.maxSpeed = 70}, false);
 
-    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-52, -50, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, -50, 150);
+    chassis.moveToPoint(-52, -49, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -49, 150);
+    chassis.moveToPoint(-52, -49, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -49, 150);
+    chassis.moveToPoint(-52, -49, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -49, 150);
+    chassis.moveToPoint(-52, -49, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, -49, 150);
+    
+    
+    /*chassis.turnToHeading(275, 100);
+    chassis.turnToHeading(265, 100);
+    chassis.turnToHeading(275, 100);
+    chassis.turnToHeading(265, 100);
+    chassis.turnToHeading(275, 100);
+    chassis.turnToHeading(270, 100);*/
+    //pros::delay(600);
 
     //move to high goal and score
-    chassis.moveToPoint(-23, -51, 1500, {.forwards = false}, false);
+    chassis.moveToPoint(-23, -49, 1500, {.forwards = false}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(2500);
@@ -225,111 +233,123 @@ void blue_right_long() {
     //reset position and move to descore
     chassis.setPose(-28, -46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, -34, 1100, {});
+    chassis.moveToPoint(-42, -34, 1000);
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
     chassis.moveToPoint(-13, -33, 3000);
     pros::delay(250);
     deactivate_right_descore();
-    scoring_piston.retract();
 }
 
 void blue_left() {
     //right_long_plus_mid path
-    chassis.setPose(-62.125, 16.935, 90);
+    chassis.setPose(-61.625, 16.185, 90);
     alliance_color = "blue";
     console.println("This is blue left long + mid ");
     activate_intake(true);
-    //move to balls and intake
-    chassis.moveToPoint(-34, 16.935, 1000, {.maxSpeed = 96}, false);
-    chassis.turnToPoint(-20, 25, 500);
-    chassis.moveToPoint(-20, 25, 2300, {.maxSpeed = 24});
 
-    //go to mid goal
-    chassis.turnToHeading(-45, 500);
-    chassis.moveToPoint(-10, 14, 750, {.forwards = false, .maxSpeed = 80}, false);
-    score_intake("mid");
-    pros::delay(1500);
+    //move to balls and intake
+    chassis.moveToPoint(-34, 16.185, 1000, {}, false);
+    chassis.turnToPoint(-18, 26, 500);
+    chassis.moveToPoint(-18, 26, 2000, {.maxSpeed = 36});
+
+    //go to low goal
+    chassis.turnToPoint(-11, 17, 750, {.forwards = false});
+    chassis.moveToPoint(-11, 17, 750, {.forwards = false}, false);
+    score_intake("low");
+    pros::delay(1000);
     stop_all_intake_motors();
 
     //move to wall loader and intake
-    chassis.moveToPoint(-45, 50, 1400, { .maxSpeed = 96}, false);
+    chassis.turnToPoint(-45, 50, 500);
+    chassis.moveToPoint(-45, 50, 1500, {}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
     activate_intake(true);
-    chassis.moveToPoint(-54, 50, 1100, {.maxSpeed = 80}, false);
+    chassis.moveToPoint(-56, 50, 500, {.maxSpeed = 70}, false);
+
+    chassis.moveToPoint(-52, 50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, 50, 150);
+    chassis.moveToPoint(-52, 50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, 50, 150);
+    chassis.moveToPoint(-52, 50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, 50, 150);
     
-    /*chassis.turnToHeading(265, 100);
-    chassis.turnToHeading(275, 100);
+    
+    /*chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
-    chassis.turnToHeading(265, 100);
     chassis.turnToHeading(270, 100);*/
-    pros::delay(600);
+    //pros::delay(600);
 
     //move to high goal and score
-    chassis.moveToPoint(-24, 51, 1400, {.forwards = false, .maxSpeed = 90}, false);
+    chassis.moveToPoint(-23, 50, 1500, {.forwards = false}, false);
     deactivate_wall_loading();
     score_intake("high");
-    pros::delay(1400);
+    pros::delay(1000);
 
     //reset position and move to descore
     chassis.setPose(-28, 46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, 59, 1100, {.maxSpeed = 96});
+    chassis.moveToPoint(-42, 60, 1000);
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
-    chassis.moveToPoint(-13, 60, 10000);
+    chassis.moveToPoint(-13, 61, 3000);
     pros::delay(250);
     deactivate_right_descore();
 }
 
 void blue_left_long() {
     //right_long_plus_mid path
-    chassis.setPose(-62.125, 16.935, 90);
+    chassis.setPose(-61.625, 16.185, 90);
     alliance_color = "blue";
     console.println("This is blue left long");
     activate_intake(true);
+
     //move to balls and intake
-    chassis.moveToPoint(-34, 16.935, 1500, {.maxSpeed = 96}, false);
-    chassis.turnToPoint(-20, 25, 500);
-    chassis.moveToPoint(-20, 25, 2500, {.maxSpeed = 24});
+    chassis.moveToPoint(-34, 16.185, 1000, {}, false);
+    chassis.turnToPoint(-18, 26, 500);
+    chassis.moveToPoint(-18, 26, 2000, {.maxSpeed = 36});
 
     //move to wall loader and intake
-    chassis.turnToPoint(-45, 48, 500);
-    chassis.moveToPoint(-45, 48, 1500, { .maxSpeed = 96}, false);
+    chassis.turnToPoint(-45, 50, 500);
+    chassis.moveToPoint(-45, 50, 1500, {}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
     activate_intake(true);
-    chassis.moveToPoint(-54, 48, 1100, {.maxSpeed = 80}, false);
-    /*chassis.turnToHeading(265, 100);
-    chassis.turnToHeading(275, 100);
-    chassis.turnToHeading(265, 100);
-    chassis.turnToHeading(275, 100);
-    chassis.turnToHeading(265, 100);
-    chassis.turnToHeading(275, 100);
+    chassis.moveToPoint(-56, 50, 500, {.maxSpeed = 70}, false);
+
+    chassis.moveToPoint(-52, 50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, 50, 150);
+    chassis.moveToPoint(-52, 50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, 50, 150);
+    chassis.moveToPoint(-52, 50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-56, 50, 150);
+    
+    
+    /*chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
     chassis.turnToHeading(265, 100);
     chassis.turnToHeading(275, 100);
     chassis.turnToHeading(270, 100);*/
-    pros::delay(600);
+    //pros::delay(600);
 
     //move to high goal and score
-    chassis.moveToPoint(-24, 49, 1500, {.forwards = false, .maxSpeed = 90}, false);
+    chassis.moveToPoint(-23, 50, 1500, {.forwards = false}, false);
     deactivate_wall_loading();
     score_intake("high");
-    pros::delay(2500);
+    pros::delay(1000);
 
     //reset position and move to descore
     chassis.setPose(-28, 46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, 59, 1500, {.maxSpeed = 96});
+    chassis.moveToPoint(-42, 60, 1000);
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
-    chassis.moveToPoint(-13, 59, 10000);
+    chassis.moveToPoint(-13, 61, 3000);
     pros::delay(250);
     deactivate_right_descore();
 }
