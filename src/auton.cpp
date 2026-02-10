@@ -133,19 +133,19 @@ void blue_right() {
     activate_intake(true);
 
     //move to balls and intake
-    chassis.moveToPoint(-34, -16.935, 1000, {.maxSpeed = 96}, false);
+    chassis.moveToPoint(-34, -16.935, 1000, {}, false);
     chassis.turnToPoint(-20, -24, 500);
     chassis.moveToPoint(-20, -24, 2500, {.maxSpeed = 24});
 
     //go to low goal
     chassis.turnToPoint(-11, -17, 750);
-    chassis.moveToPoint(-11, -17, 750, {.maxSpeed = 80}, false);
+    chassis.moveToPoint(-11, -17, 750, {}, false);
     score_intake("low");
     pros::delay(1500);
     stop_all_intake_motors();
 
     //move to wall loader and intake
-    chassis.moveToPoint(-45, -50, 1500, {.forwards = false, .maxSpeed = 96}, false);
+    chassis.moveToPoint(-45, -50, 1500, {.forwards = false}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
     activate_intake(true);
@@ -168,7 +168,7 @@ void blue_right() {
     //pros::delay(600);
 
     //move to high goal and score
-    chassis.moveToPoint(-23, -51, 1500, {.forwards = false, .maxSpeed = 90}, false);
+    chassis.moveToPoint(-23, -51, 1500, {.forwards = false}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(1500);
@@ -176,7 +176,7 @@ void blue_right() {
     //reset position and move to descore
     chassis.setPose(-28, -46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, -34, 1100, {.maxSpeed = 96});
+    chassis.moveToPoint(-42, -34, 1100);
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
     chassis.moveToPoint(-13, -33, 3000);
@@ -192,13 +192,13 @@ void blue_right_long() {
     activate_intake(true);
 
     //move to balls and intake
-    chassis.moveToPoint(-34, -16.935, 1000, {.maxSpeed = 96}, false);
+    chassis.moveToPoint(-34, -16.935, 1000, {}, false);
     chassis.turnToPoint(-20, -24, 500);
     chassis.moveToPoint(-20, -24, 2500, {.maxSpeed = 24});
 
     //move to wall loader and intake
     chassis.turnToPoint(-45, -50, 500);
-    chassis.moveToPoint(-45, -50, 1500, {.maxSpeed = 96}, false);
+    chassis.moveToPoint(-45, -50, 1500, {}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
     activate_intake(true);
@@ -216,7 +216,7 @@ void blue_right_long() {
     chassis.moveToPoint(-56, -50, 150);
 
     //move to high goal and score
-    chassis.moveToPoint(-23, -51, 1500, {.forwards = false, .maxSpeed = 90}, false);
+    chassis.moveToPoint(-23, -51, 1500, {.forwards = false}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(2500);
@@ -224,7 +224,7 @@ void blue_right_long() {
     //reset position and move to descore
     chassis.setPose(-28, -46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, -34, 1100, {.maxSpeed = 96});
+    chassis.moveToPoint(-42, -34, 1100, {});
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
     chassis.moveToPoint(-13, -33, 3000);
