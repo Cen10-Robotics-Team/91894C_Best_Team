@@ -127,15 +127,15 @@ void blue_left_awp() {
 
 void blue_right() {
     //right_long_plus_mid path
-    chassis.setPose(-62.125, -16.935, 90);
+    chassis.setPose(-61.625, -16.185, 90);
     alliance_color = "blue";
     console.println("This is blue right long + mid ");
     activate_intake(true);
 
     //move to balls and intake
-    chassis.moveToPoint(-34, -16.935, 1000, {}, false);
-    chassis.turnToPoint(-20, -24, 500);
-    chassis.moveToPoint(-20, -24, 2500, {.maxSpeed = 24});
+    chassis.moveToPoint(-34, -16.185, 1000, {}, false);
+    chassis.turnToPoint(-18, -26, 500);
+    chassis.moveToPoint(-18, -26, 2000, {.maxSpeed = 36});
 
     //go to low goal
     chassis.turnToPoint(-11, -17, 750);
@@ -145,6 +145,7 @@ void blue_right() {
     stop_all_intake_motors();
 
     //move to wall loader and intake
+    chassis.turnToPoint(-45, -50, 500, {.forwards = false});
     chassis.moveToPoint(-45, -50, 1500, {.forwards = false}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
@@ -168,7 +169,7 @@ void blue_right() {
     //pros::delay(600);
 
     //move to high goal and score
-    chassis.moveToPoint(-23, -51, 1500, {.forwards = false}, false);
+    chassis.moveToPoint(-23, -50, 1500, {.forwards = false}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(1500);
