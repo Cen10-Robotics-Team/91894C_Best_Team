@@ -68,38 +68,40 @@ void blue_right_awp() {
     console.println("This is blue right awp");
     activate_intake(true);
     chassis.moveToPoint(-45, -16.185, 500);
-    chassis.turnToPoint(-28.256, 12.119, 500);
-    chassis.moveToPoint(-28, 12.119, 750);
-    chassis.moveToPoint(-22.103, 21.951, 2500, {.maxSpeed = 32});
-    chassis.turnToHeading(-135, 500);
+    chassis.turnToPoint(-28, 12, 500);
+    chassis.moveToPoint(-28, 12, 750);
+    chassis.moveToPoint(-21, 24, 1750, {.maxSpeed = 32});
 
-    chassis.moveToPoint(-12.785, 12.501, 500, {}, false);
+    chassis.turnToPoint(-9.5, 16, 500, {.forwards = false});
+    chassis.moveToPoint(-9.5, 16, 500, {.forwards = false}, false);
     score_intake("mid");
-    pros::delay(1000);
-    stop_all_intake_motors();
-    chassis.moveToPoint(-16.889, 16.468, 500);
-    chassis.turnToPoint(-20.526, -11.399, 500);
-    chassis.moveToPoint(-20.526, -11.399, 750);
-    chassis.moveToPoint(-21.953, -22.094, 2500, {.maxSpeed = 32});
-    chassis.turnToPoint(-12.785, -12.501, 500);
-    chassis.moveToPoint(-12.785, -12.501, 500, {}, false);
+    pros::delay(750);
+    stop_scoring();
+
+    chassis.moveToPoint(-16, 16, 500);
+    chassis.turnToPoint(-19, -11, 500);
+    chassis.moveToPoint(-19, -11, 750);
+    chassis.moveToPoint(-19, -24, 1750, {.maxSpeed = 32});
+
+    chassis.turnToPoint(-10, -15, 500);
+    chassis.moveToPoint(-10, -15, 500, {}, false);
     score_intake("low");
-    pros::delay(1000);
+    pros::delay(750);
     stop_all_intake_motors();
-    chassis.moveToPoint(-47.125, -46.841, 1000, {.forwards = false, .maxSpeed = 96});
+    
+    chassis.moveToPoint(-47, -46, 1000, {.forwards = false});
     chassis.turnToHeading(270, 500, {}, false);
     activate_wall_loading();
-    chassis.moveToPoint(-60.125, -46.935, 500, {});
-    activate_intake(true);
-    pros::delay(500);
-    stop_intake();
-    chassis.moveToPoint(-30.125, -46.935, 750, {.forwards = false, .maxSpeed = 100}, false);
-    score_intake("high");
 
-    chassis.moveToPoint(-35.125, -35.935, 500);
-    chassis.turnToHeading(90, 500, {});
-    activate_right_descore();
-    chassis.moveToPoint(-13.349, -35.935, 1000);
+    activate_intake(true);
+    chassis.moveToPoint(-60, -46, 500, {.maxSpeed = 70}, false);
+    chassis.moveToPoint(-56, -46, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-60, -46, 150);
+    chassis.moveToPoint(-56, -46, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-60, -46, 150);
+  
+    chassis.moveToPoint(-28, -46, 750, {.forwards = false}, false);
+    score_intake("high");
 }
 
 
