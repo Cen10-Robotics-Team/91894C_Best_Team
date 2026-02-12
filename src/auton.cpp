@@ -67,32 +67,39 @@ void blue_right_awp() {
     alliance_color = "blue";
     console.println("This is blue right awp");
     activate_intake(true);
+
+    //move to mid goal balls and intake
     chassis.moveToPoint(-45, -16.185, 500);
     chassis.turnToPoint(-28, 12, 500);
     chassis.moveToPoint(-28, 12, 750);
     chassis.moveToPoint(-21, 24, 1750, {.maxSpeed = 32});
 
+    //move ot mid goal and outtake
     chassis.turnToPoint(-9.5, 16, 500, {.forwards = false});
     chassis.moveToPoint(-9.5, 16, 500, {.forwards = false}, false);
     score_intake("mid");
     pros::delay(750);
     stop_scoring();
 
+    //move to low goal blocks and intake
     chassis.moveToPoint(-16, 16, 500);
     chassis.turnToPoint(-19, -11, 500);
     chassis.moveToPoint(-19, -11, 750);
     chassis.moveToPoint(-19, -24, 1750, {.maxSpeed = 32});
 
+    //move to low goal and outtake
     chassis.turnToPoint(-10, -15, 500);
     chassis.moveToPoint(-10, -15, 500, {}, false);
     score_intake("low");
     pros::delay(750);
     stop_all_intake_motors();
     
+    //move to wall loader
     chassis.moveToPoint(-47, -46, 1000, {.forwards = false});
     chassis.turnToHeading(270, 500, {}, false);
     activate_wall_loading();
 
+    //intake balls from loader
     activate_intake(true);
     chassis.moveToPoint(-60, -46, 500, {.maxSpeed = 70}, false);
     chassis.moveToPoint(-56, -46, 150, {.forwards = false, .maxSpeed = 64});
@@ -100,6 +107,7 @@ void blue_right_awp() {
     chassis.moveToPoint(-56, -46, 150, {.forwards = false, .maxSpeed = 64});
     chassis.moveToPoint(-60, -46, 150);
   
+    //score balls in high goal
     chassis.moveToPoint(-28, -46, 750, {.forwards = false}, false);
     score_intake("high");
 }
