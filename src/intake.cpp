@@ -48,14 +48,14 @@ void score_intake(std::string goal) {
     } else if (goal == "mid") {
         activate_mid_scoring();
         scoring_motor.move(-127);
-        intake_motor_2.move(127);
+        intake_motor_2.move(-127);
         intake_motor_1.move(127);
         scoring = true;
         intaking = true;
     } else if (goal == "high") {
         activate_upper_scoring();
         scoring_motor.move(-127);
-        intake_motor_2.move(127);
+        intake_motor_2.move(-127);
         intake_motor_1.move(127);
         scoring = true;
         intaking = true;
