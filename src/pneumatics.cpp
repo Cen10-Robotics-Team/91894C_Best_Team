@@ -1,10 +1,10 @@
 #include "main.h"
 
-void activate_upper_scoring() {
+void activate_scoring() {
     scoring_piston.extend();
 }
 
-void activate_mid_scoring() {
+void deactivate_scoring() {
     scoring_piston.retract();
 }
 

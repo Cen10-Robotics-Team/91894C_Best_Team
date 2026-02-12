@@ -1,71 +1,9 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "main.h"
 
-void blue_right_mid() {
-    chassis.setPose(-62.125, -16.935, 90);
-    alliance_color = "blue";
-    console.println("This is blue right mid");
-    activate_intake(true);
-    chassis.moveToPoint(-34.377, -21.024, 750, {.minSpeed = 24, .earlyExitRange = 1});
-    chassis.moveToPoint(-23.392, -22.729, 3000, {.maxSpeed = 24});
-    chassis.turnToPoint(-47.125, -46.935, 500);
-    chassis.moveToPoint(-47.125, -46.935, 1500, {.maxSpeed = 112}, false);
-    activate_wall_loading();
-    chassis.turnToHeading(270, 500);
-    activate_intake(true);
-    chassis.moveToPoint(-60.125, -46.935, 1000, {.maxSpeed = 64}, false);
-    pros::delay(500);
-    chassis.moveToPoint(-47.125, -46.935, 1500, {.forwards = false, .maxSpeed = 112});
-    chassis.turnToPoint(-12.785, -12.501, 500);
-    chassis.moveToPoint(-12.785, -12.501, 1500, {}, false);
-    score_intake("low");
-    pros::delay(3000);
-    stop_all_intake_motors();
-}
 
-void blue_right_all_blocks() {
-    chassis.setPose(-62.125, -16.935, 90);
-    alliance_color = "blue";
-    console.println("This is blue right all blocks");
-    activate_intake(true);
-    chassis.moveToPoint(-34.377, -21.024, 750, {.minSpeed = 24, .earlyExitRange = 1});
-    chassis.moveToPoint(-23.392, -22.729, 2500, {.maxSpeed = 24});
-    chassis.turnToPoint(-12.785, -12.501, 500);
-    chassis.moveToPoint(-12.785, -12.501, 750, {}, false);
-    score_intake("low");
-    pros::delay(1500);
-    stop_all_intake_motors();
-    chassis.moveToPoint(-15.523, -15.16, 500, {.forwards = false});
-    chassis.turnToPoint(-5.713, -41.182, 500);
-    chassis.moveToPoint(-5.713, -41.182, 750);
-    chassis.moveToPoint(-5.713, -43.182, 500);
-    chassis.moveToPoint(-19.943, -35.953, 750, {.forwards = false});
-
-    chassis.moveToPoint(-47.125, -46.935, 750, {.forwards = false, .maxSpeed = 112}, false);
-    activate_wall_loading();
-    chassis.turnToHeading(270, 500);
-    activate_intake(true);
-    chassis.moveToPoint(-60.125, -46.935, 750, {.maxSpeed = 64}, false);
-    pros::delay(500);
-    chassis.moveToPoint(-30.125, -46.935, 750, {.forwards = false, .maxSpeed = 100}, false);
-    deactivate_wall_loading();
-    score_intake("high");
-    pros::delay(1500);
-    stop_all_intake_motors();
-    //chassis.moveToPoint(-35.125, -46.935, 500, {.maxSpeed = 112});
-    
-    //chassis.turnToHeading(0, 500);
-    chassis.moveToPoint(-35.125, -35.935, 500);
-    chassis.turnToHeading(90, 500, {});
-    activate_right_descore();
-    chassis.moveToPoint(-13.349, -35.935, 1000);
-}
-
-void blue_right_awp() {
-    
+void right_awp_auton() {
     chassis.setPose(-61.625, -16.185, 90);
-    alliance_color = "blue";
-    console.println("This is blue right awp");
     activate_intake(true);
 
     //move to mid goal balls and intake
@@ -113,11 +51,10 @@ void blue_right_awp() {
 }
 
 
-void blue_left_awp() {
+void left_awp_auton() {
     //not tuned
     chassis.setPose(0, 0, 0);
-    alliance_color = "blue";
-    console.println("This is blue left awp");
+
     chassis.moveToPoint(42, 26, 2000, {.maxSpeed = 96});
     chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     chassis.moveToPoint(30, 37, 750, {.maxSpeed = 96}, false);
@@ -135,13 +72,8 @@ void blue_left_awp() {
     pros::delay(1000);
 }
 
-void blue_right() {
-    //6,56
-    //-4,54
-    //right_long_plus_mid path
+void right_auton() {
     chassis.setPose(-61.625, -16.185, 90);
-    alliance_color = "blue";
-    console.println("This is blue right long + mid ");
     activate_intake(true);
 
     //move to balls and intake
@@ -198,10 +130,8 @@ void blue_right() {
 
 }
 
-void blue_right_long() {
+void right_long_auton() {
     chassis.setPose(-61.625, -16.185, 90);
-    alliance_color = "blue";
-    console.println("This is blue right long");
     activate_intake(true);
 
     //move to balls and intake
@@ -253,11 +183,8 @@ void blue_right_long() {
     deactivate_right_descore();
 }
 
-void blue_left() {
-    //right_long_plus_mid path
+void left_auton() {
     chassis.setPose(-61.625, 16.185, 90);
-    alliance_color = "blue";
-    console.println("This is blue left long + mid ");
     activate_intake(true);
 
     //move to balls and intake
@@ -313,11 +240,8 @@ void blue_left() {
     deactivate_right_descore();
 }
 
-void blue_left_long() {
-    //right_long_plus_mid path
+void left_long_auton() {
     chassis.setPose(-61.625, 16.185, 90);
-    alliance_color = "blue";
-    console.println("This is blue left long");
     activate_intake(true);
 
     //move to balls and intake
@@ -364,10 +288,84 @@ void blue_left_long() {
     chassis.moveToPoint(-13, 61, 3000);
     pros::delay(250);
     deactivate_right_descore();
+}   
+
+void red_left() {
+    alliance_color = "red";
+    console.print("This is red left");
+    left_auton();
+}
+
+void red_left_long() {
+    alliance_color = "red";
+    console.print("This is red left long");
+    left_long_auton();
+}
+
+void red_left_awp() {
+    alliance_color = "red";
+    console.print("This is red left AWP");
+    left_awp_auton();
+}
+
+void red_right() {
+    alliance_color = "red";
+    console.print("This is red right");
+    right_auton();
+}
+
+void red_right_long() {
+    alliance_color = "red";
+    console.print("This is red right long");
+    right_long_auton();
+}
+
+void red_right_awp() {
+    alliance_color = "red";
+    console.print("This is red right AWP");
+    right_awp_auton();
+}
+
+void blue_left() {
+    alliance_color = "blue";
+    console.print("This is blue left");
+    left_auton();
+}
+
+void blue_left_long() {
+    alliance_color = "blue";
+    console.print("This is blue left long");
+    left_long_auton();
+}
+
+void blue_left_awp() {
+    alliance_color = "blue";
+    console.print("This is blue left AWP");
+    left_awp_auton();
+}
+
+void blue_right() {
+    alliance_color = "blue";
+    console.print("This is blue right");
+    right_auton();
+}
+
+void blue_right_long() {
+    alliance_color = "blue";
+    console.print("This is blue right long");
+    right_long_auton();
+}
+
+void blue_right_awp() {
+    alliance_color = "blue";
+    console.print("This is blue right AWP");
+    right_awp_auton();
 }
 
 void auton_skills() {
-    chassis.setPose(-62.125, -16.935, 90);
+    chassis.setPose(-61.625, 16.185, 90);
+
+    //move to red right wall loader and intake
     chassis.moveToPoint(-46.379, -16.935, 750);
     chassis.turnToHeading(180, 500);
     chassis.moveToPoint(-46.379, -50, 1000, {.maxSpeed = 96});
@@ -505,4 +503,4 @@ void do_nothing_auton() {
 void pid_auton() {
     chassis.setPose(0,0,0); 
     chassis.moveToPoint(0,24,100000);   
-};   
+};

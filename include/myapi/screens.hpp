@@ -11,12 +11,20 @@ inline rd::Image secret_image(&SecretPhoto, "Secret Image");
 inline rd::Console console;
 
 inline rd::Selector selector({
-    {"Right", blue_right},
-    {"Left", blue_left},
-    {"Right Long", blue_right_long},
-    {"Left Long", blue_left_long},
+    {"Blue Right", blue_right},
+    {"Blue Right Long", blue_right_long},
+    {"Blue Right AWP", blue_right_awp},
+    {"Blue Left", blue_left},
+    {"Blue Left Long", blue_left_long},
+    {"Blue Left AWP", blue_left_awp},
+    {"Red Right", red_right},
+    {"Red Right Long", red_right_long},
+    {"Red Right AWP", red_right_awp},
+    {"Red Left", red_left},
+    {"Red Left Long", red_left_long},
+    {"Red Left AWP", red_left_awp},
     {"Auton Skills", auton_skills},
-    {"Do Nothing", do_nothing_auton}
+    {"Move Forward", do_nothing_auton}
 });
 
 void coordinate_task(void* param);

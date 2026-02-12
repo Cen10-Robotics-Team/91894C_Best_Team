@@ -7,8 +7,8 @@ inline pros::adi::Pneumatics left_descore_piston('b', false);
 inline pros::adi::Pneumatics right_descore_piston('c', false);
 inline pros::adi::Pneumatics wall_load_piston('d', false);
 
-void activate_upper_scoring();
-void activate_mid_scoring();
+void activate_scoring();
+void deactivate_scoring();
 void activate_wall_loading();
 void deactivate_wall_loading();
 void activate_left_descore();

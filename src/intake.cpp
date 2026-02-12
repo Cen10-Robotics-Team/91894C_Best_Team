@@ -14,13 +14,6 @@ void activate_intake(bool direction){
     intaking = true;
 }
 
-void intake_balls() {
-    intake_motor_1.move(127);
-    intake_motor_2.move(127);
-
-    intaking = true;
-}
-
 void stop_intake() {
     intake_motor_1.brake();
     intake_motor_2.brake();
@@ -31,6 +24,7 @@ void stop_intake() {
 
 void stop_scoring() {
     scoring_motor.brake();
+    deactivate_scoring();
 
     scoring = false;
 }
@@ -46,15 +40,15 @@ void score_intake(std::string goal) {
         activate_intake(false);
         scoring = true;
     } else if (goal == "mid") {
-        activate_mid_scoring();
-        scoring_motor.move(-127);
+        activate_scoring();
+        scoring_motor.move(127);
         intake_motor_2.move(-127);
         intake_motor_1.move(127);
         scoring = true;
         intaking = true;
     } else if (goal == "high") {
-        activate_upper_scoring();
-        scoring_motor.move(-127);
+        activate_scoring();
+        scoring_motor.move(127);
         intake_motor_2.move(-127);
         intake_motor_1.move(127);
         scoring = true;
