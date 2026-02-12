@@ -23,7 +23,7 @@ inline lemlib::ExpoDriveCurve throttle_curve(15, // joystick deadband out of 127
 // input curve for steer input during driver control
 inline lemlib::ExpoDriveCurve steer_curve(15, // joystick deadband out of 127
                                   10, // minimum output where drivetrain will move out of 127
-                                  1.003 // expo curve gain
+                                  1.02 // expo curve gain
 );
 
 //inertial sensor on port 11

@@ -126,6 +126,8 @@ void blue_left_awp() {
 }
 
 void blue_right() {
+    //6,56
+    //-4,54
     //right_long_plus_mid path
     chassis.setPose(-61.625, -16.185, 90);
     alliance_color = "blue";
@@ -253,10 +255,10 @@ void blue_left() {
     chassis.turnToPoint(-18, 26, 500);
     chassis.moveToPoint(-18, 26, 2000, {.maxSpeed = 36});
 
-    //go to low goal
+    //go to mid goal
     chassis.turnToPoint(-11, 17, 750, {.forwards = false});
     chassis.moveToPoint(-11, 17, 750, {.forwards = false}, false);
-    score_intake("low");
+    score_intake("mid");
     pros::delay(1000);
     stop_all_intake_motors();
 
@@ -293,10 +295,10 @@ void blue_left() {
     //reset position and move to descore
     chassis.setPose(-28, 46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, 60, 1000);
+    chassis.moveToPoint(-42, 58, 1000);
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
-    chassis.moveToPoint(-13, 61, 3000);
+    chassis.moveToPoint(-13, 59, 3000);
     pros::delay(250);
     deactivate_right_descore();
 }
