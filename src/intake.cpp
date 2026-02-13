@@ -36,12 +36,12 @@ void stop_all_intake_motors() {
 
 void score_intake(std::string goal) {
     if(goal == "low") {
-        scoring_motor.move(127);
+        deactivate_scoring();
         activate_intake(false);
         scoring = true;
     } else if (goal == "mid") {
         activate_scoring();
-        scoring_motor.move(127);
+        scoring_motor.move(-127);
         intake_motor_2.move(-127);
         intake_motor_1.move(127);
         scoring = true;

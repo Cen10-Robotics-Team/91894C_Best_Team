@@ -9,12 +9,12 @@ void right_awp_auton() {
     //move to mid goal balls and intake
     chassis.moveToPoint(-45, -16.185, 500);
     chassis.turnToPoint(-28, 12, 500);
-    chassis.moveToPoint(-28, 12, 750);
+    chassis.moveToPoint(-28, 12, 750, {.minSpeed = 32, .earlyExitRange = 1});
     chassis.moveToPoint(-21, 24, 1750, {.maxSpeed = 32});
 
     //move ot mid goal and outtake
-    chassis.turnToPoint(-9.5, 16, 500, {.forwards = false});
-    chassis.moveToPoint(-9.5, 16, 500, {.forwards = false}, false);
+    chassis.turnToPoint(-9.5, 15, 500, {.forwards = false});
+    chassis.moveToPoint(-9.5, 15, 500, {.forwards = false}, false);
     score_intake("mid");
     pros::delay(750);
     stop_scoring();
@@ -22,11 +22,11 @@ void right_awp_auton() {
     //move to low goal blocks and intake
     chassis.moveToPoint(-16, 16, 500);
     chassis.turnToPoint(-19, -11, 500);
-    chassis.moveToPoint(-19, -11, 750);
+    chassis.moveToPoint(-19, -11, 750, {.minSpeed = 32, .earlyExitRange = 1});
     chassis.moveToPoint(-19, -24, 1750, {.maxSpeed = 32});
 
     //move to low goal and outtake
-    chassis.turnToPoint(-10, -15, 500);
+    chassis.turnToPoint(-10, -14, 500);
     chassis.moveToPoint(-10, -15, 500, {}, false);
     score_intake("low");
     pros::delay(750);
@@ -39,37 +39,64 @@ void right_awp_auton() {
 
     //intake balls from loader
     activate_intake(true);
-    chassis.moveToPoint(-60, -46, 500, {.maxSpeed = 70}, false);
-    chassis.moveToPoint(-56, -46, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-60, -46, 150);
-    chassis.moveToPoint(-56, -46, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-60, -46, 150);
+    chassis.moveToPoint(-60, -47, 250, {}, false);
+    chassis.moveToPoint(-56, -47, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-60, -47, 150);
+    chassis.moveToPoint(-56, -47, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-60, -47, 150);
   
     //score balls in high goal
-    chassis.moveToPoint(-28, -46, 750, {.forwards = false}, false);
+    chassis.moveToPoint(-28, -47, 750, {.forwards = false}, false);
     score_intake("high");
 }
 
 
 void left_awp_auton() {
-    //not tuned
-    chassis.setPose(0, 0, 0);
+    chassis.setPose(-61.625, 16.185, 90);
+    activate_intake(true);
 
-    chassis.moveToPoint(42, 26, 2000, {.maxSpeed = 96});
-    chassis.turnToHeading(-45, 500, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(30, 37, 750, {.maxSpeed = 96}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(45, 22, 500, {.forwards = false});
-    chassis.moveToPoint(-10, 25, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(-135, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(3, 36, 750, {.forwards = false}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(-34, 0, 1500, {.maxSpeed = 96});
-    chassis.turnToHeading(180, 750, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
-    chassis.moveToPoint(-34, -10, 500, {}, false);
-    pros::delay(1000);
-    chassis.moveToPoint(-33, 12, 750, {.forwards = false, .maxSpeed = 100}, false);
-    pros::delay(1000);
+    //move to low goal balls and intake
+    chassis.moveToPoint(-45, 16.185, 500);
+    chassis.turnToPoint(-28, -12, 500);
+    chassis.moveToPoint(-28, -12, 750, {.minSpeed = 32, .earlyExitRange = 1});
+    chassis.moveToPoint(-21, -24, 1750, {.maxSpeed = 32});
+
+    //move ot low goal and outtake
+    chassis.turnToPoint(-9.5, -15, 500);
+    chassis.moveToPoint(-9.5, -15, 500, {}, false);
+    score_intake("low");
+    pros::delay(750);
+    stop_scoring();
+
+    //move to mid goal blocks and intake
+    chassis.moveToPoint(-16, -16, 500, {.forwards = false});
+    chassis.turnToPoint(-19, 11, 500);
+    chassis.moveToPoint(-19, 11, 750, {.minSpeed = 32, .earlyExitRange = 1});
+    chassis.moveToPoint(-19, 24, 1750, {.maxSpeed = 32});
+
+    //move to mid goal and outtake
+    chassis.turnToPoint(-10, 14, 500, {.forwards = false});
+    chassis.moveToPoint(-10, 15, 500, {.forwards = false}, false);
+    score_intake("mid");
+    pros::delay(750);
+    stop_all_intake_motors();
+    
+    //move to wall loader
+    chassis.moveToPoint(-47, 46, 1000);
+    chassis.turnToHeading(270, 500, {}, false);
+    activate_wall_loading();
+
+    //intake balls from loader
+    activate_intake(true);
+    chassis.moveToPoint(-60, 47, 250, {}, false);
+    chassis.moveToPoint(-56, 47, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-60, 47, 150);
+    chassis.moveToPoint(-56, 47, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-60, 47, 150);
+  
+    //score balls in high goal
+    chassis.moveToPoint(-28, 47, 750, {.forwards = false}, false);
+    score_intake("high");
 }
 
 void right_auton() {
@@ -82,8 +109,8 @@ void right_auton() {
     chassis.moveToPoint(-18, -26, 2000, {.maxSpeed = 36});
 
     //go to low goal
-    chassis.turnToPoint(-11, -17, 750);
-    chassis.moveToPoint(-11, -17, 750, {}, false);
+    chassis.turnToPoint(-9, -14, 750);
+    chassis.moveToPoint(-9, -14, 750, {}, false);
     score_intake("low");
     pros::delay(1000);
     stop_all_intake_motors();
@@ -193,8 +220,8 @@ void left_auton() {
     chassis.moveToPoint(-18, 26, 2000, {.maxSpeed = 36});
 
     //go to mid goal
-    chassis.turnToPoint(-11, 17, 750, {.forwards = false});
-    chassis.moveToPoint(-11, 17, 750, {.forwards = false}, false);
+    chassis.turnToPoint(-7, 12, 750, {.forwards = false});
+    chassis.moveToPoint(-7, 12, 750, {.forwards = false}, false);
     score_intake("mid");
     pros::delay(1000);
     stop_all_intake_motors();
