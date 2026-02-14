@@ -20,7 +20,7 @@ void initialize() {
     //chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     //pros::Task run_auto_rejector(auto_reject);
     //pros::Task run_stop_intake_stalling(stop_intake_stalling);
-    pros::Task run_coordinate_task(coordinate_task);
+    //pros::Task run_coordinate_task(coordinate_task);
 }
 
 /**
@@ -60,8 +60,8 @@ void competition_initialize() {
 
 
 void autonomous() {
-    //selector.run_auton();
-    left_awp_auton();
+    selector.run_auton();
+    //left_awp_auton();
     //activate_intake(false);
 }
 
