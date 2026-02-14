@@ -37,12 +37,15 @@ void stop_all_intake_motors() {
 void score_intake(std::string goal) {
     if(goal == "low") {
         deactivate_scoring();
-        activate_intake(false);
+        intake_motor_1.move(-127);
+        pros::delay(100);
+        intake_motor_2.move(127);
         scoring = true;
     } else if (goal == "mid") {
         activate_scoring();
         scoring_motor.move(-127);
         intake_motor_2.move(-127);
+        pros::delay(100);
         intake_motor_1.move(127);
         scoring = true;
         intaking = true;
@@ -50,6 +53,7 @@ void score_intake(std::string goal) {
         activate_scoring();
         scoring_motor.move(127);
         intake_motor_2.move(-127);
+        pros::delay(100);
         intake_motor_1.move(127);
         scoring = true;
         intaking = true;
