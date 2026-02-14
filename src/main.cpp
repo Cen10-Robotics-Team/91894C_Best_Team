@@ -109,7 +109,7 @@ void opcontrol() {
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
             stop_all_intake_motors();
-            scoring_piston.retract();
+            deactivate_scoring();
             
         }
 
