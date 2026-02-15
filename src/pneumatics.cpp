@@ -1,11 +1,11 @@
 #include "main.h"
 
-void activate_scoring() {
-    scoring_piston.extend();
+void activate_upper_scoring() {
+    scoring_piston.retract();
 }
 
-void deactivate_scoring() {
-    scoring_piston.retract();
+void activate_mid_scoring() {
+    scoring_piston.extend();
 }
 
 void activate_wall_loading() {

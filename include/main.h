@@ -41,6 +41,7 @@
 #include "myapi/chassis.hpp"
 #include "myapi/auton.hpp"
 #include "myapi/screens.hpp"
+#include "myapi/custom_positioning.hpp"
 
 /**
  * You should add more #includes here

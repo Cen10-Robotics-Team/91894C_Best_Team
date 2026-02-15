@@ -60,8 +60,8 @@ void competition_initialize() {
 
 
 void autonomous() {
-    selector.run_auton();
-    //left_awp_auton();
+    //selector.run_auton();
+    blue_right_awp();
     //activate_intake(false);
 }
 
@@ -109,7 +109,6 @@ void opcontrol() {
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
             stop_all_intake_motors();
-            deactivate_scoring();
             
         }
 

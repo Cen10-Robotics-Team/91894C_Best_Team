@@ -10,11 +10,12 @@ void right_awp_auton() {
     chassis.moveToPoint(-45, -16.185, 500);
     chassis.turnToPoint(-28, 12, 500);
     chassis.moveToPoint(-28, 12, 750, {.minSpeed = 32, .earlyExitRange = 1});
-    chassis.moveToPoint(-21, 24, 1750, {.maxSpeed = 32});
+    chassis.moveToPoint(-21, 24, 1750, {.maxSpeed = 32}, false);
+    stop_intake();
 
     //move ot mid goal and outtake
     chassis.turnToPoint(-9.5, 15, 500, {.forwards = false});
-    chassis.moveToPoint(-9.5, 15, 500, {.forwards = false}, false);
+    chassis.moveToPoint(-9, 14.5, 500, {.forwards = false}, false);
     score_intake("mid");
     pros::delay(750);
     stop_scoring();
@@ -22,31 +23,35 @@ void right_awp_auton() {
     //move to low goal blocks and intake
     chassis.moveToPoint(-16, 16, 500);
     chassis.turnToPoint(-19, -11, 500);
+    activate_intake(true);
     chassis.moveToPoint(-19, -11, 750, {.minSpeed = 32, .earlyExitRange = 1});
-    chassis.moveToPoint(-19, -24, 1750, {.maxSpeed = 32});
+    chassis.moveToPoint(-19, -24, 1000, {.maxSpeed = 32}, false);
+    stop_intake();
 
     //move to low goal and outtake
-    chassis.turnToPoint(-10, -14, 500);
-    chassis.moveToPoint(-10, -15, 500, {}, false);
+    chassis.turnToPoint(-9.5, -14, 500, {}, false);
+    chassis.moveToPoint(-9.5, -14, 500, {}, false);
     score_intake("low");
     pros::delay(750);
     stop_all_intake_motors();
     
     //move to wall loader
-    chassis.moveToPoint(-47, -46, 1000, {.forwards = false});
-    chassis.turnToHeading(270, 500, {}, false);
+    chassis.turnToPoint(-45, -46, 300, {.forwards = false});
+    chassis.moveToPoint(-45, -46, 1000, {.forwards = false});
     activate_wall_loading();
+    activate_intake(true);
+    chassis.turnToHeading(270, 500, {}, false);
 
     //intake balls from loader
-    activate_intake(true);
-    chassis.moveToPoint(-60, -47, 250, {}, false);
-    chassis.moveToPoint(-56, -47, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-60, -47, 150);
-    chassis.moveToPoint(-56, -47, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-60, -47, 150);
+    chassis.moveToPoint(-61, -46, 250, {}, false);
+    chassis.moveToPoint(-58, -46, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-61, -46, 150);
+    chassis.moveToPoint(-58, -46, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-61, -46, 150);
   
     //score balls in high goal
     chassis.moveToPoint(-28, -47, 750, {.forwards = false}, false);
+    deactivate_wall_loading();
     score_intake("high");
 }
 
@@ -274,7 +279,7 @@ void left_long_auton() {
     //move to balls and intake
     chassis.moveToPoint(-34, 16.185, 1000, {}, false);
     chassis.turnToPoint(-18, 26, 500);
-    chassis.moveToPoint(-18, 26, 2000, {.maxSpeed = 36});
+    chassis.moveToPoint(-18, 26, 2000, {.maxSpeed = 30});
 
     //move to wall loader and intake
     chassis.turnToPoint(-45, 50, 500);
@@ -282,14 +287,14 @@ void left_long_auton() {
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
     activate_intake(true);
-    chassis.moveToPoint(-56, 50, 500, {.maxSpeed = 70}, false);
+    chassis.moveToPoint(-57, 50, 500, {.maxSpeed = 70}, false);
 
-    chassis.moveToPoint(-52, 50, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 150);
-    chassis.moveToPoint(-52, 50, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 150);
-    chassis.moveToPoint(-52, 50, 150, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 150);
+    chassis.moveToPoint(-54, 50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-57, 50, 150);
+    chassis.moveToPoint(-54, 50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-57, 50, 150);
+    chassis.moveToPoint(-54, 50, 150, {.forwards = false, .maxSpeed = 64});
+    chassis.moveToPoint(-57, 50, 150);
     
     
     /*chassis.turnToHeading(275, 100);
@@ -309,11 +314,11 @@ void left_long_auton() {
     //reset position and move to descore
     chassis.setPose(-28, 46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, 60, 1000);
+    chassis.moveToPoint(-42, 59, 1000);
     chassis.turnToHeading(90, 500, {});
     activate_right_descore();
-    chassis.moveToPoint(-13, 61, 3000);
-    pros::delay(250);
+    chassis.moveToPoint(-11, 60, 3000);
+    pros::delay(700);
     deactivate_right_descore();
 }   
 
@@ -390,49 +395,74 @@ void blue_right_awp() {
 }
 
 void auton_skills() {
-    chassis.setPose(-61.625, 16.185, 90);
-
+    chassis.setPose(-61.625, -16.185, 90);
+    
     //move to red right wall loader and intake
-    chassis.moveToPoint(-46.379, -16.935, 750);
+    chassis.moveToPoint(-47, -16.185, 750);
     chassis.turnToHeading(180, 500);
-    chassis.moveToPoint(-46.379, -50, 1000, {.maxSpeed = 96});
+    chassis.moveToPoint(-47, -49, 1000, {.maxSpeed = 96});
     chassis.turnToHeading(270, 500);
     activate_wall_loading();
     activate_intake(true);
-    chassis.moveToPoint(-56, -50, 500, {}, false);
+    chassis.moveToPoint(-57, -49, 500, {}, false);
 
-    chassis.moveToPoint(-54, -50, 150);
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-54, -50, 150);
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-54, -50, 150);
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-54, -50, 150);
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-54, -50, 150);
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-54, -50, 150);
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-54, -50, 150);
-    chassis.moveToPoint(-56, -50, 150);
-    chassis.moveToPoint(-54, -50, 150);
+    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
+    chassis.moveToPoint(-57, -49, 150);
+    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
+    chassis.moveToPoint(-57, -49, 150);
+    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
+    chassis.moveToPoint(-57, -49, 150);
+    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
+    chassis.moveToPoint(-57, -49, 150);
+    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
+    chassis.moveToPoint(-57, -49, 150);
+    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
+    chassis.moveToPoint(-57, -49, 150);
+    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
+    chassis.moveToPoint(-57, -49, 150);
 
-    chassis.moveToPoint(-40, -50, 1000, {.forwards = false}, false);
+    chassis.moveToPoint(-40, -49, 1000, {.forwards = false}, false);
     deactivate_wall_loading();
     stop_intake();
     chassis.turnToHeading(180, 500);
-    chassis.moveToPoint(-53, -61, 500, {.maxSpeed = 96});
+    chassis.moveToPoint(-40, -63, 500, {.maxSpeed = 96});
     chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(50, -61, 3000, {.maxSpeed = 96});
+    chassis.moveToPoint(50, -63, 3000, {.maxSpeed = 96});
     chassis.turnToHeading(0, 500);
-    chassis.moveToPoint(50, -50, 500, {.maxSpeed = 96});
+    chassis.moveToPoint(50, -49, 500, {.maxSpeed = 96});
     chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(40, -50, 1000, {.forwards = false, .maxSpeed = 96}, false);
+    chassis.moveToPoint(36, -49, 1000, {.forwards = false, .maxSpeed = 96}, false);
     score_intake("high");
     activate_wall_loading();
     pros::delay(4000);
     stop_scoring();
 
+    chassis.setPose(28,-46, 90);
+
+    chassis.moveToPoint(62, -46, 750);
+
+    chassis.moveToPoint(59, -46, 150, {.forwards = false});
+    chassis.moveToPoint(62, -46, 150);
+    chassis.moveToPoint(59, -46, 150, {.forwards = false});
+    chassis.moveToPoint(62, -46, 150);
+    chassis.moveToPoint(59, -46, 150, {.forwards = false});
+    chassis.moveToPoint(62, -46, 150);
+    chassis.moveToPoint(59, -46, 150, {.forwards = false});
+    chassis.moveToPoint(62, -46, 150);
+    chassis.moveToPoint(59, -46, 150, {.forwards = false});
+    chassis.moveToPoint(62, -46, 150);
+    chassis.moveToPoint(59, -46, 150, {.forwards = false});
+    chassis.moveToPoint(62, -46, 150);
+    chassis.moveToPoint(59, -46, 150, {.forwards = false});
+    chassis.moveToPoint(62, -46, 150);
+
+    chassis.moveToPoint(26, -46, 1000, {.forwards = false}, false);
+    score_intake("high");
+    deactivate_wall_loading();
+    pros::delay(4000);
+
+
+    /*
     chassis.setPose(30, -50, 90);
     chassis.moveToPoint(54, -50, 1000, {.maxSpeed = 96}, false);
 
@@ -519,7 +549,7 @@ void auton_skills() {
     chassis.turnToPoint(-38.232, 0, 750);
     chassis.turnToHeading(-90, 500);
     chassis.moveToPoint(-65, 0, 3000);
-    
+    */
 }
 
 void do_nothing_auton() {
