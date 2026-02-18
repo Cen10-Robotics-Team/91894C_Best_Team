@@ -2,8 +2,10 @@
 
 void activate_intake(bool direction){
     if(direction) {
+        activate_upper_scoring();
         intake_motor_1.move(127);
         intake_motor_2.move(-127);
+        scoring_motor.move(-127);
         
 
     } else {
@@ -40,8 +42,12 @@ void score_intake(std::string goal) {
         intake_motor_1.move(-127);
         pros::delay(100);
         intake_motor_2.move(127);
+        scoring_motor.move(-127);
         scoring = true;
     } else if (goal == "mid") {
+        score_intake("low");
+        pros::delay(200);
+
         activate_mid_scoring();
         scoring_motor.move(-127);
         intake_motor_2.move(-127);

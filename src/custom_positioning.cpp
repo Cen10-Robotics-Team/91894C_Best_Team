@@ -15,3 +15,10 @@ double get_theta_to_wall() {
 
     return theta_to_wall_deg;
 }
+void printTheta(void* param) {
+    while(true) {
+        console.print(std::to_string(get_theta_to_wall()));
+        pros::delay(20);
+        console.clear();
+    }
+}

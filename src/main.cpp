@@ -2,8 +2,6 @@
 #include "lemlib/api.hpp" // IWYU pragma: keep
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-float errorMoves[10] = {5, 10, 15, 20, 25, 30, 35, 40, 45, 48};
-int i = 0;
 
 
 /**
@@ -21,6 +19,7 @@ void initialize() {
     //pros::Task run_auto_rejector(auto_reject);
     //pros::Task run_stop_intake_stalling(stop_intake_stalling);
     //pros::Task run_coordinate_task(coordinate_task);
+    //pros::Task run_wall_theta_task(printTheta);
 }
 
 /**
@@ -61,7 +60,7 @@ void competition_initialize() {
 
 void autonomous() {
     //selector.run_auton();
-    blue_right_awp();
+    blue_left_long();
     //activate_intake(false);
 }
 
@@ -99,8 +98,8 @@ void opcontrol() {
         chassis.arcade(leftY, rightX);
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-            stop_scoring();
             activate_intake(true);
+            scoring_piston.retract();
         }
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
