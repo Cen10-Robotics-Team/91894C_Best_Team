@@ -419,62 +419,58 @@ void auton_skills() {
     chassis.turnToHeading(270, 500);
     activate_wall_loading();
     activate_intake(true);
-    chassis.moveToPoint(-57, -49, 500, {}, false);
+    chassis.moveToPoint(-58, -49, 500, {}, false);
 
-    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
-    chassis.moveToPoint(-57, -49, 150);
-    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
-    chassis.moveToPoint(-57, -49, 150);
-    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
-    chassis.moveToPoint(-57, -49, 150);
-    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
-    chassis.moveToPoint(-57, -49, 150);
-    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
-    chassis.moveToPoint(-57, -49, 150);
-    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
-    chassis.moveToPoint(-57, -49, 150);
-    chassis.moveToPoint(-53, -49, 150, {.forwards = false});
-    chassis.moveToPoint(-57, -49, 150);
+    chassis.moveToPoint(-54, -49, 200, {.forwards = false});
+    chassis.moveToPoint(-58, -49, 200);
+    chassis.moveToPoint(-54, -49, 200, {.forwards = false});
+    chassis.moveToPoint(-58, -49, 200);
+    chassis.moveToPoint(-54, -49, 200, {.forwards = false});
+    chassis.moveToPoint(-58, -49, 200);
+    chassis.moveToPoint(-54, -49, 200, {.forwards = false});
+    chassis.moveToPoint(-58, -49, 200);
+    chassis.moveToPoint(-54, -49, 200, {.forwards = false});
+    chassis.moveToPoint(-58, -49, 200);
+    chassis.moveToPoint(-54, -49, 200, {.forwards = false});
+    chassis.moveToPoint(-58, -49, 200);
 
     chassis.moveToPoint(-40, -49, 1000, {.forwards = false}, false);
     deactivate_wall_loading();
-    stop_intake();
+
     chassis.turnToHeading(180, 500);
     chassis.moveToPoint(-40, -63, 500, {.maxSpeed = 96});
     chassis.turnToHeading(90, 500);
     chassis.moveToPoint(50, -63, 3000, {.maxSpeed = 96});
     chassis.turnToHeading(0, 500);
-    chassis.moveToPoint(50, -49, 500, {.maxSpeed = 96});
+    chassis.moveToPoint(50, -50, 500, {.maxSpeed = 96});
     chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(36, -49, 1000, {.forwards = false, .maxSpeed = 96}, false);
+    chassis.moveToPoint(36, -50, 1000, {.forwards = false, .maxSpeed = 96}, false);
     score_intake("high");
     activate_wall_loading();
-    pros::delay(4000);
+    pros::delay(3000);
     stop_scoring();
 
     chassis.setPose(28,-46, 90);
 
-    chassis.moveToPoint(62, -46, 750);
+    chassis.moveToPoint(58, -46, 750);
 
-    chassis.moveToPoint(59, -46, 150, {.forwards = false});
-    chassis.moveToPoint(62, -46, 150);
-    chassis.moveToPoint(59, -46, 150, {.forwards = false});
-    chassis.moveToPoint(62, -46, 150);
-    chassis.moveToPoint(59, -46, 150, {.forwards = false});
-    chassis.moveToPoint(62, -46, 150);
-    chassis.moveToPoint(59, -46, 150, {.forwards = false});
-    chassis.moveToPoint(62, -46, 150);
-    chassis.moveToPoint(59, -46, 150, {.forwards = false});
-    chassis.moveToPoint(62, -46, 150);
-    chassis.moveToPoint(59, -46, 150, {.forwards = false});
-    chassis.moveToPoint(62, -46, 150);
-    chassis.moveToPoint(59, -46, 150, {.forwards = false});
-    chassis.moveToPoint(62, -46, 150);
+    chassis.moveToPoint(54, -46, 200, {.forwards = false});
+    chassis.moveToPoint(58, -46, 200);
+    chassis.moveToPoint(54, -46, 200, {.forwards = false});
+    chassis.moveToPoint(58, -46, 200);
+    chassis.moveToPoint(54, -46, 200, {.forwards = false});
+    chassis.moveToPoint(58, -46, 200);
+    chassis.moveToPoint(54, -46, 200, {.forwards = false});
+    chassis.moveToPoint(58, -46, 200);
+    chassis.moveToPoint(54, -46, 200, {.forwards = false});
+    chassis.moveToPoint(58, -46, 200);
+    chassis.moveToPoint(54, -46, 200, {.forwards = false});
+    chassis.moveToPoint(58, -46, 200);
 
     chassis.moveToPoint(26, -46, 1000, {.forwards = false}, false);
     score_intake("high");
     deactivate_wall_loading();
-    pros::delay(4000);
+    pros::delay(3000);
 
 
     /*

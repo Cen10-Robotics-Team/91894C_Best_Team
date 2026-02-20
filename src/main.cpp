@@ -60,7 +60,7 @@ void competition_initialize() {
 
 void autonomous() {
     //selector.run_auton();
-    blue_left_long();
+    auton_skills();
     //activate_intake(false);
 }
 
