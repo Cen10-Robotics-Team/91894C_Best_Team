@@ -1,7 +1,7 @@
 #pragma once
 #include "api.h"
 
-inline std::string alliance_color = "";
+inline std::string alliance_color;
 
 void right_auton();
 void right_long_auton();
