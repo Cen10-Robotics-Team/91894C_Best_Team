@@ -6,9 +6,9 @@ void right_awp_r4_auton() {
     chassis.setPose(-61.625, -16.185, 90);
 
     //move to right wall loader
-    chassis.moveToPoint(-47, -16.185, 500);
+    chassis.moveToPoint(-47, -16.185, 750);
     chassis.turnToHeading(180, 500);
-    chassis.moveToPoint(-47, -49, 500, {}, false);
+    chassis.moveToPoint(-47, -49, 1000, {}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 500, {}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
@@ -22,25 +22,25 @@ void right_awp_r4_auton() {
     chassis.moveToPoint(-61, -49, 100);
 
     //score right high goal
-    chassis.moveToPoint(-28, -49, 750, {.forwards = false}, false);
+    chassis.moveToPoint(-26, -49, 1000, {.forwards = false}, false);
     deactivate_wall_loading();
     score_intake("high");
     pros::delay(1000);
     stop_all_intake_motors();
-    chassis.moveToPoint(-29, -49, 100, {}, false);
+    chassis.moveToPoint(-25, -49, 100, {}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
     //reset position and intake low goal blocks
     chassis.setPose(-28, -47, 270);
-    chassis.moveToPoint(-35, -47, 500);
-    chassis.turnToPoint(-28, -33, 500, {}, false);
+    chassis.moveToPoint(-38, -47, 750);
+    chassis.turnToPoint(-26, -33, 500, {}, false);
     activate_intake(true);
-    chassis.moveToPoint(-28, -33, 750, {.minSpeed = 32, .earlyExitRange = 1});
-    chassis.moveToPoint(-22, -22, 1500, {.maxSpeed = 32});
+    chassis.moveToPoint(-26, -33, 750, {.minSpeed = 32, .earlyExitRange = 1});
+    chassis.moveToPoint(-20, -22, 1500, {.maxSpeed = 32});
 
     //score low goal
-    chassis.turnToPoint(-15, -15, 500);
-    chassis.moveToPoint(-15, -15, 500, {}, false);
+    chassis.turnToPoint(-11, -13, 500);
+    chassis.moveToPoint(-11, -13, 500, {}, false);
     score_intake("low");
     pros::delay(1000);
     stop_all_intake_motors();
@@ -52,22 +52,6 @@ void right_awp_r4_auton() {
     chassis.moveToPoint(-22, 10, 750, {.minSpeed = 32, .earlyExitRange = 1});
     chassis.moveToPoint(-22, 22, 1500, {.maxSpeed = 32});
 
-    //move to left wall loader
-    chassis.turnToPoint(-47, 50, 500);
-    chassis.moveToPoint(-47, 50, 750, {}, false);
-    activate_wall_loading();
-    chassis.turnToHeading(270, 250, {}, false);
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-
-    //intake from wall loader
-    chassis.moveToPoint(-64, 50, 750, {.maxSpeed = 64}, false);
-    pros::delay(150);
-    chassis.moveToPoint(-65, 50, 100, {}, false);
-    pros::delay(150);
-    chassis.moveToPoint(-65, 50, 100);
-
-    chassis.moveToPoint(-26, 50, 750, {.forwards = false}, false);
-    score_intake("high");
 }
 
 void left_awp_r4_auton() {
@@ -172,9 +156,9 @@ void right_awp_auton() {
     stop_all_intake_motors();
     
     //move to wall loader
-    chassis.turnToPoint(-45, -46, 300, {.forwards = false}, false);
+    chassis.turnToPoint(-45, -46, 500, {.forwards = false}, false);
     activate_intake(true);
-    chassis.moveToPoint(-45, -46, 1000, {.forwards = false}, false);
+    chassis.moveToPoint(-45, -46, 1500, {.forwards = false}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 500, {}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
