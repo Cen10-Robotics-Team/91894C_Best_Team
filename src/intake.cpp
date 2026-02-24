@@ -6,14 +6,13 @@ void activate_intake(bool direction){
         intake_motor_1.move(127);
         intake_motor_2.move(-127);
         scoring_motor.move(-127);
-        
+        intaking = true;
 
     } else {
         intake_motor_1.move(-127);  
         intake_motor_2.move(127);
         
     }
-    intaking = true;
 }
 
 void stop_intake() {
@@ -22,13 +21,15 @@ void stop_intake() {
 
 
     intaking = false;
+    low_scoring = false;
 }
 
 void stop_scoring() {
     scoring_motor.brake();
     activate_upper_scoring();
 
-    scoring = false;
+    mid_scoring = false;
+    high_scoring = false;
 }
 
 void stop_all_intake_motors() {
@@ -43,7 +44,9 @@ void score_intake(std::string goal) {
         pros::delay(100);
         intake_motor_2.move(127);
         scoring_motor.move(-127);
-        scoring = true;
+        low_scoring = true;
+        mid_scoring = false;
+        high_scoring = false;
     } else if (goal == "mid") {
         score_intake("low");
         pros::delay(200);
@@ -53,52 +56,94 @@ void score_intake(std::string goal) {
         intake_motor_2.move(-127);
         pros::delay(100);
         intake_motor_1.move(127);
-        scoring = true;
         intaking = true;
+        mid_scoring = true;
+        high_scoring = false;
+        low_scoring = false;
     } else if (goal == "high") {
         activate_upper_scoring();
         scoring_motor.move(127);
         intake_motor_2.move(-127);
         pros::delay(100);
         intake_motor_1.move(127);
-        scoring = true;
         intaking = true;
+        high_scoring = true;
+        mid_scoring = false;
+        low_scoring = false;
     }
 }
 
-void reject_intake() {
-    score_intake("mid");
+void mid_reject_intake() {
+    intake_motor_2.move(127);
+    activate_upper_scoring();
+    scoring_motor.move(127);
     pros::delay(100);
-    stop_scoring();
+    
+    intake_motor_2.move(-127);
+    pros::delay(500);
+
+    activate_mid_scoring();
+    scoring_motor.move(-127);
+}
+
+void high_reject_intake() {
+    scoring_motor.move(-127);
+
+    //intake_motor_2.move(127);
+    activate_mid_scoring();
+    //pros::delay(150);
+
+    //intake_motor_2.move(-127);
+    //scoring_motor.move(-127);
+    pros::delay(200);
+
+    activate_upper_scoring();
+    pros::delay(150);
+
+    scoring_motor.move(127);
+
 }
 
 std::string detect_color() {
     int rgb_value = color_sensor.get_hue();
-    if(rgb_value >= 180 && rgb_value <= 215) {
+    if(rgb_value >= 190 && rgb_value <= 240) {
         return "blue";
-    } else if (rgb_value <= 15) {
+    } else if (rgb_value <= 40) {
         return "red";
     } else {
         return "";
     }
 }
 
-void auto_reject() {
-    while(true) {
-        while (enable_auto_reject) {
+void mid_auto_reject(void*) {
+    while(true){
+        if(enable_auto_reject && mid_scoring) {
             std::string block_color = detect_color();
             if(alliance_color == "red" && block_color == "blue" && color_sensor.get_proximity() > 200) {
-                reject_intake();
+                mid_reject_intake();
             } else if (alliance_color == "blue" && block_color == "red" && color_sensor.get_proximity() > 200) {
-                reject_intake();
+                mid_reject_intake();
             }
         }
-
         pros::delay(20);
     }
 }
 
-void stop_intake_stalling() {
+void high_auto_reject(void*) {
+    while(true) {
+        if(enable_auto_reject && high_scoring) {
+            std::string block_color = detect_color();
+            if(alliance_color == "red" && block_color == "blue" && color_sensor.get_proximity() > 200) {
+                high_reject_intake();
+            } else if (alliance_color == "blue" && block_color == "red" && color_sensor.get_proximity() > 200) {
+                high_reject_intake();
+            }
+        }
+        pros::delay(20);
+    }
+}
+
+/*void stop_intake_stalling() {
     while (true) {
         if(intaking) {
             if(intake_motor_1.get_current_draw() > 2.0 && intake_motor_1.get_actual_velocity() < 10) {
@@ -132,7 +177,7 @@ void stop_intake_stalling() {
             }
         }
     }
-}
+}*/
 
 void toggle_auto_reject() {
     enable_auto_reject = !enable_auto_reject;

@@ -21,11 +21,11 @@ void activate_left_descore() {
 }
 
 void activate_right_descore() {
-    right_descore_piston.extend();
+    right_descore_piston.retract();
 }
 
 void deactivate_left_descore() {
-    left_descore_piston.retract();
+    left_descore_piston.extend();
 }
 
 void deactivate_right_descore() {

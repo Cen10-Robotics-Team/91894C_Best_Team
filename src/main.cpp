@@ -1,5 +1,7 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
+#include "myapi/intake.hpp"
+#include "pros/motors.h"
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -14,12 +16,20 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 void initialize() {
     chassis.calibrate();
-    selector.focus();
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    intake_motor_1.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    intake_motor_2.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    scoring_motor.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    color_sensor.set_led_pwm(100);
+    enable_auto_reject = false;
+    
     //chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-    //pros::Task run_auto_rejector(auto_reject);
+    pros::Task run_high_scoring_auto_rejector(high_auto_reject);
+    pros::Task run_mid_scoring_auto_rejector(mid_auto_reject);
     //pros::Task run_stop_intake_stalling(stop_intake_stalling);
     //pros::Task run_coordinate_task(coordinate_task);
     //pros::Task run_wall_theta_task(printTheta);
+    selector.focus();
 }
 
 /**
@@ -29,6 +39,8 @@ void initialize() {
  */
 void disabled() {
     team_image.focus();
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    enable_auto_reject = true;
 }
 
 /**
@@ -60,7 +72,7 @@ void competition_initialize() {
 
 void autonomous() {
     //selector.run_auton();
-    auton_skills();
+    blue_right_awp_r4();
     //activate_intake(false);
 }
 
@@ -123,10 +135,9 @@ void opcontrol() {
             score_intake("low");
         }
 
-        /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-            //toggle_auto_reject();
-            chassis.moveToPoint(chassis.getPose().x, errorMoves[i], 2000);
-        }*/
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+            toggle_auto_reject();
+        }
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
             left_descore_piston.toggle();
