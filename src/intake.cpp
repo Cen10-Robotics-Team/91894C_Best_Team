@@ -80,8 +80,15 @@ void mid_reject_intake() {
     pros::delay(100);
     
     intake_motor_2.move(-127);
-    pros::delay(500);
+    //pros::delay(500);
 
+    std::string block_color = detect_color();
+    while (alliance_color != block_color && color_sensor.get_proximity() > 200) {
+        block_color = detect_color();
+        pros::delay(20);
+    }
+    pros::delay(200);
+    
     activate_mid_scoring();
     scoring_motor.move(-127);
 }
@@ -95,6 +102,12 @@ void high_reject_intake() {
 
     //intake_motor_2.move(-127);
     //scoring_motor.move(-127);
+    //pros::delay(200);
+    std::string block_color = detect_color();
+    while (alliance_color != block_color && color_sensor.get_proximity() > 200) {
+        block_color = detect_color();
+        pros::delay(20);
+    }
     pros::delay(200);
 
     activate_upper_scoring();
