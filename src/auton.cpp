@@ -4,6 +4,7 @@
 
 void right_awp_r4_auton() {
     chassis.setPose(-61.625, -16.185, 90);
+    activate_intake(true);
 
     //move to right wall loader
     chassis.moveToPoint(-47, -16.185, 750);
@@ -14,7 +15,6 @@ void right_awp_r4_auton() {
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 
     //intake from wall loader
-    activate_intake(true);
     chassis.moveToPoint(-60, -49, 500, {.maxSpeed = 64}, false);
     pros::delay(150);
     chassis.moveToPoint(-61, -49, 100, {}, false);
@@ -48,9 +48,9 @@ void right_awp_r4_auton() {
 
     //intake mid goal blocks
     chassis.moveToPoint(-22, -22, 500, {.forwards = false});
-    chassis.turnToPoint(-22, 10, 500);
-    chassis.moveToPoint(-22, 10, 750, {.minSpeed = 32, .earlyExitRange = 1});
-    chassis.moveToPoint(-22, 22, 1500, {.maxSpeed = 32});
+    chassis.turnToPoint(-20, 10, 500);
+    chassis.moveToPoint(-20, 10, 750, {.minSpeed = 32, .earlyExitRange = 1});
+    chassis.moveToPoint(-20, 22, 1500, {.maxSpeed = 32});
 
 }
 
@@ -233,7 +233,7 @@ void right_auton() {
     //move to balls and intake
     chassis.moveToPoint(-34, -16.185, 1000, {}, false);
     chassis.turnToPoint(-18, -25, 500);
-    chassis.moveToPoint(-18, -25, 2000, {.maxSpeed = 36});
+    chassis.moveToPoint(-18, -25, 2000, {.maxSpeed = 32});
 
     //go to low goal
     chassis.turnToPoint(-9, -14.5, 750);
@@ -245,7 +245,7 @@ void right_auton() {
 
     //move to wall loader
     chassis.turnToPoint(-45, -49, 500, {.forwards = false});
-    chassis.moveToPoint(-45, -49, 1500, {.forwards = false}, false);
+    chassis.moveToPoint(-45, -49, 1500, {.forwards = false, .maxSpeed = 108}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 750);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
@@ -256,9 +256,7 @@ void right_auton() {
     chassis.moveToPoint(-65, -49, 100, {}, false);
     pros::delay(250);
     chassis.moveToPoint(-65, -49, 100, {}, false);
-    pros::delay(250);
-    chassis.moveToPoint(-65, -49, 100, {}, false);
-
+    
     /*chassis.moveToPoint(-53, -49, 200, {.forwards = false, .maxSpeed = 64});
     chassis.moveToPoint(-58, -49, 200);
     chassis.moveToPoint(-53, -49, 200, {.forwards = false, .maxSpeed = 64});
@@ -278,6 +276,7 @@ void right_auton() {
     //pros::delay(600);
 
     //move to high goal and score
+    chassis.turnToPoint(-23, -49, 500, {.forwards = false});
     chassis.moveToPoint(-23, -49, 1500, {.forwards = false}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     deactivate_wall_loading();
