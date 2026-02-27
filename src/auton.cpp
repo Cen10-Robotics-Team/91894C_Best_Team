@@ -252,9 +252,9 @@ void right_auton() {
 
     //intake from wall loader
     chassis.moveToPoint(-64, -49, 750, {.maxSpeed = 64}, false);
-    pros::delay(250);
+    pros::delay(150);
     chassis.moveToPoint(-65, -49, 100, {}, false);
-    pros::delay(250);
+    pros::delay(150);
     chassis.moveToPoint(-65, -49, 100, {}, false);
     
     /*chassis.moveToPoint(-53, -49, 200, {.forwards = false, .maxSpeed = 64});
@@ -301,13 +301,12 @@ void right_long_auton() {
 
     //move to balls and intake
     chassis.moveToPoint(-34, -16.185, 1000, {}, false);
-    chassis.turnToPoint(-18, -25, 500);
-    chassis.moveToPoint(-18, -25, 3000, {.maxSpeed = 24});
+    chassis.turnToPoint(-18, -24, 500);
+    chassis.moveToPoint(-18, -24, 3000, {.maxSpeed = 24});
 
 
     //move to wall loader
     chassis.turnToPoint(-45, -49, 500, {}, false);
-    stop_intake();
     chassis.moveToPoint(-45, -49, 1500, {}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
@@ -316,11 +315,9 @@ void right_long_auton() {
 
     //intake from wall loader
     chassis.moveToPoint(-64, -49, 750, {.maxSpeed = 64}, false);
-    pros::delay(250);
+    pros::delay(150);
     chassis.moveToPoint(-65, -49, 100, {}, false);
-    pros::delay(250);
-    chassis.moveToPoint(-65, -49, 100, {}, false);
-    pros::delay(250);
+    pros::delay(150);
     chassis.moveToPoint(-65, -49, 100, {}, false);
 
     /*chassis.moveToPoint(-52, -49, 200, {.forwards = false, .maxSpeed = 64});
@@ -367,32 +364,30 @@ void left_auton() {
     //move to balls and intake
     chassis.moveToPoint(-34, 16.185, 1000, {}, false);
     chassis.turnToPoint(-18, 25, 500);
-    chassis.moveToPoint(-18, 25, 2000, {.maxSpeed = 36});
+    chassis.moveToPoint(-18, 25, 2000, {.maxSpeed = 32});
 
     //go to mid goal
-    chassis.turnToPoint(-7, 12, 750, {.forwards = false});
-    chassis.moveToPoint(-7, 12, 750, {.forwards = false}, false);
-    score_intake("mid");
+    chassis.turnToPoint(-6, 10, 750, {.forwards = false});
+    chassis.moveToPoint(-6, 10, 750, {.forwards = false}, false);
+    slow_mid_score();
     pros::delay(1000);
-    stop_all_intake_motors();
 
     //move to wall loader
-    chassis.turnToPoint(-45, 50, 500);
+    chassis.turnToPoint(-45, 50, 500, {}, false);
+    stop_all_intake_motors();
+    activate_intake(true);
     chassis.moveToPoint(-45, 50, 1500, {}, false);
     activate_wall_loading();
-    chassis.turnToHeading(270, 750);
-    activate_intake(true);
+    chassis.turnToHeading(270, 750, {}, false);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     
-    chassis.moveToPoint(-56, 50, 500, {.maxSpeed = 64}, false);
+    //intake from wall loader
+    chassis.moveToPoint(-60, 50, 750, {.maxSpeed = 64}, false);
+    pros::delay(100);
+    chassis.moveToPoint(-61, 50, 100, {}, false);
+    pros::delay(100);
+    chassis.moveToPoint(-61, 50, 100, {}, false);
 
-    chassis.moveToPoint(-52, 50, 200, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 200);
-    chassis.moveToPoint(-52, 50, 200, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 200);
-    chassis.moveToPoint(-52, 50, 200, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 200);
-    chassis.moveToPoint(-52, 50, 200, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 200);
     
     
     /*chassis.turnToHeading(275, 100);
@@ -404,11 +399,13 @@ void left_auton() {
     //pros::delay(600);
 
     //move to high goal and score
+    chassis.turnToPoint(-22, 50, 500, {.forwards = false});
     chassis.moveToPoint(-22, 50, 1500, {.forwards = false}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     deactivate_wall_loading();
     score_intake("high");
-    pros::delay(1000);
+    pros::delay(1250);
+    chassis.moveToPoint(-21, 50, 500, {.forwards = false});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
     //reset position and move to descore
@@ -416,10 +413,8 @@ void left_auton() {
     stop_all_intake_motors();
     chassis.moveToPoint(-42, 59, 1000);
     chassis.turnToHeading(90, 500, {});
-    activate_right_descore();
-    chassis.moveToPoint(-8, 59, 3000);
-    pros::delay(650);
-    deactivate_right_descore();
+    chassis.moveToPoint(-6, 59, 3000);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
 void left_long_auton() {
@@ -436,17 +431,17 @@ void left_long_auton() {
     chassis.moveToPoint(-45, 50, 1500, {}, false);
     activate_wall_loading();
     chassis.turnToHeading(270, 500);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     activate_intake(true);
-    chassis.moveToPoint(-56, 50, 500, {.maxSpeed = 64}, false);
+    chassis.moveToPoint(-60, 50, 500, {.maxSpeed = 64}, false);
 
-    chassis.moveToPoint(-52, 50, 200, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 200);
-    chassis.moveToPoint(-52, 50, 200, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 200);
-    chassis.moveToPoint(-52, 50, 200, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 200);
-    chassis.moveToPoint(-52, 50, 200, {.forwards = false, .maxSpeed = 64});
-    chassis.moveToPoint(-56, 50, 200);
+    //intake from wall loader
+    pros::delay(150);
+    chassis.moveToPoint(-61, 50, 100, {}, false);
+    pros::delay(150);
+    chassis.moveToPoint(-61, 50, 100, {}, false);
+
+    
     
     
     /*chassis.turnToHeading(275, 100);
@@ -464,16 +459,16 @@ void left_long_auton() {
     score_intake("high");
     pros::delay(3500);
     stop_all_intake_motors();
+    chassis.moveToPoint(-22, 50, 100, {.forwards = false});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
     //reset position and move to descore
     chassis.setPose(-28, 46, 270);
+    stop_all_intake_motors();
     chassis.moveToPoint(-42, 59, 1000);
     chassis.turnToHeading(90, 500, {});
-    activate_right_descore();
-    chassis.moveToPoint(-8, 59, 3000);
-    pros::delay(700);
-    deactivate_right_descore();
+    chassis.moveToPoint(-6, 59, 3000);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }   
 
 void red_left() {
