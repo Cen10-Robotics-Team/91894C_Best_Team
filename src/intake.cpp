@@ -36,6 +36,20 @@ void stop_all_intake_motors() {
   stop_scoring();
 }
 
+void slow_mid_score() {
+    score_intake("low");
+    pros::delay(200);
+    activate_mid_scoring();
+    scoring_motor.move(-64);
+    intake_motor_2.move(-127);
+    pros::delay(50);
+    intake_motor_1.move(127);
+    intaking = true;
+    mid_scoring = true;
+    high_scoring = false;
+    low_scoring = false;
+}
+
 void score_intake(std::string goal) {
   if (goal == "low") {
     activate_upper_scoring();
