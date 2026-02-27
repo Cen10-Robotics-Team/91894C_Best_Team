@@ -1,10 +1,10 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
+#include "myapi/auton.hpp"
 #include "myapi/intake.hpp"
 #include "pros/motors.h"
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -13,23 +13,23 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
  * to keep execution time for this mode under a few seconds.
  */
 
-
 void initialize() {
-    chassis.calibrate();
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-    intake_motor_1.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-    intake_motor_2.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-    scoring_motor.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-    color_sensor.set_led_pwm(100);
-    enable_auto_reject = false;
-    
-    //chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-    pros::Task run_high_scoring_auto_rejector(high_auto_reject);
-    pros::Task run_mid_scoring_auto_rejector(mid_auto_reject);
-    //pros::Task run_stop_intake_stalling(stop_intake_stalling);
-    //pros::Task run_coordinate_task(coordinate_task);
-    //pros::Task run_wall_theta_task(printTheta);
-    selector.focus();
+  chassis.calibrate();
+  chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+  intake_motor_1.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+  intake_motor_2.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+  scoring_motor.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+  midgoal_color_sensor.set_led_pwm(100);
+  highgoal_color_sensor.set_led_pwm(100);
+  enable_auto_reject = false;
+
+  // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+  pros::Task run_high_scoring_auto_rejector(high_auto_reject);
+  pros::Task run_mid_scoring_auto_rejector(mid_auto_reject);
+  // pros::Task run_stop_intake_stalling(stop_intake_stalling);
+  // pros::Task run_coordinate_task(coordinate_task);
+  // pros::Task run_wall_theta_task(printTheta);
+  selector.focus();
 }
 
 /**
@@ -38,9 +38,9 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-    team_image.focus();
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-    enable_auto_reject = true;
+  team_image.focus();
+  chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+  enable_auto_reject = true;
 }
 
 /**
@@ -52,9 +52,7 @@ void disabled() {
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {
-    selector.focus();
-}
+void competition_initialize() { selector.focus(); }
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -68,12 +66,11 @@ void competition_initialize() {
  * from where it left off.
  */
 
-
-
 void autonomous() {
-    //selector.run_auton();
-    blue_right();
-    //activate_intake(false);
+  // selector.run_auton();
+  //blue_right();
+  auton_skills();
+  // activate_intake(false);
 }
 
 /**
@@ -90,72 +87,67 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
-
-
-
-
 void opcontrol() {
-    //hello test
+  // hello test
 
-    // loop forever
-    
-    while (true) {
-        
+  // loop forever
 
-        // get left y and right x positions
-        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+  while (true) {
+    //console.clear();
+    // get left y and right x positions
+    int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-        // move the robot
-        chassis.arcade(leftY, rightX);
+    // move the robot
+    chassis.arcade(leftY, rightX);
 
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-            activate_intake(true);
-            scoring_piston.retract();
-        }
-
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-            stop_intake();
-        }
-
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-            stop_all_intake_motors();
-            
-        }
-
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
-            score_intake("high");
-        }
-
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-            score_intake("mid");
-        }
-
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-            score_intake("low");
-        }
-
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-            toggle_auto_reject();
-        }
-
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-            left_descore_piston.toggle();
-        }
-
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-            scoring_piston.toggle();
-        }
-
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-            right_descore_piston.toggle();
-        }
-
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-            wall_load_piston.toggle();
-        }
-
-        // delay to save resources
-        pros::delay(20); 
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+      activate_intake(true);
+      scoring_piston.retract();
     }
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+      stop_intake();
+    }
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+      stop_all_intake_motors();
+    }
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+      score_intake("high");
+    }
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+      score_intake("mid");
+    }
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+      score_intake("low");
+    }
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+      toggle_auto_reject();
+    }
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+      left_descore_piston.toggle();
+    }
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+      scoring_piston.toggle();
+    }
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+      right_descore_piston.toggle();
+    }
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+      wall_load_piston.toggle();
+    }
+
+    //console.println(std::to_string(midgoal_color_sensor.get_proximity()));
+    // delay to save resources
+    pros::delay(20);
+  }
 }
