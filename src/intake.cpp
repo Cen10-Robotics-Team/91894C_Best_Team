@@ -54,6 +54,18 @@ void slow_mid_score() {
   low_scoring = false;
 }
 
+void slow_low_score() {
+  activate_upper_scoring();
+  scoring_motor.move(127);
+  intake_motor_2.move(-127);
+  pros::delay(100);
+  intake_motor_1.move(64);
+  intaking = false;
+  high_scoring = true;
+  mid_scoring = false;
+  low_scoring = false;
+}
+
 void score_intake(std::string goal) {
   if (goal == "low") {
     activate_upper_scoring();

@@ -1,5 +1,6 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "main.h"
+#include "myapi/intake.hpp"
 
 
 void right_awp_r4_auton() {
@@ -231,14 +232,14 @@ void right_auton() {
     activate_intake(true);
 
     //move to balls and intake
-    chassis.moveToPoint(-34, -16.185, 1000, {}, false);
-    chassis.turnToPoint(-18, -25, 500);
-    chassis.moveToPoint(-18, -25, 2000, {.maxSpeed = 32});
+    chassis.moveToPoint(-32, -16.185, 1000, {}, false);
+    chassis.turnToPoint(-18, -24, 500);
+    chassis.moveToPoint(-18, -24, 2000, {.maxSpeed = 32});
 
     //go to low goal
     chassis.turnToPoint(-9, -14.5, 750);
     chassis.moveToPoint(-9, -14.5, 750, {}, false);
-    score_intake("low");
+    slow_low_score();
     pros::delay(1000);
     stop_all_intake_motors();
     activate_intake(true);

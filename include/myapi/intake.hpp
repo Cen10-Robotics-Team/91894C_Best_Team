@@ -19,6 +19,7 @@ void stop_scoring();
 void stop_all_intake_motors();
 void score_intake(std::string goal);
 void slow_mid_score();
+void slow_low_score();
 void high_reject_intake();
 void mid_reject_intake();
 std::string detect_color_for_mid();
