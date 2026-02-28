@@ -12,6 +12,8 @@ void activate_intake(bool direction) {
   } else {
     intake_motor_1.move(-127);
     intake_motor_2.move(127);
+    low_scoring = true;
+    intaking = false;
   }
 }
 
@@ -37,17 +39,17 @@ void stop_all_intake_motors() {
 }
 
 void slow_mid_score() {
-    score_intake("low");
-    pros::delay(200);
-    activate_mid_scoring();
-    scoring_motor.move(-64);
-    intake_motor_2.move(-127);
-    pros::delay(50);
-    intake_motor_1.move(127);
-    intaking = true;
-    mid_scoring = true;
-    high_scoring = false;
-    low_scoring = false;
+  score_intake("low");
+  pros::delay(200);
+  activate_mid_scoring();
+  scoring_motor.move(-64);
+  intake_motor_2.move(-127);
+  pros::delay(50);
+  intake_motor_1.move(127);
+  intaking = false;
+  mid_scoring = true;
+  high_scoring = false;
+  low_scoring = false;
 }
 
 void score_intake(std::string goal) {
@@ -60,6 +62,7 @@ void score_intake(std::string goal) {
     low_scoring = true;
     mid_scoring = false;
     high_scoring = false;
+    intaking = false;
   } else if (goal == "mid") {
     score_intake("low");
     pros::delay(200);
@@ -69,17 +72,17 @@ void score_intake(std::string goal) {
     intake_motor_2.move(-127);
     pros::delay(100);
     intake_motor_1.move(127);
-    intaking = true;
     mid_scoring = true;
     high_scoring = false;
     low_scoring = false;
+    intaking = false;
   } else if (goal == "high") {
     activate_upper_scoring();
     scoring_motor.move(127);
     intake_motor_2.move(-127);
     pros::delay(100);
     intake_motor_1.move(127);
-    intaking = true;
+    intaking = false;
     high_scoring = true;
     mid_scoring = false;
     low_scoring = false;
@@ -217,6 +220,7 @@ void mid_auto_reject(void *) {
 }
 
 void high_auto_reject(void *) {
+  int timeout = 0;
   while (true) {
     if (enable_auto_reject && high_scoring) {
       std::string block_color = detect_color_for_high();
@@ -270,3 +274,27 @@ scoring_motor.get_target_velocity(); scoring_motor.move(-1 * target_velocity);
 }*/
 
 void toggle_auto_reject() { enable_auto_reject = !enable_auto_reject; }
+
+void overheating_protector() {
+  int timeout;
+  while (true) {
+    while (intaking) {
+      if (highgoal_color_sensor.get_proximity() > 200) {
+        timeout++;
+        if (timeout > 20) {
+          intake_motor_2.brake();
+          pros::delay(200);
+        }
+      } else {
+        if (low_scoring) {
+          intake_motor_2.move(127);
+        } else {
+          intake_motor_2.move(-127);
+        }
+        timeout = 0;
+      }
+      pros::delay(20);
+    }
+    pros::delay(20);
+  }
+}

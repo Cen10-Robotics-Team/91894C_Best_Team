@@ -27,3 +27,4 @@ void high_auto_reject(void *);
 void mid_auto_reject(void *);
 void stop_intake_stalling();
 void toggle_auto_reject();
+void overheating_protector();

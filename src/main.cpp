@@ -26,6 +26,7 @@ void initialize() {
   // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
   pros::Task run_high_scoring_auto_rejector(high_auto_reject);
   pros::Task run_mid_scoring_auto_rejector(mid_auto_reject);
+  pros::Task run_overheating_protector(overheating_protector);
   // pros::Task run_stop_intake_stalling(stop_intake_stalling);
   // pros::Task run_coordinate_task(coordinate_task);
   // pros::Task run_wall_theta_task(printTheta);
@@ -68,7 +69,7 @@ void competition_initialize() { selector.focus(); }
 
 void autonomous() {
   // selector.run_auton();
-  //blue_right();
+  // blue_right();
   auton_skills();
   // activate_intake(false);
 }
@@ -93,8 +94,8 @@ void opcontrol() {
   // loop forever
 
   while (true) {
-    //console.clear();
-    // get left y and right x positions
+    // console.clear();
+    //  get left y and right x positions
     int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
@@ -131,7 +132,7 @@ void opcontrol() {
     }
 
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-      left_descore_piston.toggle();
+      mid_descore_piston.toggle();
     }
 
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
@@ -146,8 +147,8 @@ void opcontrol() {
       wall_load_piston.toggle();
     }
 
-    //console.println(std::to_string(midgoal_color_sensor.get_proximity()));
-    // delay to save resources
+    // console.println(std::to_string(midgoal_color_sensor.get_proximity()));
+    //  delay to save resources
     pros::delay(20);
   }
 }
