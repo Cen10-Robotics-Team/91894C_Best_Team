@@ -1,5 +1,6 @@
 #include "myapi/intake.hpp"
 #include "main.h"
+#include "myapi/pneumatics.hpp"
 
 void activate_intake(bool direction) {
   if (direction) {
@@ -7,6 +8,7 @@ void activate_intake(bool direction) {
     intake_motor_1.move(127);
     intake_motor_2.move(-127);
     scoring_motor.move(-127);
+    low_scoring = false;
     intaking = true;
 
   } else {
@@ -66,8 +68,8 @@ void score_intake(std::string goal) {
   } else if (goal == "mid") {
     score_intake("low");
     pros::delay(200);
-
     activate_mid_scoring();
+    deactivate_mid_descore();
     scoring_motor.move(-127);
     intake_motor_2.move(-127);
     pros::delay(100);
@@ -124,7 +126,7 @@ scoring_motor.move(-127);*/
   console.println("========== STOPPING ============");
   console.println(std::to_string(highgoal_color_sensor.get_proximity()));
   console.println(std::to_string(alliance_color != block_color));
-  console.println("Ball is going through the next phase... (400ms)");
+  /*console.println("Ball is going through the next phase... (400ms)");
   // scoring_motor.move(-127);
   int timeout = 0;
   while (midgoal_color_sensor.get_proximity() < 200 && timeout < 5) {
@@ -138,7 +140,7 @@ scoring_motor.move(-127);*/
     timeout++;
     pros::delay(20);
   }
-  console.println(std::to_string(highgoal_color_sensor.get_proximity()));
+  console.println(std::to_string(highgoal_color_sensor.get_proximity()));*/
   pros::delay(200);
   activate_mid_scoring();
   scoring_motor.move(-127);
@@ -273,7 +275,14 @@ scoring_motor.get_target_velocity(); scoring_motor.move(-1 * target_velocity);
     }
 }*/
 
-void toggle_auto_reject() { enable_auto_reject = !enable_auto_reject; }
+void toggle_auto_reject() { 
+  enable_auto_reject = !enable_auto_reject; 
+  if (enable_auto_reject) {
+    controller.print(0, 0, "RejON");
+  } else {
+    controller.print(0, 0, "RejOFF");
+  }
+}
 
 void overheating_protector() {
   int timeout;

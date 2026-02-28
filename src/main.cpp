@@ -4,8 +4,6 @@
 #include "myapi/intake.hpp"
 #include "pros/motors.h"
 
-pros::Controller controller(pros::E_CONTROLLER_MASTER);
-
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -30,6 +28,7 @@ void initialize() {
   // pros::Task run_stop_intake_stalling(stop_intake_stalling);
   // pros::Task run_coordinate_task(coordinate_task);
   // pros::Task run_wall_theta_task(printTheta);
+  controller.print(0, 0, "RejOFF");
   selector.focus();
 }
 
@@ -68,9 +67,9 @@ void competition_initialize() { selector.focus(); }
  */
 
 void autonomous() {
-  // selector.run_auton();
-  // blue_right();
-  auton_skills();
+  selector.run_auton();
+  //blue_right();
+  //auton_skills();
   // activate_intake(false);
 }
 

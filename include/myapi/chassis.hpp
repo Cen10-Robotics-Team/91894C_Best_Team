@@ -78,3 +78,5 @@ inline lemlib::Chassis chassis(drivetrain, // drivetrain settings
                         &throttle_curve,
                         &steer_curve // odometry sensors
 );
+
+inline pros::Controller controller(pros::E_CONTROLLER_MASTER);

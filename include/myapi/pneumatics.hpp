@@ -3,7 +3,7 @@
 #include "api.h"
 
 inline pros::adi::Pneumatics scoring_piston('a', false);
-inline pros::adi::Pneumatics mid_descore_piston('b', true);
+inline pros::adi::Pneumatics mid_descore_piston('b', false);
 inline pros::adi::Pneumatics right_descore_piston('c', false);
 inline pros::adi::Pneumatics wall_load_piston('d', false);
 
