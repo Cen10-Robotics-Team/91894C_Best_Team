@@ -7,7 +7,7 @@ inline pros::Motor scoring_motor(17, pros::MotorGearset::green);
 inline pros::Optical midgoal_color_sensor(11);
 inline pros::Optical highgoal_color_sensor(10);
 
-inline bool enable_auto_reject;
+inline bool enable_auto_reject = false;
 inline bool high_scoring;
 inline bool mid_scoring;
 inline bool low_scoring;

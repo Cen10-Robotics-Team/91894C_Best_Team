@@ -11,6 +11,7 @@ inline rd::Image secret_image(&SecretPhoto, "Secret Image");
 inline rd::Console console;
 
 inline rd::Selector selector({
+    {"Move Forward", do_nothing_auton},
     {"Blue Right", blue_right},
     {"Blue Right Long", blue_right_long},
     {"Blue Right AWP", blue_right_awp},
@@ -24,7 +25,7 @@ inline rd::Selector selector({
     {"Red Left Long", red_left_long},
     {"Red Left AWP", red_left_awp},
     {"Auton Skills", auton_skills},
-    {"Move Forward", do_nothing_auton}
+    
 });
 
 void coordinate_task(void* param);

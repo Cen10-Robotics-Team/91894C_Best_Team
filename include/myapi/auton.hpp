@@ -3,6 +3,8 @@
 
 inline std::string alliance_color;
 
+inline bool is_running_auton = false;
+
 void right_auton();
 void right_long_auton();
 void right_awp_auton();

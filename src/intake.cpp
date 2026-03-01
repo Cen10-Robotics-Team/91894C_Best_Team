@@ -1,5 +1,6 @@
 #include "myapi/intake.hpp"
 #include "main.h"
+#include "myapi/auton.hpp"
 #include "myapi/pneumatics.hpp"
 
 void activate_intake(bool direction) {
@@ -299,7 +300,7 @@ void toggle_auto_reject() {
 void overheating_protector() {
   int timeout;
   while (true) {
-    while (intaking) {
+    while (intaking && !is_running_auton) {
       if (highgoal_color_sensor.get_proximity() > 200) {
         timeout++;
         if (timeout > 20) {

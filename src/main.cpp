@@ -41,6 +41,7 @@ void disabled() {
   team_image.focus();
   chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
   enable_auto_reject = true;
+  is_running_auton = false;
 }
 
 /**
@@ -67,8 +68,9 @@ void competition_initialize() { selector.focus(); }
  */
 
 void autonomous() {
-  selector.run_auton();
-  //blue_right();
+  is_running_auton = true;
+  //selector.run_auton();
+  blue_right();
   //auton_skills();
   // activate_intake(false);
 }
@@ -145,6 +147,14 @@ void opcontrol() {
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
       wall_load_piston.toggle();
     }
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+     if (chassis.getPose().theta < 180) {
+      chassis.turnToHeading(90, 1000);
+     } else {
+      chassis.turnToHeading(270, 1000);
+     }
+    }
+
 
     // console.println(std::to_string(midgoal_color_sensor.get_proximity()));
     //  delay to save resources
