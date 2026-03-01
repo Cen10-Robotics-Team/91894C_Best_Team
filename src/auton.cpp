@@ -237,8 +237,8 @@ void right_auton() {
     chassis.moveToPoint(-18, -24, 2000, {.maxSpeed = 32});
 
     //go to low goal
-    chassis.turnToPoint(-10, -12, 750);
-    chassis.moveToPoint(-10, -12, 750, {}, false);
+    chassis.turnToPoint(-12, -12, 750);
+    chassis.moveToPoint(-12, -12, 750, {}, false);
     score_intake("low");
     pros::delay(1000);
     stop_all_intake_motors();
@@ -289,9 +289,9 @@ void right_auton() {
     //reset position and move to descore
     chassis.setPose(-28, -46, 270);
     stop_all_intake_motors();
-    chassis.moveToPoint(-42, -35, 1000);
+    chassis.moveToPoint(-42, -33, 1000);
     chassis.turnToHeading(90, 500, {});
-    chassis.moveToPoint(-6, -35, 3000);
+    chassis.moveToPoint(-6, -36, 3000);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 
 }
