@@ -147,13 +147,6 @@ void opcontrol() {
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
       wall_load_piston.toggle();
     }
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-     if (chassis.getPose().theta < 180) {
-      chassis.turnToHeading(90, 1000);
-     } else {
-      chassis.turnToHeading(270, 1000);
-     }
-    }
 
 
     // console.println(std::to_string(midgoal_color_sensor.get_proximity()));
